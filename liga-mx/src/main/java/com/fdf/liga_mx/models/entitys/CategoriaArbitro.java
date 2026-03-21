@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Nationalized;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -22,7 +21,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "CATEGORIAS")
-public class Categoria {
+public class CategoriaArbitro {
     @Id
     @Column(name = "ID_CATEGORIA", nullable = false)
     private Short id;
@@ -32,7 +31,7 @@ public class Categoria {
     @Column(name = "DESCRIPCION_CATEGORIA", nullable = false, length = 50)
     private String descripcionCategoria;
 
-    @OneToMany(mappedBy = "idCategoria")
+    @OneToMany(mappedBy = "idCategoriaArbitro")
     private Set<Arbitro> arbitros = new LinkedHashSet<>();
 
 

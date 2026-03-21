@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -54,6 +53,7 @@ public class Jugador {
 
     @OneToMany(mappedBy = "idJugadorSecundario")
     private Set<Acontecimiento> acontecimientosSecundario = new LinkedHashSet<>();
+
 
 
 }
