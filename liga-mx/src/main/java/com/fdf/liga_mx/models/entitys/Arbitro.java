@@ -35,7 +35,7 @@ public class Arbitro {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_CATEGORIA", nullable = false)
-    private Categoria idCategoria;
+    private CategoriaArbitro idCategoriaArbitro;
 
     @OneToMany(mappedBy = "idArbitroCentral")
     private Set<Partido> partidosArbitoCentral = new LinkedHashSet<>();

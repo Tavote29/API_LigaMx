@@ -4,16 +4,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
+import lombok.ToString;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Entity
 @Table(name = "JUGADORES")
 public class Jugador {
@@ -50,6 +53,7 @@ public class Jugador {
 
     @OneToMany(mappedBy = "idJugadorSecundario")
     private Set<Acontecimiento> acontecimientosSecundario = new LinkedHashSet<>();
+
 
 
 }
