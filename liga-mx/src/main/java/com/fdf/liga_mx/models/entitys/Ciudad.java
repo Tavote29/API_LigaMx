@@ -5,21 +5,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Nationalized;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @Entity
 @Table(name = "CIUDADES")
 public class Ciudad {
@@ -32,14 +27,17 @@ public class Ciudad {
     @Column(name = "NOMBRE_CIUDAD", nullable = false, length = 200)
     private String nombreCiudad;
 
+    @ToString.Exclude
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     private Estado idEstado;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "idCiudad")
     private Set<Club> clubs = new LinkedHashSet<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "idCiudad")
     private Set<Estadio> estadios = new LinkedHashSet<>();
 

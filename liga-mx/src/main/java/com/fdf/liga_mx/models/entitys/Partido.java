@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -15,12 +13,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@Data
 @Entity
 @Table(name = "PARTIDOS")
 public class Partido {
