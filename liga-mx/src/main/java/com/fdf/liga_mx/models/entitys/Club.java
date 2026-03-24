@@ -19,6 +19,7 @@ import java.util.Set;
 @Table(name = "CLUBES")
 public class Club {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CLUB", nullable = false)
     private Short id;
 
@@ -45,8 +46,8 @@ public class Club {
     private Ciudad idCiudad;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_DT", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "ID_DT", nullable = false,unique = true)
     private DT idDt;
 
     @NotNull
