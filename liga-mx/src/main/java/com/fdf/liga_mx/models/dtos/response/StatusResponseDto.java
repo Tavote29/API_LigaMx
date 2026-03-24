@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class StatusResponseDto {
-    Short id;
-    String descripcionStatus;
+    private Short id;
+    private String descripcionStatus;
 }

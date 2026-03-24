@@ -7,8 +7,8 @@ import java.time.LocalDate;
 @Value
 @Builder
 public class ArbitroResponseDto {
-    Long id;
-    PersonaResponseDto idPersona;
-    LocalDate fechaIncorporacion;
-    CategoriaArbitroResponseDto idCategoria;
+    private Long id;
+    private PersonaResponseDto idPersona;
+    private LocalDate fechaIncorporacion;
+    private CategoriaArbitroResponseDto idCategoria;
 }

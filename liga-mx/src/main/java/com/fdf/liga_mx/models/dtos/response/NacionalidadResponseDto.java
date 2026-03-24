@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class NacionalidadResponseDto {
-    Short id;
-    String nombreNacionalidad;
+    private Short id;
+    private String nombreNacionalidad;
 }

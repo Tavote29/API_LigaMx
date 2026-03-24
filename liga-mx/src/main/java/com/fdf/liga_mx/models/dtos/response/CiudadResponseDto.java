@@ -6,7 +6,7 @@ import lombok.Value;
 @Value
 @Builder
 public class CiudadResponseDto {
-    Short id;
-    String nombreCiudad;
-    EstadoResponseDto idEstado;
+    private Short id;
+    private String nombreCiudad;
+    private EstadoResponseDto idEstado;
 }

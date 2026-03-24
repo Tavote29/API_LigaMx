@@ -7,12 +7,12 @@ import java.time.LocalDate;
 @Value
 @Builder
 public class ClubResponseDto {
-    Short id;
-    Short nombreClub;
-    LocalDate fechaFundacion;
-    String propietario;
-    EstadoResponseDto idEstado;
-    CiudadResponseDto idCiudad;
-    DTResponseDto idDt;
-    EstadioResponseDto idEstadio;
+    private Short id;
+    private Short nombreClub;
+    private LocalDate fechaFundacion;
+    private String propietario;
+    private EstadoResponseDto idEstado;
+    private CiudadResponseDto idCiudad;
+    private DTResponseDto idDt;
+    private EstadioResponseDto idEstadio;
 }

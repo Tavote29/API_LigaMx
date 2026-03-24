@@ -6,10 +6,10 @@ import lombok.Value;
 @Value
 @Builder
 public class EstadioResponseDto {
-    Short id;
-    String nombreEstadio;
-    String direccion;
-    Integer capacidad;
-    EstadoResponseDto idEstado;
-    CiudadResponseDto idCiudad;
+    private Short id;
+    private String nombreEstadio;
+    private String direccion;
+    private Integer capacidad;
+    private EstadoResponseDto idEstado;
+    private CiudadResponseDto idCiudad;
 }

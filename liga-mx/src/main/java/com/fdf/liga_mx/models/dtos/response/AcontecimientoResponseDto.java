@@ -7,10 +7,10 @@ import java.util.UUID;
 @Value
 @Builder
 public class AcontecimientoResponseDto {
-    UUID id;
-    TiposAcontecimientoResponseDto idTipo;
-    String minuto;
-    JugadorResponseDto idJugadorPrimario;
-    JugadorResponseDto idJugadorSecundario;
-    PartidoResponseDto idPartido;
+    private UUID id;
+    private TiposAcontecimientoResponseDto idTipo;
+    private String minuto;
+    private JugadorResponseDto idJugadorPrimario;
+    private JugadorResponseDto idJugadorSecundario;
+    private PartidoResponseDto idPartido;
 }

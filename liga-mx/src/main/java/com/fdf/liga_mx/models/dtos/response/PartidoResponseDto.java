@@ -8,14 +8,14 @@ import java.util.UUID;
 @Value
 @Builder
 public class PartidoResponseDto {
-    UUID id;
-    ClubResponseDto idLocal;
-    ClubResponseDto idVisitante;
-    EstadioResponseDto idEstadio;
-    ArbitroResponseDto idArbitroCentral;
-    ArbitroResponseDto idCuartoArbitro;
-    ArbitroResponseDto idArbitroAsistente1;
-    ArbitroResponseDto idArbitroAsistente2;
-    Instant fecha;
-    StatusResponseDto idStatus;
+    private UUID id;
+    private ClubResponseDto idLocal;
+    private ClubResponseDto idVisitante;
+    private EstadioResponseDto idEstadio;
+    private ArbitroResponseDto idArbitroCentral;
+    private ArbitroResponseDto idCuartoArbitro;
+    private ArbitroResponseDto idArbitroAsistente1;
+    private ArbitroResponseDto idArbitroAsistente2;
+    private Instant fecha;
+    private StatusResponseDto idStatus;
 }

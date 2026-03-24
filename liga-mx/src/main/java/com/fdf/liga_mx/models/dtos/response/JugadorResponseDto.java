@@ -6,11 +6,11 @@ import lombok.Value;
 @Value
 @Builder
 public class JugadorResponseDto {
-    Long id;
-    Short tarjetasAmarillas;
-    Short tarjetasRojas;
-    Short dorsal;
-    PersonaResponseDto idPersona;
-    PosicionResponseDto idPosicion;
-    ClubResponseDto idClub;
+    private Long id;
+    private Short tarjetasAmarillas;
+    private Short tarjetasRojas;
+    private Short dorsal;
+    private PersonaResponseDto idPersona;
+    private PosicionResponseDto idPosicion;
+    private ClubResponseDto idClub;
 }

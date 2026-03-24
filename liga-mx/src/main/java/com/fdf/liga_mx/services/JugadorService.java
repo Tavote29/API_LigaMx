@@ -1,21 +1,21 @@
 package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
-import com.fdf.liga_mx.models.dtos.response.JugadorResponse;
+import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 
 public class JugadorService implements IJugadorService{
     @Override
-    public JugadorResponse create(JugadorRequest jugadorRequest) {
+    public JugadorResponseDto create(JugadorRequest jugadorRequest) {
         return null;
     }
 
     @Override
-    public JugadorResponse read(Long aLong) {
+    public JugadorResponseDto read(Long aLong) {
         return null;
     }
 
     @Override
-    public JugadorResponse update(JugadorRequest jugadorRequest, Long aLong) {
+    public JugadorResponseDto update(JugadorRequest jugadorRequest, Long aLong) {
         return null;
     }
 

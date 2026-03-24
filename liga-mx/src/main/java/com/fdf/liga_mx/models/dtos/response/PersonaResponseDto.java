@@ -9,12 +9,12 @@ import java.util.UUID;
 @Value
 @Builder
 public class PersonaResponseDto {
-    UUID id;
-    String nombre;
-    LocalDate fechaNacimiento;
-    String lugarNacimiento;
-    BigDecimal estatura;
-    BigDecimal peso;
-    StatusResponseDto idStatus;
-    NacionalidadResponseDto idNacionalidad;
+    private UUID id;
+    private String nombre;
+    private LocalDate fechaNacimiento;
+    private String lugarNacimiento;
+    private BigDecimal estatura;
+    private BigDecimal peso;
+    private StatusResponseDto idStatus;
+    private NacionalidadResponseDto idNacionalidad;
 }

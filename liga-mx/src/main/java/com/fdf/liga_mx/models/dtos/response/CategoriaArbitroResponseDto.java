@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class CategoriaArbitroResponseDto {
-    Short id;
-    String descripcionCategoria;
+    private Short id;
+    private String descripcionCategoria;
 }

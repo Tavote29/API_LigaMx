@@ -6,8 +6,8 @@ import lombok.Value;
 @Value
 @Builder
 public class DTResponseDto {
-    Long id;
-    Short tarjetasAmarillas;
-    Short tarjetasRojas;
-    PersonaResponseDto idPersona;
+    private Long id;
+    private Short tarjetasAmarillas;
+    private Short tarjetasRojas;
+    private PersonaResponseDto idPersona;
 }

@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class TiposAcontecimientoResponseDto {
-    Short id;
-    String descripcionTipo;
+    private Short id;
+    private String descripcionTipo;
 }
