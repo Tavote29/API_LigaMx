@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.JugadorRequestDto;
-import com.fdf.liga_mx.models.dtos.JugadorResponseDto;
+import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
+import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.Jugador;
 import com.fdf.liga_mx.models.entitys.Persona;
 import com.fdf.liga_mx.models.entitys.Posicion;
@@ -17,18 +17,17 @@ public class JugadorMapper {
     private final PosicionMapper posicionMapper;
     private final ClubMapper clubMapper;
 
-    public Jugador toEntity(JugadorRequestDto request) {
+    public Jugador toEntity(JugadorRequest request) {
+
         if (request == null) {
             return null;
         }
-        Persona persona = request.getIdPersona() != null ? Persona.builder().id(request.getIdPersona()).build() : null;
-        Posicion posicion = request.getIdPosicion() != null ? Posicion.builder().id(request.getIdPosicion()).build() : null;
-        Club club = request.getIdClub() != null ? Club.builder().id(request.getIdClub()).build() : null;
+
+        Persona persona = request.getPersona() != null ? personaMapper.toEntity(request.getPersona()) : null;
+        Posicion posicion = request.getId_posicion() != null ? Posicion.builder().id(request.getId_posicion()).build() : null;
+        Club club = request.getId_club() != null ? Club.builder().id(request.getId_club()).build() : null;
 
         return Jugador.builder()
-                .id(request.getId())
-                .tarjetasAmarillas(request.getTarjetasAmarillas())
-                .tarjetasRojas(request.getTarjetasRojas())
                 .dorsal(request.getDorsal())
                 .idPersona(persona)
                 .idPosicion(posicion)

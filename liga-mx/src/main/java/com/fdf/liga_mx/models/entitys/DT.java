@@ -32,7 +32,7 @@ public class DT {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_PERSONA", nullable = false)
-    private Persona idPersona;
+    private Persona persona;
 
     @OneToOne(mappedBy = "idDt")
     private Club club;

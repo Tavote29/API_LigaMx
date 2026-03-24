@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.AcontecimientoRequestDto;
-import com.fdf.liga_mx.models.dtos.AcontecimientoResponseDto;
+import com.fdf.liga_mx.models.dtos.request.AcontecimientoRequest;
+import com.fdf.liga_mx.models.dtos.response.AcontecimientoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class AcontecimientoMapper {
     private final JugadorMapper jugadorMapper;
     private final PartidoMapper partidoMapper;
 
-    public Acontecimiento toEntity(AcontecimientoRequestDto request) {
+    public Acontecimiento toEntity(AcontecimientoRequest request) {
         if (request == null) {
             return null;
         }
@@ -24,7 +24,6 @@ public class AcontecimientoMapper {
         Partido partido = request.getIdPartido() != null ? Partido.builder().id(request.getIdPartido()).build() : null;
 
         return Acontecimiento.builder()
-                .id(request.getId())
                 .idTipo(tipo)
                 .minuto(request.getMinuto())
                 .idJugadorPrimario(primario)

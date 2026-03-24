@@ -1,8 +1,8 @@
 package com.fdf.liga_mx.mappers;
 
 
-import com.fdf.liga_mx.models.dtos.StatusRequestDto;
-import com.fdf.liga_mx.models.dtos.StatusResponseDto;
+import com.fdf.liga_mx.models.dtos.request.StatusRequestDto;
+import com.fdf.liga_mx.models.dtos.response.StatusResponseDto;
 import com.fdf.liga_mx.models.entitys.Status;
 import org.springframework.stereotype.Component;
 

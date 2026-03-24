@@ -1,8 +1,8 @@
 package com.fdf.liga_mx.mappers;
 
 
-import com.fdf.liga_mx.models.dtos.PosicionRequestDto;
-import com.fdf.liga_mx.models.dtos.PosicionResponseDto;
+import com.fdf.liga_mx.models.dtos.request.PosicionRequestDto;
+import com.fdf.liga_mx.models.dtos.response.PosicionResponseDto;
 
 import com.fdf.liga_mx.models.entitys.Posicion;
 import org.springframework.stereotype.Component;

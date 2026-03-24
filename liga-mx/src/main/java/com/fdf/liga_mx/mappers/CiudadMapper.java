@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.CiudadRequestDto;
-import com.fdf.liga_mx.models.dtos.CiudadResponseDto;
+import com.fdf.liga_mx.models.dtos.request.CiudadRequestDto;
+import com.fdf.liga_mx.models.dtos.response.CiudadResponseDto;
 import com.fdf.liga_mx.models.entitys.Ciudad;
 import com.fdf.liga_mx.models.entitys.Estado;
 import org.springframework.stereotype.Component;

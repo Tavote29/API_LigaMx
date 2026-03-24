@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.PartidoRequestDto;
-import com.fdf.liga_mx.models.dtos.PartidoResponseDto;
+import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
+import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class PartidoMapper {
     private final ArbitroMapper arbitroMapper;
     private final StatusMapper statusMapper;
 
-    public Partido toEntity(PartidoRequestDto request) {
+    public Partido toEntity(PartidoRequest request) {
         if (request == null) {
             return null;
         }
@@ -29,7 +29,6 @@ public class PartidoMapper {
         Status status = request.getIdStatus() != null ? Status.builder().id(request.getIdStatus()).build() : null;
 
         return Partido.builder()
-                .id(request.getId())
                 .idLocal(local)
                 .idVisitante(visitante)
                 .idEstadio(estadio)

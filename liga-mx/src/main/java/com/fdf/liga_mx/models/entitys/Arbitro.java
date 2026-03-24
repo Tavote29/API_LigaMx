@@ -27,7 +27,7 @@ public class Arbitro {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_PERSONA", nullable = false)
-    private Persona idPersona;
+    private Persona persona;
 
     @NotNull
     @Column(name = "FECHA_INCORPORACION", nullable = false)

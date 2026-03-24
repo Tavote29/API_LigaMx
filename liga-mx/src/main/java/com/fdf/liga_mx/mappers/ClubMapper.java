@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.ClubRequestDto;
-import com.fdf.liga_mx.models.dtos.ClubResponseDto;
+import com.fdf.liga_mx.models.dtos.request.ClubRequest;
+import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class ClubMapper {
     private final DTMapper dtMapper;
     private final EstadioMapper estadioMapper;
 
-    public Club toEntity(ClubRequestDto request) {
+    public Club toEntity(ClubRequest request) {
         if (request == null) {
             return null;
         }
@@ -25,7 +25,6 @@ public class ClubMapper {
         Estadio estadio = request.getIdEstadio() != null ? Estadio.builder().id(request.getIdEstadio()).build() : null;
 
         return Club.builder()
-                .id(request.getId())
                 .nombreClub(request.getNombreClub())
                 .fechaFundacion(request.getFechaFundacion())
                 .propietario(request.getPropietario())

@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
 
-import com.fdf.liga_mx.models.dtos.TiposAcontecimientoResponseDto;
+import com.fdf.liga_mx.models.dtos.response.TiposAcontecimientoResponseDto;
 import com.fdf.liga_mx.models.entitys.TiposAcontecimiento;
 import org.springframework.stereotype.Component;
 

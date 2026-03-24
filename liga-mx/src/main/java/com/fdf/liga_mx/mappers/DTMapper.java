@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
-import com.fdf.liga_mx.models.dtos.DTRequestDto;
-import com.fdf.liga_mx.models.dtos.DTResponseDto;
+import com.fdf.liga_mx.models.dtos.request.DTRequest;
+import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.DT;
 import com.fdf.liga_mx.models.entitys.Persona;
 import org.springframework.stereotype.Component;
@@ -13,17 +13,14 @@ public class DTMapper {
 
     private final PersonaMapper personaMapper;
 
-    public DT toEntity(DTRequestDto request) {
+    public DT toEntity(DTRequest request) {
         if (request == null) {
             return null;
         }
-        Persona persona = request.getIdPersona() != null ? Persona.builder().id(request.getIdPersona()).build() : null;
+        Persona persona = request.getPersona() != null ? personaMapper.toEntity(request.getPersona()) : null;
 
         return DT.builder()
-                .id(request.getId())
-                .tarjetasAmarillas(request.getTarjetasAmarillas())
-                .tarjetasRojas(request.getTarjetasRojas())
-                .idPersona(persona)
+                .persona(persona)
                 .build();
     }
 
@@ -35,7 +32,7 @@ public class DTMapper {
                 .id(entity.getId())
                 .tarjetasAmarillas(entity.getTarjetasAmarillas())
                 .tarjetasRojas(entity.getTarjetasRojas())
-                .idPersona(personaMapper.toDto(entity.getIdPersona()))
+                .idPersona(personaMapper.toDto(entity.getPersona()))
                 .build();
     }
 }

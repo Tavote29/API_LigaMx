@@ -1,6 +1,6 @@
 package com.fdf.liga_mx.controller;
 
-import com.fdf.liga_mx.models.dtos.*;
+import com.fdf.liga_mx.models.dtos.response.*;
 import com.fdf.liga_mx.services.ICatalogosService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

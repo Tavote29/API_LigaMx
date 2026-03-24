@@ -1,8 +1,8 @@
 package com.fdf.liga_mx.mappers;
 
 
-import com.fdf.liga_mx.models.dtos.CategoriaArbitroRequestDto;
-import com.fdf.liga_mx.models.dtos.CategoriaArbitroResponseDto;
+import com.fdf.liga_mx.models.dtos.request.CategoriaArbitroRequestDto;
+import com.fdf.liga_mx.models.dtos.response.CategoriaArbitroResponseDto;
 import com.fdf.liga_mx.models.entitys.CategoriaArbitro;
 import org.springframework.stereotype.Component;
 
