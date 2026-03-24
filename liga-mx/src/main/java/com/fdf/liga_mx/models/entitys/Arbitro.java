@@ -21,6 +21,7 @@ import java.util.Set;
 public class Arbitro {
     @Id
     @Column(name = "NUI_ARBITRO", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

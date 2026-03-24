@@ -21,6 +21,7 @@ import java.util.Set;
 public class Estadio {
     @Id
     @Column(name = "ID_ESTADIO", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
     @Size(max = 250)
