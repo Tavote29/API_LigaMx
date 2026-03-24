@@ -1,0 +1,48 @@
+package com.fdf.liga_mx.mappers;
+
+import com.fdf.liga_mx.models.dtos.EstadioRequestDto;
+import com.fdf.liga_mx.models.dtos.EstadioResponseDto;
+import com.fdf.liga_mx.models.entitys.Ciudad;
+import com.fdf.liga_mx.models.entitys.Estadio;
+import com.fdf.liga_mx.models.entitys.Estado;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class EstadioMapper {
+
+    private final EstadoMapper estadoMapper;
+    private final CiudadMapper ciudadMapper;
+
+    public Estadio toEntity(EstadioRequestDto request) {
+        if (request == null) {
+            return null;
+        }
+        Estado estado = request.getIdEstado() != null ? Estado.builder().id(request.getIdEstado()).build() : null;
+        Ciudad ciudad = request.getIdCiudad() != null ? Ciudad.builder().id(request.getIdCiudad()).build() : null;
+
+        return Estadio.builder()
+                .id(request.getId())
+                .nombreEstadio(request.getNombreEstadio())
+                .direccion(request.getDireccion())
+                .capacidad(request.getCapacidad())
+                .idEstado(estado)
+                .idCiudad(ciudad)
+                .build();
+    }
+
+    public EstadioResponseDto toDto(Estadio entity) {
+        if (entity == null) {
+            return null;
+        }
+        return EstadioResponseDto.builder()
+                .id(entity.getId())
+                .nombreEstadio(entity.getNombreEstadio())
+                .direccion(entity.getDireccion())
+                .capacidad(entity.getCapacidad())
+                .idEstado(estadoMapper.toDto(entity.getIdEstado()))
+                .idCiudad(ciudadMapper.toDto(entity.getIdCiudad()))
+                .build();
+    }
+}

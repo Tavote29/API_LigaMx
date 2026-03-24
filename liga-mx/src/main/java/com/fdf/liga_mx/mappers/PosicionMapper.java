@@ -1,6 +1,7 @@
 package com.fdf.liga_mx.mappers;
 
 
+import com.fdf.liga_mx.models.dtos.PosicionRequestDto;
 import com.fdf.liga_mx.models.dtos.PosicionResponseDto;
 
 import com.fdf.liga_mx.models.entitys.Posicion;
@@ -8,6 +9,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PosicionMapper {
+
+    public Posicion toEntity(PosicionRequestDto request){
+        if (request == null) {
+            return null;
+        }
+        return Posicion.builder()
+                .id(request.getId())
+                .descripcionPosicion(request.getDescripcionPosicion()).build();
+    }
 
 
     public PosicionResponseDto toDto(Posicion entity) {

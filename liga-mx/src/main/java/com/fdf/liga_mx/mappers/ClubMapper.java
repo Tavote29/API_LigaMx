@@ -1,0 +1,54 @@
+package com.fdf.liga_mx.mappers;
+
+import com.fdf.liga_mx.models.dtos.ClubRequestDto;
+import com.fdf.liga_mx.models.dtos.ClubResponseDto;
+import com.fdf.liga_mx.models.entitys.*;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class ClubMapper {
+
+    private final EstadoMapper estadoMapper;
+    private final CiudadMapper ciudadMapper;
+    private final DTMapper dtMapper;
+    private final EstadioMapper estadioMapper;
+
+    public Club toEntity(ClubRequestDto request) {
+        if (request == null) {
+            return null;
+        }
+        Estado estado = request.getIdEstado() != null ? Estado.builder().id(request.getIdEstado()).build() : null;
+        Ciudad ciudad = request.getIdCiudad() != null ? Ciudad.builder().id(request.getIdCiudad()).build() : null;
+        DT dt = request.getIdDt() != null ? DT.builder().id(request.getIdDt()).build() : null;
+        Estadio estadio = request.getIdEstadio() != null ? Estadio.builder().id(request.getIdEstadio()).build() : null;
+
+        return Club.builder()
+                .id(request.getId())
+                .nombreClub(request.getNombreClub())
+                .fechaFundacion(request.getFechaFundacion())
+                .propietario(request.getPropietario())
+                .idEstado(estado)
+                .idCiudad(ciudad)
+                .idDt(dt)
+                .idEstadio(estadio)
+                .build();
+    }
+
+    public ClubResponseDto toDto(Club entity) {
+        if (entity == null) {
+            return null;
+        }
+        return ClubResponseDto.builder()
+                .id(entity.getId())
+                .nombreClub(entity.getNombreClub())
+                .fechaFundacion(entity.getFechaFundacion())
+                .propietario(entity.getPropietario())
+                .idEstado(estadoMapper.toDto(entity.getIdEstado()))
+                .idCiudad(ciudadMapper.toDto(entity.getIdCiudad()))
+                .idDt(dtMapper.toDto(entity.getIdDt()))
+                .idEstadio(estadioMapper.toDto(entity.getIdEstadio()))
+                .build();
+    }
+}
