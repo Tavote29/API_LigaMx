@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Data
 public class ClubRequest implements Serializable {
     @NotNull(message = "El nombre del club no puede ser nulo")
-    private Short nombreClub;
+    private String nombreClub;
 
     @NotNull(message = "La fecha de fundación no puede ser nula")
     private LocalDate fechaFundacion;

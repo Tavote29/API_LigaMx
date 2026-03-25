@@ -20,7 +20,7 @@ import java.util.Set;
 public class Ciudad {
     @Id
     @Column(name = "ID_CIUDAD", nullable = false)
-    private int id;
+    private Short id;
 
     @Size(max = 200)
     @NotNull

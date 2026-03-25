@@ -1,7 +1,8 @@
 package com.fdf.liga_mx.controller;
 
-import com.fdf.liga_mx.models.request.DTRequest;
-import com.fdf.liga_mx.models.response.DTResponse;
+
+import com.fdf.liga_mx.models.dtos.request.DTRequest;
+import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.services.IDTService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "dt")
 @AllArgsConstructor
 public class DTController {
+
     private final IDTService idtService;
 
     @PostMapping
-    public ResponseEntity<DTResponse> post(@RequestBody DTRequest dtRequest){
-        return ResponseEntity.ok(idtService.create(dtRequest));
+    public ResponseEntity<DTResponseDto> post(@RequestBody DTRequest dtRequest){
+        return ResponseEntity.ok(idtService.save(dtRequest));
     }
+
 }

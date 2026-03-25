@@ -1,19 +1,20 @@
 package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.JugadorMapper;
+import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
+import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.Jugador;
 import com.fdf.liga_mx.models.entitys.Persona;
-import com.fdf.liga_mx.models.repositories.*;
-import com.fdf.liga_mx.models.request.JugadorRequest;
-import com.fdf.liga_mx.models.response.JugadorResponse;
 import com.fdf.liga_mx.models.repositories.INacionalidadRepository;
 import com.fdf.liga_mx.models.repositories.IPosicionRepository;
 import com.fdf.liga_mx.models.repositories.IStatusRepository;
+import com.fdf.liga_mx.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Transactional
@@ -29,20 +30,22 @@ public class JugadorService implements IJugadorService{
     private final JugadorRepository jugadorRepository;
     private final JugadorMapper jugadorMapper;
 
-    @Override
-    public JugadorResponse create(JugadorRequest jugadorRequest) {
-        var nacionalidad = nacionalidadRepository.findById(jugadorRequest.getPersonaRequest().getIdNacionalidad()).orElseThrow();
-        var status = statusRepository.findById(jugadorRequest.getPersonaRequest().getIdStatus()).orElseThrow();
 
-        var club = clubRepository.findById(jugadorRequest.getIdClub()).orElseThrow();
-        var posicion = posicionRepository.findById(jugadorRequest.getIdPosicion()).orElseThrow();
+
+    @Override
+    public JugadorResponseDto save(JugadorRequest jugadorRequest) {
+        var nacionalidad = nacionalidadRepository.findById(jugadorRequest.getPersona().getIdNacionalidad()).orElseThrow();
+        var status = statusRepository.findById(jugadorRequest.getPersona().getIdStatus()).orElseThrow();
+
+        var club = clubRepository.findById(jugadorRequest.getId_club()).orElseThrow();
+        var posicion = posicionRepository.findById(jugadorRequest.getId_posicion()).orElseThrow();
 
         var persona = Persona.builder()
                 .id(UUID.randomUUID())
-                .nombre(jugadorRequest.getPersonaRequest().getNombre())
-                .fechaNacimiento(jugadorRequest.getPersonaRequest().getFechaNacimiento())
-                .estatura(jugadorRequest.getPersonaRequest().getEstatura())
-                .peso(jugadorRequest.getPersonaRequest().getPeso())
+                .nombre(jugadorRequest.getPersona().getNombre())
+                .fechaNacimiento(jugadorRequest.getPersona().getFechaNacimiento())
+                .estatura(jugadorRequest.getPersona().getEstatura())
+                .peso(jugadorRequest.getPersona().getPeso())
                 .idStatus(status)
                 .idNacionalidad(nacionalidad)
                 .build();
@@ -57,7 +60,7 @@ public class JugadorService implements IJugadorService{
         var jugadorPersisted = this.jugadorRepository.save(jugador);
 
         log.info("Jugador creado con id:{}",jugadorPersisted.getId());
-        return jugadorMapper.entityToResponse(jugadorPersisted);
+        return jugadorMapper.toDto(jugadorPersisted);
     }
 
     @Override

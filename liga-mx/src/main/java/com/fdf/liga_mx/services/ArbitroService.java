@@ -1,34 +1,40 @@
 package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.ArbitroMapper;
+import com.fdf.liga_mx.models.dtos.request.ArbitroRequest;
+import com.fdf.liga_mx.models.dtos.response.ArbitroResponseDto;
 import com.fdf.liga_mx.models.entitys.Arbitro;
 import com.fdf.liga_mx.models.entitys.Persona;
-import com.fdf.liga_mx.models.repositories.ArbitroRepository;
+
 import com.fdf.liga_mx.models.repositories.ICategoriaArbitroRepository;
 import com.fdf.liga_mx.models.repositories.INacionalidadRepository;
 import com.fdf.liga_mx.models.repositories.IStatusRepository;
-import com.fdf.liga_mx.models.request.ArbitroRequest;
-import com.fdf.liga_mx.models.response.ArbitroResponse;
+
+
+import com.fdf.liga_mx.repository.ArbitroRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Transactional
 @Service
 @Slf4j
 @AllArgsConstructor
-public class ArbitroService implements CrudService<ArbitroRequest, ArbitroResponse, Long>{
+public class ArbitroService implements IArbitroService{
     private final INacionalidadRepository nacionalidadRepository;
     private final IStatusRepository statusRepository;
     private final ICategoriaArbitroRepository categoriaArbitroRepository;
     private final ArbitroRepository arbitroRepository;
     private final ArbitroMapper arbitroMapper;
 
+
+
     @Override
-    public ArbitroResponse create(ArbitroRequest arbitroRequest) {
+    public ArbitroResponseDto save(ArbitroRequest arbitroRequest) {
         var nacionalidad = nacionalidadRepository.findById(arbitroRequest.getPersona().getIdNacionalidad()).orElseThrow();
         var status = statusRepository.findById(arbitroRequest.getPersona().getIdStatus()).orElseThrow();
         var categoria = categoriaArbitroRepository.findById(arbitroRequest.getIdCategoria()).orElseThrow();
@@ -45,22 +51,37 @@ public class ArbitroService implements CrudService<ArbitroRequest, ArbitroRespon
 
         var arbitro = Arbitro.builder()
                 .fechaIncorporacion(arbitroRequest.getFechaIncorporacion())
-                .idPersona(persona)
+                .persona(persona)
                 .idCategoriaArbitro(categoria)
                 .build();
 
         var arbitroPersisted = this.arbitroRepository.save(arbitro);
         log.info("Arbitro creado con el ID: {}",arbitroPersisted.getId());
-        return arbitroMapper.entityToResponse(arbitroPersisted);
+        return arbitroMapper.toDto(arbitroPersisted);
     }
 
     @Override
-    public ArbitroResponse read(Long aLong) {
+    public List<Arbitro> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<ArbitroResponseDto> findAllDto() {
+        return List.of();
+    }
+
+    @Override
+    public Arbitro findById(Long aLong) {
         return null;
     }
 
     @Override
-    public ArbitroResponse update(ArbitroRequest arbitroRequest, Long aLong) {
+    public ArbitroResponseDto findDtoById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public ArbitroResponseDto update(ArbitroRequest arbitroRequest) {
         return null;
     }
 

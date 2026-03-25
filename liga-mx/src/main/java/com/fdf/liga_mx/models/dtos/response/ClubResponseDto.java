@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public class ClubResponseDto {
     private Short id;
-    private Short nombreClub;
+    private String nombreClub;
     private LocalDate fechaFundacion;
     private String propietario;
     private EstadoResponseDto idEstado;
