@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Data
 public class DTRequest implements Serializable {
 
-    @NotNull(message = "La persona no puede ser nula")
+    private Long id;
+
+
     private PersonaRequest persona;
 }

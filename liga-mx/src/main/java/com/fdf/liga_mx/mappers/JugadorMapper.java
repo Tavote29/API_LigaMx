@@ -49,4 +49,18 @@ public class JugadorMapper {
                 .idClub(clubMapper.toDto(entity.getIdClub()))
                 .build();
     }
+
+    public JugadorResponseDto toDtoSinClub(Jugador entity) {
+        if (entity == null) {
+            return null;
+        }
+        return JugadorResponseDto.builder()
+                .id(entity.getId())
+                .tarjetasAmarillas(entity.getTarjetasAmarillas())
+                .tarjetasRojas(entity.getTarjetasRojas())
+                .dorsal(entity.getDorsal())
+                .idPersona(personaMapper.toDto(entity.getIdPersona()))
+                .idPosicion(posicionMapper.toDto(entity.getIdPosicion()))
+                .build();
+    }
 }

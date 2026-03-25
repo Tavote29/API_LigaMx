@@ -1,12 +1,22 @@
 package com.fdf.liga_mx.services;
 
-public interface CrudService<request,response,ID> {
+import java.util.List;
 
-    response create(request request);
+public interface CrudService<request,response,entity,id> {
 
-    response read(ID id);
+    response save(request request);
 
-    response update(request request, ID id);
+    List<entity> findAll();
 
-    void delete(ID id);
+    List<response> findAllDto();
+
+
+
+    entity findById(id id);
+
+    response findDtoById(id id);
+
+    response update(request request);
+
+    void delete(id id);
 }

@@ -1,4 +1,4 @@
-package com.fdf.liga_mx.models.repositories;
+package com.fdf.liga_mx.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

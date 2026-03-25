@@ -23,7 +23,6 @@ public class EstadioMapper {
         Ciudad ciudad = request.getIdCiudad() != null ? Ciudad.builder().id(request.getIdCiudad()).build() : null;
 
         return Estadio.builder()
-                .id(request.getId())
                 .nombreEstadio(request.getNombreEstadio())
                 .direccion(request.getDireccion())
                 .capacidad(request.getCapacidad())

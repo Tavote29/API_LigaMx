@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ICatalogosService {
 
+
+
     List<CategoriaArbitroResponseDto> findAllCategoriasArbitros();
 
     List<NacionalidadResponseDto> findAllNacionalidades();

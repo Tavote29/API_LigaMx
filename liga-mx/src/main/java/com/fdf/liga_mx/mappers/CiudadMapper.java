@@ -18,6 +18,7 @@ public class CiudadMapper {
             return null;
         }
         Estado estado = null;
+
         if (request.getIdEstado() != null) {
             estado = Estado.builder().id(request.getIdEstado()).build();
         }
