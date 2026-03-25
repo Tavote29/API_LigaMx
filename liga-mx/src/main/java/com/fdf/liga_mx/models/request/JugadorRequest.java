@@ -15,6 +15,6 @@ import java.io.Serializable;
 public class JugadorRequest implements Serializable {
     private PersonaRequest personaRequest;
     private short dorsal;
-    private short id_posicion;
-    private short id_club;
+    private short idPosicion;
+    private short idClub;
 }

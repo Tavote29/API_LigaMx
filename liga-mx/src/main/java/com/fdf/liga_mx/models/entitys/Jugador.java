@@ -2,21 +2,15 @@ package com.fdf.liga_mx.models.entitys;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@Data
 @Entity
 @Table(name = "JUGADORES")
 public class Jugador {
@@ -35,7 +29,7 @@ public class Jugador {
     private Short dorsal;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_PERSONA", nullable = false)
     private Persona idPersona;
 
@@ -50,9 +44,11 @@ public class Jugador {
     private Club idClub;
 
     @OneToMany(mappedBy = "idJugadorPrimario")
+    @ToString.Exclude
     private Set<Acontecimiento> acontecimientosPrimario = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idJugadorSecundario")
+    @ToString.Exclude
     private Set<Acontecimiento> acontecimientosSecundario = new LinkedHashSet<>();
 
 

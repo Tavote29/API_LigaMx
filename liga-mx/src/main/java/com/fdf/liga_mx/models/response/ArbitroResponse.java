@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +14,6 @@ import java.io.Serializable;
 @Data
 public class ArbitroResponse implements Serializable {
     private long idArbitro;
+    private LocalDate fechaIncorporacion;
     private PersonaResponse personaResponse;
 }

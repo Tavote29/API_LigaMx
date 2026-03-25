@@ -13,4 +13,5 @@ import java.io.Serializable;
 @Data
 public class DTRequest implements Serializable {
     private PersonaRequest persona;
+    private short idClub;
 }

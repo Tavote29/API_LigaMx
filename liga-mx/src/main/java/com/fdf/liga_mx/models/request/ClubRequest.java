@@ -14,10 +14,9 @@ import java.time.LocalDate;
 @Data
 public class ClubRequest implements Serializable {
     private String nombre;
-    private short titulos;
     private LocalDate fechaFundacion;
-    private short idCiudad;
-    private String nombrePropietario;
-    private short idDT;
+    private int idCiudad;
+    private String Propietario;
+    private Long idDT;
     private short idEstadio;
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,5 +15,8 @@ import java.io.Serializable;
 public class ClubResponse implements Serializable {
     private short idClub;
     private String nombre;
-    private short idCiudad;
+    private int idCiudad;
+    private short idEstado;
+    private String propietario;
+    private LocalDate fechaFundacion;
 }

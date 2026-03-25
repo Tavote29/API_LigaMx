@@ -24,7 +24,7 @@ public class Club {
     private Short id;
 
     @Column(name = "NOMBRE_CLUB", nullable = false)
-    private Short nombreClub;
+    private String nombreClub;
 
     @NotNull
     @Column(name = "FECHA_FUNDACION", nullable = false)

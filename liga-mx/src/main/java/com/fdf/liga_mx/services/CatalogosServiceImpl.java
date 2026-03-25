@@ -3,7 +3,7 @@ package com.fdf.liga_mx.services;
 import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.*;
 import com.fdf.liga_mx.models.entitys.*;
-import com.fdf.liga_mx.repository.*;
+import com.fdf.liga_mx.models.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
