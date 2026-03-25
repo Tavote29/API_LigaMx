@@ -1,38 +1,67 @@
 package com.fdf.liga_mx.mappers;
 
+import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
+import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.Jugador;
 import com.fdf.liga_mx.models.entitys.Persona;
-import com.fdf.liga_mx.models.response.JugadorResponse;
-import com.fdf.liga_mx.models.response.PersonaResponse;
+import com.fdf.liga_mx.models.entitys.Posicion;
+import com.fdf.liga_mx.models.entitys.Club;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class JugadorMapper {
-    public JugadorResponse entityToResponse(Jugador entity){
-        if (entity == null){
+
+    private final PersonaMapper personaMapper;
+    private final PosicionMapper posicionMapper;
+    private final ClubMapper clubMapper;
+
+    public Jugador toEntity(JugadorRequest request) {
+
+        if (request == null) {
             return null;
         }
-        JugadorResponse response = new JugadorResponse();
-        response.setId(entity.getId());
-        response.setDorsal(entity.getDorsal());
-        response.setId_club(entity.getIdClub().getId());
-        response.setId_posicion(entity.getIdPosicion().getId());
 
-        PersonaMapper personaMapper = new PersonaMapper();
-        PersonaResponse persona = personaMapper.entityToResponse(entity.getIdPersona());
-        response.setPersona(persona);
-        /*
-        PersonaResponse persona = new PersonaResponse();
-        persona.setNombre(entity.getIdPersona().getNombre());
-        persona.setEstatura(entity.getIdPersona().getEstatura());
-        persona.setPeso(entity.getIdPersona().getPeso());
-        persona.setFechaNacimiento(entity.getIdPersona().getFechaNacimiento());
-        persona.setIdNacionalidad(entity.getIdPersona().getIdNacionalidad().getId());
+        Persona persona = request.getPersona() != null ? personaMapper.toEntity(request.getPersona()) : null;
+        Posicion posicion = request.getId_posicion() != null ? Posicion.builder().id(request.getId_posicion()).build() : null;
+        Club club = request.getId_club() != null ? Club.builder().id(request.getId_club()).build() : null;
 
-        response.setPersona(persona);
-        */
+        return Jugador.builder()
+                .dorsal(request.getDorsal())
+                .idPersona(persona)
+                .idPosicion(posicion)
+                .idClub(club)
+                .build();
+    }
 
-        return response;
+    public JugadorResponseDto toDto(Jugador entity) {
+        if (entity == null) {
+            return null;
+        }
+        return JugadorResponseDto.builder()
+                .id(entity.getId())
+                .tarjetasAmarillas(entity.getTarjetasAmarillas())
+                .tarjetasRojas(entity.getTarjetasRojas())
+                .dorsal(entity.getDorsal())
+                .idPersona(personaMapper.toDto(entity.getIdPersona()))
+                .idPosicion(posicionMapper.toDto(entity.getIdPosicion()))
+                .idClub(clubMapper.toDto(entity.getIdClub()))
+                .build();
+    }
+
+    public JugadorResponseDto toDtoSinClub(Jugador entity) {
+        if (entity == null) {
+            return null;
+        }
+        return JugadorResponseDto.builder()
+                .id(entity.getId())
+                .tarjetasAmarillas(entity.getTarjetasAmarillas())
+                .tarjetasRojas(entity.getTarjetasRojas())
+                .dorsal(entity.getDorsal())
+                .idPersona(personaMapper.toDto(entity.getIdPersona()))
+                .idPosicion(posicionMapper.toDto(entity.getIdPosicion()))
+                .build();
     }
 
 }

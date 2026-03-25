@@ -1,10 +1,12 @@
 package com.fdf.liga_mx.services;
 
-import com.fdf.liga_mx.models.dtos.*;
+import com.fdf.liga_mx.models.dtos.response.*;
 
 import java.util.List;
 
 public interface ICatalogosService {
+
+
 
     List<CategoriaArbitroResponseDto> findAllCategoriasArbitros();
 

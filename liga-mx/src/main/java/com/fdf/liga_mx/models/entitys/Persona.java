@@ -60,10 +60,10 @@ public class Persona {
     @JoinColumn(name = "ID_NACIONALIDAD", nullable = false)
     private Nacionalidad idNacionalidad;
 
-    @OneToMany(mappedBy = "idPersona")
+    @OneToMany(mappedBy = "persona")
     private Set<Arbitro> arbitros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idPersona")
+    @OneToMany(mappedBy = "persona")
     private Set<DT> DTS = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idPersona")

@@ -61,12 +61,28 @@ public class JugadorService implements IJugadorService{
     }
 
     @Override
-    public JugadorResponse read(Long aLong) {
+    public List<Jugador> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<JugadorResponseDto> findAllDto() {
+        return List.of();
+    }
+
+
+    @Override
+    public Jugador findById(Long aLong) {
         return null;
     }
 
     @Override
-    public JugadorResponse update(JugadorRequest jugadorRequest, Long aLong) {
+    public JugadorResponseDto findDtoById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public JugadorResponseDto update(JugadorRequest jugadorRequest) {
         return null;
     }
 
