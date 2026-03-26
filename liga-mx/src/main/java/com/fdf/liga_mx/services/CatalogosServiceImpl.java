@@ -4,12 +4,14 @@ import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.response.*;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@AllArgsConstructor
 public class CatalogosServiceImpl implements ICatalogosService{
 
     private final ICategoriaArbitroRepository categoriaArbitroRepo;
@@ -32,18 +34,44 @@ public class CatalogosServiceImpl implements ICatalogosService{
 
     private final TiposAcontecimientoMapper tiposAcontecimientoMapper;
 
+    private final IEstadoRepository estadoRepository;
 
-    public CatalogosServiceImpl(ICategoriaArbitroRepository categoriaArbitroRepo, INacionalidadRepository nacionalidadRepo, IPosicionRepository posicionRepo, IStatusRepository statusRepo, ITiposAcontecimientoRepository tiposAcontecimientoRepo, CategoriaArbitroMapper categoriaArbitroMapper, NacionalidadMapper nacionalidadMapper, PosicionMapper posicionMapper, StatusMapper statusMapper, TiposAcontecimientoMapper tiposAcontecimientoMapper) {
-        this.categoriaArbitroRepo = categoriaArbitroRepo;
-        this.nacionalidadRepo = nacionalidadRepo;
-        this.posicionRepo = posicionRepo;
-        this.statusRepo = statusRepo;
-        this.tiposAcontecimientoRepo = tiposAcontecimientoRepo;
-        this.categoriaArbitroMapper = categoriaArbitroMapper;
-        this.nacionalidadMapper = nacionalidadMapper;
-        this.posicionMapper = posicionMapper;
-        this.statusMapper = statusMapper;
-        this.tiposAcontecimientoMapper = tiposAcontecimientoMapper;
+    private final ICiudadRepository ciudadRepository;
+
+
+    @Override
+    public List<CategoriaArbitro> findAllCategoriasArbitrosEntity() {
+        return categoriaArbitroRepo.findAll();
+    }
+
+    @Override
+    public List<Nacionalidad> findAllNacionalidadesEntity() {
+        return nacionalidadRepo.findAll();
+    }
+
+    @Override
+    public List<Posicion> findAllPosicionesEntity() {
+        return posicionRepo.findAll();
+    }
+
+    @Override
+    public List<Status> findAllStatusesEntity() {
+        return statusRepo.findAll();
+    }
+
+    @Override
+    public List<TiposAcontecimiento> findAllTiposAcontecimientosEntity() {
+        return tiposAcontecimientoRepo.findAll();
+    }
+
+    @Override
+    public List<Estado> findAllEstado() {
+        return estadoRepository.findAll();
+    }
+
+    @Override
+    public List<Ciudad> findAllCiudad() {
+        return ciudadRepository.findAll();
     }
 
     @Override
@@ -113,5 +141,40 @@ public class CatalogosServiceImpl implements ICatalogosService{
                 .findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la tiposAcontecimiento"));
 
         return tiposAcontecimientoMapper.toDto(tiposAcontecimiento);
+    }
+
+    @Override
+    public Estado findEstadoById(Short id) {
+        return estadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estado"));
+    }
+
+    @Override
+    public Ciudad findCiudadById(Short id) {
+        return ciudadRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la ciudad"));
+    }
+
+    @Override
+    public CategoriaArbitro findCategoriaArbitroEntityById(Short id) {
+        return categoriaArbitroRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la categoria"));
+    }
+
+    @Override
+    public Nacionalidad findNacionalidadEntityById(Short id) {
+        return nacionalidadRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la nacionalidad"));
+    }
+
+    @Override
+    public Posicion findPosicionEntityById(Short id) {
+        return posicionRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la posicion"));
+    }
+
+    @Override
+    public Status findStatusEntityById(Short id) {
+        return statusRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el status"));
+    }
+
+    @Override
+    public TiposAcontecimiento findTipoAcontecimientoEntityById(Short id) {
+        return tiposAcontecimientoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro tipo Acontecimiento"));
     }
 }
