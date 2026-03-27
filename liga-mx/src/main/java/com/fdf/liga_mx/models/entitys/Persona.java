@@ -3,10 +3,7 @@ package com.fdf.liga_mx.models.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -19,12 +16,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "PERSONAS")
 public class Persona {
     @Id
-    @ColumnDefault("newsequentialid()")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID_PERSONA", nullable = false)
     private UUID id;
 
@@ -60,10 +58,12 @@ public class Persona {
     @JoinColumn(name = "ID_NACIONALIDAD", nullable = false)
     private Nacionalidad idNacionalidad;
 
-    @OneToMany(mappedBy = "persona")
+    @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Set<Arbitro> arbitros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "persona")
+    @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Set<DT> DTS = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idPersona")

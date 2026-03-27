@@ -3,6 +3,7 @@ package com.fdf.liga_mx.services;
 import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.response.*;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.repositories.*;
 import com.fdf.liga_mx.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

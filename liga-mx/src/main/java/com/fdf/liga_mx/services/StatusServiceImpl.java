@@ -36,7 +36,7 @@ public class StatusServiceImpl implements IStatusService {
     }
 
     @Override
-    public StatusResponseDto update(StatusRequestDto request) {
+    public StatusResponseDto update(StatusRequestDto request, Short id) {
         return null;
     }
 

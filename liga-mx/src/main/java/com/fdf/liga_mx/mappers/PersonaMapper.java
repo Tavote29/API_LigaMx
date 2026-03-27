@@ -48,4 +48,13 @@ public class PersonaMapper {
                 .idNacionalidad(nacionalidadMapper.toDto(entity.getIdNacionalidad()))
                 .build();
     }
+
+    public void updateEntity(Persona entity, PersonaRequest request, Nacionalidad nacionalidad, Status status) {
+        entity.setNombre(request.getNombre());
+        entity.setEstatura(request.getEstatura());
+        entity.setPeso(request.getPeso());
+        entity.setFechaNacimiento(request.getFechaNacimiento());
+        entity.setIdNacionalidad(nacionalidad);
+        entity.setIdStatus(status);
+    }
 }

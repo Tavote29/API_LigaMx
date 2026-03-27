@@ -14,7 +14,6 @@ import java.io.Serializable;
 @Data
 public class DTRequest implements Serializable {
 
-    private Long id;
 
 
     private PersonaRequest persona;

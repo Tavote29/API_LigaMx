@@ -16,7 +16,7 @@ public interface CrudService<request,response,entity,id> {
 
     response findDtoById(id id);
 
-    response update(request request);
+    response update(request request, id id);
 
     void delete(id id);
 }

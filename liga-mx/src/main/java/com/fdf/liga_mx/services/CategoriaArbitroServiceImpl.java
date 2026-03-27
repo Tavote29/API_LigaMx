@@ -36,7 +36,7 @@ public class CategoriaArbitroServiceImpl implements ICategoriaArbitroService {
     }
 
     @Override
-    public CategoriaArbitroResponseDto update(CategoriaArbitroRequestDto request) {
+    public CategoriaArbitroResponseDto update(CategoriaArbitroRequestDto request, Short id) {
         return null;
     }
 

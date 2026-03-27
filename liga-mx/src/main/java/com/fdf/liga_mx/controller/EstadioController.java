@@ -36,9 +36,9 @@ public class EstadioController {
         return ResponseEntity.ok(estadioService.findDtoById(id));
     }
 
-    @PutMapping
-    public ResponseEntity<EstadioResponseDto> updateEstadio(@RequestBody EstadioRequestDto estadioRequest) {
-        EstadioResponseDto estadioResponseDto = estadioService.update(estadioRequest);
+    @PutMapping("/{id}")
+    public ResponseEntity<EstadioResponseDto> updateEstadio(@RequestBody EstadioRequestDto estadioRequest, @PathVariable Short id) {
+        EstadioResponseDto estadioResponseDto = estadioService.update(estadioRequest, id);
         return ResponseEntity.ok(estadioResponseDto);
     }
 

@@ -37,7 +37,7 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
     }
 
     @Override
-    public AcontecimientoResponseDto update(AcontecimientoRequest request) {
+    public AcontecimientoResponseDto update(AcontecimientoRequest request, UUID id) {
         return null;
     }
 

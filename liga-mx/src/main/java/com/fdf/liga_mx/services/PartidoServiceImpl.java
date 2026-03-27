@@ -36,7 +36,7 @@ public class PartidoServiceImpl implements IPartidoService {
     }
 
     @Override
-    public PartidoResponseDto update(PartidoRequest request) {
+    public PartidoResponseDto update(PartidoRequest request, UUID id) {
         return null;
     }
 

@@ -35,7 +35,7 @@ public class EstadoServiceImpl implements IEstadoService {
     }
 
     @Override
-    public EstadoResponseDto update(EstadoRequestDto request) {
+    public EstadoResponseDto update(EstadoRequestDto request, Short id) {
         return null;
     }
 

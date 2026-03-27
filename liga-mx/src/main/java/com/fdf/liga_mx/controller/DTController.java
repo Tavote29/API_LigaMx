@@ -5,6 +5,7 @@ import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.services.IDTService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "dt")
+@RequestMapping(path = "/dt")
 @AllArgsConstructor
 public class DTController {
 
@@ -20,7 +21,8 @@ public class DTController {
 
     @PostMapping
     public ResponseEntity<DTResponseDto> post(@RequestBody DTRequest dtRequest){
-        return ResponseEntity.ok(idtService.save(dtRequest));
+        DTResponseDto dtResponseDto = idtService.save(dtRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtResponseDto);
     }
 
 }

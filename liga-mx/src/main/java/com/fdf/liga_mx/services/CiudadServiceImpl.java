@@ -36,7 +36,7 @@ public class CiudadServiceImpl implements ICiudadService {
     }
 
     @Override
-    public CiudadResponseDto update(CiudadRequestDto request) {
+    public CiudadResponseDto update(CiudadRequestDto request, Short id) {
         return null;
     }
 

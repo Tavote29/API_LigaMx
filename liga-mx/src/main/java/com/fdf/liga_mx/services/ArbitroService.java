@@ -81,7 +81,7 @@ public class ArbitroService implements IArbitroService{
     }
 
     @Override
-    public ArbitroResponseDto update(ArbitroRequest arbitroRequest) {
+    public ArbitroResponseDto update(ArbitroRequest arbitroRequest, Long id) {
         return null;
     }
 

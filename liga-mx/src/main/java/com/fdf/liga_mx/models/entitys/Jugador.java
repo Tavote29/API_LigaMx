@@ -10,7 +10,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "JUGADORES")
 public class Jugador {
@@ -43,11 +44,11 @@ public class Jugador {
     @JoinColumn(name = "ID_CLUB", nullable = false)
     private Club idClub;
 
-    @OneToMany(mappedBy = "idJugadorPrimario")
+    @OneToMany(mappedBy = "idJugadorPrimario", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Acontecimiento> acontecimientosPrimario = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idJugadorSecundario")
+    @OneToMany(mappedBy = "idJugadorSecundario", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Acontecimiento> acontecimientosSecundario = new LinkedHashSet<>();
 

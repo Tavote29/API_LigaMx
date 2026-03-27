@@ -10,7 +10,6 @@ import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.repository.IEstadoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,7 +71,7 @@ public class ClubServiceImpl implements IClubService{
     }
 
     @Override
-    public ClubResponseDto update(ClubRequest request) {
+    public ClubResponseDto update(ClubRequest request, Short id) {
         return null;
     }
 

@@ -36,7 +36,7 @@ public class ArbitroServiceImpl implements IArbitroService {
     }
 
     @Override
-    public ArbitroResponseDto update(ArbitroRequest request) {
+    public ArbitroResponseDto update(ArbitroRequest request, Long id) {
         return null;
     }
 

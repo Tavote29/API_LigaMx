@@ -2,18 +2,16 @@ package com.fdf.liga_mx.models.entitys;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@Setter
 @Entity
 @Table(name = "DIRECTORES_TECNICOS")
 public class DT {
@@ -34,7 +32,8 @@ public class DT {
     @JoinColumn(name = "ID_PERSONA", nullable = false)
     private Persona persona;
 
-    @OneToOne(mappedBy = "idDt")
+    @OneToOne(mappedBy = "idDt", fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Club club;
 
 

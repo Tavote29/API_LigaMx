@@ -1,10 +1,10 @@
 package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.DTMapper;
+import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
-import com.fdf.liga_mx.models.entitys.DT;
-import com.fdf.liga_mx.models.entitys.Persona;
+import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.repositories.INacionalidadRepository;
 import com.fdf.liga_mx.models.repositories.IStatusRepository;
 import com.fdf.liga_mx.repository.ClubRepository;
@@ -12,9 +12,10 @@ import com.fdf.liga_mx.repository.DTRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -22,65 +23,66 @@ import java.util.UUID;
 public class DTServiceImpl implements IDTService{
 
     private final ClubRepository clubRepository;
-    private final INacionalidadRepository nacionalidadRepository;
-    private final IStatusRepository statusRepository;
+    private final ICatalogosService catalogosService;
     private final DTRepository dtRepository;
     private final DTMapper dtMapper;
+    private final PersonaMapper personaMapper;
 
     @Override
+    @Transactional
     public DTResponseDto save(DTRequest dtRequest) {
-        var nacionalidad = nacionalidadRepository.findById(dtRequest.getPersona().getIdNacionalidad()).orElseThrow();
-        var status = statusRepository.findById(dtRequest.getPersona().getIdStatus()).orElseThrow();
-
-        var club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
-        var persona = Persona.builder()
-                .id(UUID.randomUUID())
-                .nombre(dtRequest.getPersona().getNombre())
-                .fechaNacimiento(dtRequest.getPersona().getFechaNacimiento())
-                .estatura(dtRequest.getPersona().getEstatura())
-                .peso(dtRequest.getPersona().getPeso())
-                .idStatus(status)
-                .idNacionalidad(nacionalidad)
-                .build();
-
-        var dt = DT.builder()
-                .persona(persona)
-                .club(club)
-                .build();
-
-        var dtPersisted = this.dtRepository.save(dt);
-        log.info("Director Tecnico creado con id:{}",dtPersisted.getId());
-
-        return dtMapper.toDto(dtPersisted);
+        Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
+        Persona persona = personaMapper.toEntity(dtRequest.getPersona());
+        DT dt = dtMapper.toEntity(dtRequest);
+        dt.setPersona(persona);
+        dt.setClub(club);
+        return dtMapper.toDto(dtRepository.saveAndFlush(dt));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DT> findAll() {
-        return List.of();
+        return dtRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DTResponseDto> findAllDto() {
-        return List.of();
+        return dtRepository.findAll().stream().map(dt -> dtMapper.toDto(dt)).toList();
     }
 
     @Override
-    public DT findById(Long aLong) {
-        return null;
+    @Transactional(readOnly = true)
+    public DT findById(Long id) {
+        return dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
     }
 
     @Override
-    public DTResponseDto findDtoById(Long aLong) {
-        return null;
+    @Transactional(readOnly = true)
+    public DTResponseDto findDtoById(Long id) {
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
+        return dtMapper.toDto(dt);
     }
 
     @Override
-    public DTResponseDto update(DTRequest dtRequest) {
-        return null;
+    @Transactional
+    public DTResponseDto update(DTRequest dtRequest, Long id) {
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
+        Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
+        Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
+
+        if (!dt.getClub().getId().equals(dtRequest.getIdClub())){
+            Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
+            dt.setClub(club);
+        }
+
+        personaMapper.updateEntity(dt.getPersona(),dtRequest.getPersona(),nacionalidad,status);
+
+        return dtMapper.toDto(dtRepository.saveAndFlush(dt));
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long id) {
 
     }
 }

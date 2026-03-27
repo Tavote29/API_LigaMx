@@ -36,7 +36,7 @@ public class PosicionServiceImpl implements IPosicionService {
     }
 
     @Override
-    public PosicionResponseDto update(PosicionRequestDto request) {
+    public PosicionResponseDto update(PosicionRequestDto request, Short id) {
         return null;
     }
 

@@ -10,11 +10,9 @@ import com.fdf.liga_mx.models.entitys.Estado;
 import com.fdf.liga_mx.repository.EstadioRepository;
 import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,9 +75,9 @@ public class EstadioServiceImpl implements IEstadioService {
 
     @Override
     @Transactional
-    public EstadioResponseDto update(EstadioRequestDto request) {
+    public EstadioResponseDto update(EstadioRequestDto request, Short id) {
 
-        Estadio estadio = estadioRepo.findById(request.getId()).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
+        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
 
         if (!estadio.getNombreEstadio().equals(request.getNombreEstadio())){
             estadio.setNombreEstadio(request.getNombreEstadio());
