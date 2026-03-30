@@ -3,11 +3,8 @@ package com.fdf.liga_mx.models.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -17,9 +14,11 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "CIUDADES")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Ciudad {
     @Id
     @Column(name = "ID_CIUDAD", nullable = false)
+    @EqualsAndHashCode.Include
     private Short id;
 
     @Size(max = 200)

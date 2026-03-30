@@ -44,6 +44,9 @@ public class Jugador {
     @JoinColumn(name = "ID_CLUB", nullable = false)
     private Club idClub;
 
+    @Column(name = "ID_STATUS", nullable = true)
+    private Short status;
+
     @OneToMany(mappedBy = "idJugadorPrimario", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Acontecimiento> acontecimientosPrimario = new LinkedHashSet<>();

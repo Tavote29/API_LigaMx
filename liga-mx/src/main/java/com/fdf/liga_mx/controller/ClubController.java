@@ -3,6 +3,7 @@ package com.fdf.liga_mx.controller;
 import com.fdf.liga_mx.models.dtos.request.ClubRequest;
 import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.services.IClubService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class ClubController {
     }
 
     @PostMapping
-    public ResponseEntity<ClubResponseDto> saveClub(@RequestBody ClubRequest clubRequest) {
+    public ResponseEntity<ClubResponseDto> saveClub(@RequestBody @Valid ClubRequest clubRequest) {
 
         ClubResponseDto clubResponseDto = clubService.save(clubRequest);
 

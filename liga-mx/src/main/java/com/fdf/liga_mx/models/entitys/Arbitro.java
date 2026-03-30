@@ -38,6 +38,9 @@ public class Arbitro {
     @JoinColumn(name = "ID_CATEGORIA", nullable = false)
     private CategoriaArbitro idCategoriaArbitro;
 
+    @Column(name = "ID_STATUS", nullable = true)
+    private Short status;
+
     @OneToMany(mappedBy = "idArbitroCentral")
     private Set<Partido> partidosArbitoCentral = new LinkedHashSet<>();
 

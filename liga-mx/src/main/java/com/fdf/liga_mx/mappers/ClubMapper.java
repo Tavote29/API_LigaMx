@@ -61,4 +61,31 @@ public class ClubMapper {
                 .jugadores(entity.getJugadores().stream().map(j -> jugadorMapper.toDtoSinClub(j)).toList())
                 .build();
     }
+
+    public Club updateEntity(ClubRequest request, Club entity) {
+        if (request == null) {
+            return null;
+        }
+        Estado estado = request.getIdEstado() != null ? Estado.builder().id(request.getIdEstado()).build() : null;
+        Ciudad ciudad = request.getIdCiudad() != null ? Ciudad.builder().id(request.getIdCiudad()).build() : null;
+
+        if (!entity.getNombreClub().equals(request.getNombreClub())) {
+            entity.setNombreClub(request.getNombreClub());
+        }
+        if (!entity.getFechaFundacion().equals(request.getFechaFundacion())) {
+            entity.setFechaFundacion(request.getFechaFundacion());
+
+        }
+        if (!entity.getPropietario().equals(request.getPropietario())) {
+            entity.setPropietario(request.getPropietario());
+        }
+        if (!entity.getIdEstado().equals(estado)) {
+            entity.setIdEstado(estado);
+        }
+        if (!entity.getIdCiudad().equals(ciudad)) {
+            entity.setIdCiudad(ciudad);
+        }
+
+        return entity;
+    }
 }

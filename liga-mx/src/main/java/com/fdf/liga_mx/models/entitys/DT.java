@@ -36,5 +36,6 @@ public class DT {
     @ToString.Exclude
     private Club club;
 
-
+    @Column(name = "ID_STATUS", nullable = true)
+    private Short status;
 }

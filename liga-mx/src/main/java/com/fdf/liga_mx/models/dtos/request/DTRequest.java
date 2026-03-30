@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class DTRequest implements Serializable {
 
 
-
+    private Long NUI_DT;
     private PersonaRequest persona;
-    private short idClub;
+    private Short idClub;
 }

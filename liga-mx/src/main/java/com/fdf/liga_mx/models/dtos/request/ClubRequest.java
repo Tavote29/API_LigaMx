@@ -32,9 +32,9 @@ public class ClubRequest implements Serializable {
     @NotNull(message = "La ciudad no puede ser nula")
     private Short idCiudad;
 
-    @NotNull(message = "El DT no puede ser nulo")
+
     private Long idDt;
 
-    @NotNull(message = "El estadio no puede ser nulo")
+
     private Short idEstadio;
 }

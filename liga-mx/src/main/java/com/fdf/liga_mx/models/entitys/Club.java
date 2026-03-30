@@ -54,6 +54,9 @@ public class Club {
     @JoinColumn(name = "ID_ESTADIO", nullable = false)
     private Estadio idEstadio;
 
+    @Column(name = "ID_STATUS", nullable = true)
+    private Short status;
+
     @OneToMany(mappedBy = "idClub")
     private Set<Jugador> jugadores = new LinkedHashSet<>();
 

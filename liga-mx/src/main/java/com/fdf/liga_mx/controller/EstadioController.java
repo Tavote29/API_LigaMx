@@ -3,6 +3,7 @@ package com.fdf.liga_mx.controller;
 import com.fdf.liga_mx.models.dtos.request.EstadioRequestDto;
 import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.services.IEstadioService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class EstadioController {
     }
 
     @PostMapping
-    public ResponseEntity<EstadioResponseDto> saveEstadio(@RequestBody EstadioRequestDto estadioRequest) {
+    public ResponseEntity<EstadioResponseDto> saveEstadio(@RequestBody @Valid EstadioRequestDto estadioRequest) {
         EstadioResponseDto estadioResponseDto = estadioService.save(estadioRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(estadioResponseDto);
     }

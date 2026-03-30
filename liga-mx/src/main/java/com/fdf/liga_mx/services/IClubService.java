@@ -11,9 +11,9 @@ import java.util.List;
 public interface IClubService extends CrudService<ClubRequest, ClubResponseDto, Club, Short> {
 
 
-    ClubResponseDto changeStadium(EstadioRequestDto estadioRequestDto);
+    ClubResponseDto changeStadium(EstadioRequestDto estadioRequestDto,Short idClub);
 
-    void assignDT(DTRequest dtRequest);
+    void assignDT(DTRequest dtRequest,Short idClub);
 
     List<ClubResponseDto> findByEstadoId(Short id);
 
