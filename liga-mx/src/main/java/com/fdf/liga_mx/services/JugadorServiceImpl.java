@@ -7,8 +7,12 @@ import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.repositories.IPosicionRepository;
 import com.fdf.liga_mx.repository.*;
+import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +68,7 @@ public class JugadorServiceImpl implements IJugadorService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public JugadorResponseDto findDtoById(Long id) {
         Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
         return jugadorMapper.toDto(jugador);
@@ -95,7 +100,15 @@ public class JugadorServiceImpl implements IJugadorService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Page<JugadorResponseDto> searchJugador(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short club) {
+        Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
+        Page<Jugador> jugadorPage = jugadorRepository.searchJugador(pageable,nombre,nacionalidad, club);
+        return jugadorPage.map(j-> jugadorMapper.toDto(j));
     }
 }

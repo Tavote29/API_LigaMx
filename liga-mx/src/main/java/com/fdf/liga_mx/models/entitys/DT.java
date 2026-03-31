@@ -12,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Setter
+@ToString
 @Entity
 @Table(name = "DIRECTORES_TECNICOS")
 public class DT {
@@ -32,7 +33,7 @@ public class DT {
     @JoinColumn(name = "ID_PERSONA", nullable = false)
     private Persona persona;
 
-    @OneToOne(mappedBy = "idDt", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "idDt")
     @ToString.Exclude
     private Club club;
 
