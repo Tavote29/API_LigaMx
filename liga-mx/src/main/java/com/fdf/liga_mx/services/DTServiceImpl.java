@@ -35,7 +35,15 @@ public class DTServiceImpl implements IDTService{
     @Transactional
     public DTResponseDto save( DTRequest dtRequest) {
         Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
+
+        Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
+        Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
+
         Persona persona = personaMapper.toEntity(dtRequest.getPersona());
+        persona.setIdNacionalidad(nacionalidad);
+        persona.setIdStatus(status);
+
+
         DT dt = dtMapper.toEntity(dtRequest);
         dt.setPersona(persona);
         dt.setClub(club);
