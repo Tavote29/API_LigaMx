@@ -55,12 +55,15 @@ public class Club {
     private Estadio idEstadio;
 
     @OneToMany(mappedBy = "idClub")
+    @ToString.Exclude
     private Set<Jugador> jugadores = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idLocal")
+    @ToString.Exclude
     private Set<Partido> partidosLocal = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idVisitante")
+    @ToString.Exclude
     private Set<Partido> partidosVisitante = new LinkedHashSet<>();
 
 

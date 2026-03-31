@@ -32,6 +32,7 @@ public class CategoriaArbitro {
     private String descripcionCategoria;
 
     @OneToMany(mappedBy = "idCategoriaArbitro")
+    @ToString.Exclude
     private Set<Arbitro> arbitros = new LinkedHashSet<>();
 
 

@@ -58,15 +58,16 @@ public class Persona {
     @JoinColumn(name = "ID_NACIONALIDAD", nullable = false)
     private Nacionalidad idNacionalidad;
 
-    @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "persona")
     @ToString.Exclude
     private Set<Arbitro> arbitros = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "persona")
     @ToString.Exclude
     private Set<DT> DTS = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idPersona")
+    @ToString.Exclude
     private Set<Jugador> jugadores = new LinkedHashSet<>();
 
 

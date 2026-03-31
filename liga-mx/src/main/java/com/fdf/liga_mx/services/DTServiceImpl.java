@@ -5,12 +5,14 @@ import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
-import com.fdf.liga_mx.models.repositories.INacionalidadRepository;
-import com.fdf.liga_mx.models.repositories.IStatusRepository;
 import com.fdf.liga_mx.repository.ClubRepository;
 import com.fdf.liga_mx.repository.DTRepository;
+import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,11 +73,12 @@ public class DTServiceImpl implements IDTService{
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
 
+        /*
         if (!dt.getClub().getId().equals(dtRequest.getIdClub())){
             Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
             dt.setClub(club);
         }
-
+        */
         personaMapper.updateEntity(dt.getPersona(),dtRequest.getPersona(),nacionalidad,status);
 
         return dtMapper.toDto(dtRepository.saveAndFlush(dt));
@@ -84,5 +87,12 @@ public class DTServiceImpl implements IDTService{
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Page<DTResponseDto> searchDT(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short club) {
+        Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
+        Page<DT> dtPage = dtRepository.searchDT(pageable,nombre,nacionalidad,club);
+        return dtPage.map(dt-> dtMapper.toDto(dt));
     }
 }

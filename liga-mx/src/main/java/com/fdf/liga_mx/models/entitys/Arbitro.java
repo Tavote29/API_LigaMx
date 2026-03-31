@@ -2,10 +2,7 @@ package com.fdf.liga_mx.models.entitys;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -14,7 +11,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "ARBITROS")
@@ -39,15 +37,19 @@ public class Arbitro {
     private CategoriaArbitro idCategoriaArbitro;
 
     @OneToMany(mappedBy = "idArbitroCentral")
+    @ToString.Exclude
     private Set<Partido> partidosArbitoCentral = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idCuartoArbitro")
+    @ToString.Exclude
     private Set<Partido> partidosCuartoArbitro = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idArbitroAsistente1")
+    @ToString.Exclude
     private Set<Partido> partidosAsistente1 = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idArbitroAsistente2")
+    @ToString.Exclude
     private Set<Partido> partidosAsistente2 = new LinkedHashSet<>();
 
 
