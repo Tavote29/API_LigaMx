@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.models.entitys;
 
+import com.fdf.liga_mx.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,31 +26,30 @@ public class Club {
     @Column(name = "NOMBRE_CLUB", nullable = false)
     private String nombreClub;
 
-    @NotNull
+
     @Column(name = "FECHA_FUNDACION", nullable = false)
     private LocalDate fechaFundacion;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "PROPIETARIO", nullable = false)
     private String propietario;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     private Estado idEstado;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_CIUDAD", nullable = false)
     private Ciudad idCiudad;
 
-    @NotNull
+
     @OneToOne
     @JoinColumn(name = "ID_DT", nullable = false,unique = true)
     private DT idDt;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ESTADIO", nullable = false)
     private Estadio idEstadio;
@@ -65,6 +65,12 @@ public class Club {
 
     @OneToMany(mappedBy = "idVisitante")
     private Set<Partido> partidosVisitante = new LinkedHashSet<>();
+
+    @PrePersist
+    public void prePersist(){
+        this.status = Status.ACTIVO.getCodigo();
+    }
+
 
 
 }

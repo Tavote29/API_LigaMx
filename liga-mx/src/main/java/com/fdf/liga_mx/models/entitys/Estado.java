@@ -22,7 +22,6 @@ public class Estado {
     private Short id;
 
     @Size(max = 150)
-    @NotNull
     @Column(name = "NOMBRE_ESTADO", nullable = false, length = 150)
     private String nombreEstado;
 

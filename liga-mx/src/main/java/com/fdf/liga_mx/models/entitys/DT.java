@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.models.entitys;
 
+import com.fdf.liga_mx.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -32,10 +33,15 @@ public class DT {
     @JoinColumn(name = "ID_PERSONA", nullable = false)
     private Persona persona;
 
-    @OneToOne(mappedBy = "idDt", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "idDt", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Club club;
 
     @Column(name = "ID_STATUS", nullable = true)
     private Short status;
+
+    @PrePersist
+    public void prePersist(){
+        this.status = Status.ACTIVO.getCodigo();
+    }
 }

@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.models.entitys;
 
+import com.fdf.liga_mx.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -52,6 +53,11 @@ public class Arbitro {
 
     @OneToMany(mappedBy = "idArbitroAsistente2")
     private Set<Partido> partidosAsistente2 = new LinkedHashSet<>();
+
+    @PrePersist
+    public void prePersist(){
+        this.status = Status.ACTIVO.getCodigo();
+    }
 
 
 }

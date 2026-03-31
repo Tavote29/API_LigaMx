@@ -54,11 +54,9 @@ public class ClubMapper {
                 .nombreClub(entity.getNombreClub())
                 .fechaFundacion(entity.getFechaFundacion())
                 .propietario(entity.getPropietario())
-                .idEstado(estadoMapper.toDto(entity.getIdEstado()))
                 .idCiudad(ciudadMapper.toDto(entity.getIdCiudad()))
                 .idDt(dtMapper.toDto(entity.getIdDt()))
                 .idEstadio(estadioMapper.toDto(entity.getIdEstadio()))
-                .jugadores(entity.getJugadores().stream().map(j -> jugadorMapper.toDtoSinClub(j)).toList())
                 .build();
     }
 
@@ -69,22 +67,24 @@ public class ClubMapper {
         Estado estado = request.getIdEstado() != null ? Estado.builder().id(request.getIdEstado()).build() : null;
         Ciudad ciudad = request.getIdCiudad() != null ? Ciudad.builder().id(request.getIdCiudad()).build() : null;
 
-        if (!entity.getNombreClub().equals(request.getNombreClub())) {
+        if (request.getNombreClub()!=null && !entity.getNombreClub().equals(request.getNombreClub())) {
             entity.setNombreClub(request.getNombreClub());
         }
-        if (!entity.getFechaFundacion().equals(request.getFechaFundacion())) {
+        if (request.getFechaFundacion()!=null && !entity.getFechaFundacion().equals(request.getFechaFundacion())) {
             entity.setFechaFundacion(request.getFechaFundacion());
 
         }
-        if (!entity.getPropietario().equals(request.getPropietario())) {
+        if (request.getPropietario()!=null && !entity.getPropietario().equals(request.getPropietario())) {
             entity.setPropietario(request.getPropietario());
         }
-        if (!entity.getIdEstado().equals(estado)) {
+        if (estado != null && !entity.getIdEstado().equals(estado)) {
             entity.setIdEstado(estado);
         }
-        if (!entity.getIdCiudad().equals(ciudad)) {
+        if (ciudad != null && !entity.getIdCiudad().equals(ciudad)) {
             entity.setIdCiudad(ciudad);
         }
+
+
 
         return entity;
     }

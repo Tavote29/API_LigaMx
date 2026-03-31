@@ -9,10 +9,12 @@ import com.fdf.liga_mx.models.repositories.INacionalidadRepository;
 import com.fdf.liga_mx.models.repositories.IStatusRepository;
 import com.fdf.liga_mx.repository.ClubRepository;
 import com.fdf.liga_mx.repository.DTRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,7 +32,7 @@ public class DTServiceImpl implements IDTService{
 
     @Override
     @Transactional
-    public DTResponseDto save(DTRequest dtRequest) {
+    public DTResponseDto save( DTRequest dtRequest) {
         Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
         Persona persona = personaMapper.toEntity(dtRequest.getPersona());
         DT dt = dtMapper.toEntity(dtRequest);
@@ -72,7 +74,7 @@ public class DTServiceImpl implements IDTService{
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
 
         if (!dt.getClub().getId().equals(dtRequest.getIdClub())){
-            Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
+            Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
             dt.setClub(club);
         }
 

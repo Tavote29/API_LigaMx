@@ -40,7 +40,6 @@ public class EstadioMapper {
                 .nombreEstadio(entity.getNombreEstadio())
                 .direccion(entity.getDireccion())
                 .capacidad(entity.getCapacidad())
-                .idEstado(estadoMapper.toDto(entity.getIdEstado()))
                 .idCiudad(ciudadMapper.toDto(entity.getIdCiudad()))
                 .build();
     }

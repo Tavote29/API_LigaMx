@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.models.entitys;
 
+import com.fdf.liga_mx.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -47,14 +48,17 @@ public class Jugador {
     @Column(name = "ID_STATUS", nullable = true)
     private Short status;
 
-    @OneToMany(mappedBy = "idJugadorPrimario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idJugadorPrimario", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Acontecimiento> acontecimientosPrimario = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idJugadorSecundario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idJugadorSecundario", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Acontecimiento> acontecimientosSecundario = new LinkedHashSet<>();
 
-
+    @PrePersist
+    public void prePersist(){
+        this.status = Status.ACTIVO.getCodigo();
+    }
 
 }

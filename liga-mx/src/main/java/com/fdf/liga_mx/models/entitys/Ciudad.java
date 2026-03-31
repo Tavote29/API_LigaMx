@@ -22,12 +22,10 @@ public class Ciudad {
     private Short id;
 
     @Size(max = 200)
-    @NotNull
     @Column(name = "NOMBRE_CIUDAD", nullable = false, length = 200)
     private String nombreCiudad;
 
     @ToString.Exclude
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     private Estado idEstado;
