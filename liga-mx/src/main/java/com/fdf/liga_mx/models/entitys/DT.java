@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Setter
+@ToString
 @Entity
 @Table(name = "DIRECTORES_TECNICOS")
 public class DT {

@@ -67,6 +67,7 @@ public class Persona {
     private Set<DT> DTS = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idPersona")
+    @ToString.Exclude
     private Set<Jugador> jugadores = new LinkedHashSet<>();
 
 

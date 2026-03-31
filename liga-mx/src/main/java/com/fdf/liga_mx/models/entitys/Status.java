@@ -3,17 +3,17 @@ package com.fdf.liga_mx.models.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "STATUS")
 public class Status {
@@ -27,9 +27,11 @@ public class Status {
     private String descripcionStatus;
 
     @OneToMany(mappedBy = "idStatus")
+    @ToString.Exclude
     private Set<Partido> partidos = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idStatus")
+    @ToString.Exclude
     private Set<Persona> personas = new LinkedHashSet<>();
 
 
