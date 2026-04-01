@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public interface IClubRepository extends JpaRepository<Club, Short> {
 
@@ -13,5 +14,7 @@ public interface IClubRepository extends JpaRepository<Club, Short> {
 
     List<Club> findByIdEstadoId(Short estadoId);
 
-    
+    Optional<Club> findByIdAndStatusIs(Short id, Short status);
+
+
 }

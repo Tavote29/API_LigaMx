@@ -5,6 +5,8 @@ import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.entitys.Status;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.ClubRepository;
 import com.fdf.liga_mx.repository.DTRepository;
 import com.fdf.liga_mx.util.Utils;
@@ -15,7 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -65,7 +67,7 @@ public class DTServiceImpl implements IDTService{
     @Override
     @Transactional(readOnly = true)
     public DT findById(Long id) {
-        return dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
+        return dtRepository.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
     }
 
     @Override

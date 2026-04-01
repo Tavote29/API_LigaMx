@@ -1,8 +1,7 @@
 package com.fdf.liga_mx.models.entitys;
 
-import com.fdf.liga_mx.models.enums.Status;
+import com.fdf.liga_mx.models.enums.Estados;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -71,7 +70,7 @@ public class Club {
 
     @PrePersist
     public void prePersist(){
-        this.status = Status.ACTIVO.getCodigo();
+        this.status = Estados.ACTIVO.getCodigo();
     }
 
 

@@ -29,4 +29,40 @@ public interface JugadorRepository extends JpaRepository<Jugador,Long> {
                                 @Param("nacionalidad") Integer nacionalidad,
                                 @Param("clubId") Short clubId
     );
+
+    @NativeQuery(value = """
+            with partidos_torneo as (
+            select
+                p.ID_PARTIDO
+            from
+                partidos p
+            where
+                p.ID_TORNEO = :torneoId
+            ),
+            acont_jugador as (
+            select
+                a.ID_PARTIDO,
+                a.ID_TIPO
+            from
+                ACONTECIMIENTOS a
+            where
+                a.ID_JUGADOR_PRIMARIO = :jugadorId
+            )
+            
+            
+            
+            select
+                SUM(CASE WHEN ta.DESCRIPCION_TIPO = 'TARJETA AMARILLA' THEN 1 ELSE 0 END) AS tarjetas_amarillas,
+                SUM(CASE WHEN ta.DESCRIPCION_TIPO = 'TARJETA ROJA' THEN 1 ELSE 0 END) as tarjetas_rojas,
+                SUM(CASE WHEN ta.DESCRIPCION_TIPO in ('TARJETA AMARILLA', 'TARJETA ROJA', 'FALTA') THEN 1 ELSE 0 END) as faltas_cometidas
+            from
+                acont_jugador aj
+            inner join TIPOS_ACONTECIMIENTOS ta on
+                aj.ID_TIPO = ta.ID_TIPO
+            inner join partidos_torneo pt on
+                aj.ID_PARTIDO = pt.ID_PARTIDO
+            where
+                ta.DESCRIPCION_TIPO in ('TARJETA AMARILLA', 'TARJETA ROJA', 'FALTA');
+""")
+    Object[] obtenerTarjetasJugadorPorTorneoId(@Param("jugadorId") Long jugadorId,@Param("torneoId") Long torneoId);
 }

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.NativeQuery;
 import com.fdf.liga_mx.models.entitys.DT;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface DTRepository extends JpaRepository<DT, Long> {
 
     String QUERY = """
@@ -28,4 +30,6 @@ public interface DTRepository extends JpaRepository<DT, Long> {
                                 @Param("nacionalidad") Integer nacionalidad,
                                 @Param("club") Short club
     );
+
+    Optional<DT> findByIdAndStatusIs(Long id, Short status);
 }

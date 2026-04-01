@@ -21,7 +21,7 @@ import java.util.UUID;
 @Table(name = "ACONTECIMIENTOS")
 public class Acontecimiento {
     @Id
-    @Column(name = "ID_ACONTECIMEINTO", nullable = false)
+    @Column(name = "ID_ACONTECIMIENTO", nullable = false)
     private UUID id;
 
     @NotNull

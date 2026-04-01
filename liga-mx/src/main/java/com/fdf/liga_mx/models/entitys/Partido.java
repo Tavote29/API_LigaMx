@@ -69,4 +69,9 @@ public class Partido {
     private Set<Acontecimiento> acontecimientos = new LinkedHashSet<>();
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TORNEO", nullable = true)
+    private Torneo idTorneo;
+
+
 }

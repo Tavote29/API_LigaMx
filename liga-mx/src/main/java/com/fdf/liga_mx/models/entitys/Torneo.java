@@ -1,0 +1,44 @@
+package com.fdf.liga_mx.models.entitys;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Nationalized;
+
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "TORNEOS")
+public class Torneo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_TORNEO", nullable = false)
+    private Long id;
+
+    @Size(max = 100)
+    @Nationalized
+    @Column(name = "NOMBRE_TORNEO", length = 100)
+    private String nombreTorneo;
+
+    @NotNull
+    @Column(name = "FECHA_INICIO", nullable = false)
+    private LocalDate fechaInicio;
+
+    @NotNull
+    @Column(name = "FECHA_FIN", nullable = false)
+    private LocalDate fechaFin;
+
+    @Column(name = "STATUS")
+    private Short status;
+
+    @OneToMany(mappedBy = "idTorneo")
+    private Set<Partido> partidos = new LinkedHashSet<>();
+
+
+}
