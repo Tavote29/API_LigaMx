@@ -2,6 +2,7 @@ package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.JugadorMapper;
 import com.fdf.liga_mx.mappers.PersonaMapper;
+import com.fdf.liga_mx.models.dtos.TarjetasResumen;
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
@@ -118,14 +119,13 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional(readOnly = true)
     public Map<String, Integer> obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId) {
 
-        Object[] tarjetasJugador = jugadorRepository.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId);
+        TarjetasResumen resumen = jugadorRepository.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId);
 
         Map<String, Integer> tarjetas = new HashMap<>();
 
-        tarjetas.put("tarjetas_amarillas", (Integer) tarjetasJugador[0]);
-        tarjetas.put("tarjetas_rojas", (Integer) tarjetasJugador[1]);
-        tarjetas.put("faltas_cometidas", (Integer) tarjetasJugador[2]);
-
+        tarjetas.put("tarjetas_amarillas", resumen.getTarjetas_amarillas() != null ? resumen.getTarjetas_amarillas() : 0);
+        tarjetas.put("tarjetas_rojas", resumen.getTarjetas_rojas() != null ? resumen.getTarjetas_rojas() : 0);
+        tarjetas.put("faltas_cometidas", resumen.getFaltas_cometidas() != null ? resumen.getFaltas_cometidas() : 0);
 
         return tarjetas;
     }

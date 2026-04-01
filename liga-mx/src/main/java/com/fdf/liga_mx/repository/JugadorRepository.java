@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.repository;
 
+import com.fdf.liga_mx.models.dtos.TarjetasResumen;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -64,5 +65,5 @@ public interface JugadorRepository extends JpaRepository<Jugador,Long> {
             where
                 ta.DESCRIPCION_TIPO in ('TARJETA AMARILLA', 'TARJETA ROJA', 'FALTA');
 """)
-    Object[] obtenerTarjetasJugadorPorTorneoId(@Param("jugadorId") Long jugadorId,@Param("torneoId") Long torneoId);
+    TarjetasResumen obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId);
 }
