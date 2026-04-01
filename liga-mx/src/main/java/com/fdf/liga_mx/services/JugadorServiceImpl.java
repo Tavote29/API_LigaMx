@@ -16,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Transactional
@@ -110,5 +112,21 @@ public class JugadorServiceImpl implements IJugadorService{
         Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
         Page<Jugador> jugadorPage = jugadorRepository.searchJugador(pageable,nombre,nacionalidad, club);
         return jugadorPage.map(j-> jugadorMapper.toDto(j));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Integer> obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId) {
+
+        Object[] tarjetasJugador = jugadorRepository.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId);
+
+        Map<String, Integer> tarjetas = new HashMap<>();
+
+        tarjetas.put("tarjetas_amarillas", (Integer) tarjetasJugador[0]);
+        tarjetas.put("tarjetas_rojas", (Integer) tarjetasJugador[1]);
+        tarjetas.put("faltas_cometidas", (Integer) tarjetasJugador[2]);
+
+
+        return tarjetas;
     }
 }

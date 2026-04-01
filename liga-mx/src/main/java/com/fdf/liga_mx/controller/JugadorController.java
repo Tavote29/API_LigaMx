@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/jugador")
@@ -180,5 +181,36 @@ public class JugadorController {
             ) {
         Page<JugadorResponseDto> response = jugadorService.searchJugador(page, size, sorts, nombre, nacionalidad, clubId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{jugadorId}/tarjetas/torneo/{torneoId}")
+    @Operation(
+        summary = "Obtener tarjetas y faltas de un jugador por torneo",
+        description = "Retorna la cantidad de tarjetas amarillas, rojas y faltas cometidas por un jugador en un torneo específico"
+    )
+    @SwaggerResponses.CommonApiResponses
+    @ApiResponse(
+        responseCode = "200",
+        description = "Estadísticas del jugador obtenidas exitosamente",
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = Map.class)
+        )
+    )
+    public ResponseEntity<Map<String, Integer>> obtenerTarjetasJugadorPorTorneoId(
+            @Parameter(
+                description = "ID del jugador",
+                required = true,
+                example = "1"
+            )
+            @PathVariable Long jugadorId,
+            @Parameter(
+                description = "ID del torneo",
+                required = true,
+                example = "1"
+            )
+            @PathVariable Long torneoId
+            ) {
+        return ResponseEntity.ok(jugadorService.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId));
     }
 }

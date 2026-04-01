@@ -156,9 +156,9 @@ public class DTController {
             @Parameter(
                 description = "Criterios de ordenamiento en formato 'campo,dirección;'",
                 required = false,
-                example = "nombre_jugador,asc;"
+                example = "nombre,asc;"
             )
-            @RequestParam(required = false, defaultValue = "nombre_jugador,asc;") String sorts,
+            @RequestParam(required = false, defaultValue = "nombre,asc;") String sorts,
             @Parameter(
                 description = "Nombre para filtrar",
                 required = false,

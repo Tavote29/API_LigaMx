@@ -34,7 +34,7 @@ public class ArbitroController {
     )
     @SwaggerResponses.CreateApiResponses
     @ApiResponse(
-        responseCode = "200",
+        responseCode = "201",
         description = "Árbitro creado exitosamente",
         content = @Content(
             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -48,7 +48,8 @@ public class ArbitroController {
                 schema = @Schema(implementation = ArbitroRequest.class)
             )
             @RequestBody ArbitroRequest arbitroRequest){
-        return ResponseEntity.ok(arbitroService.save(arbitroRequest));
+        ArbitroResponseDto arbitroResponseDto = arbitroService.save(arbitroRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(arbitroResponseDto);
     }
 
     @GetMapping
@@ -138,7 +139,7 @@ public class ArbitroController {
             schema = @Schema(implementation = Page.class)
         )
     )
-    public ResponseEntity<Page<ArbitroResponseDto>> searchDT(
+    public ResponseEntity<Page<ArbitroResponseDto>> searchArbitro(
             @Parameter(
                 description = "Número de página (0-indexed)",
                 required = false,
@@ -154,9 +155,9 @@ public class ArbitroController {
             @Parameter(
                 description = "Criterios de ordenamiento en formato 'campo,dirección;'",
                 required = false,
-                example = "nombre_jugador,asc;"
+                example = "nombre,asc;"
             )
-            @RequestParam(required = false, defaultValue = "nombre_jugador,asc;") String sorts,
+            @RequestParam(required = false, defaultValue = "nombre,asc;") String sorts,
             @Parameter(
                 description = "Nombre para filtrar",
                 required = false,
