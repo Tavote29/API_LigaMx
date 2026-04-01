@@ -10,10 +10,9 @@ import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.repository.IEstadoRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.fdf.liga_mx.models.enums.Status;
+import com.fdf.liga_mx.models.enums.Estados;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class ClubServiceImpl implements IClubService{
     @Transactional
     public ClubResponseDto changeStadium(EstadioRequestDto estadioRequestDto,Short idClub) {
 
-        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
 
         if (estadioRequestDto.getId() != null) {
 
@@ -70,7 +69,7 @@ public class ClubServiceImpl implements IClubService{
 
             DT dt = dtService.findById(dtRequest.getNUI_DT());
 
-            if (Status.fromCode(dt.getStatus()) != Status.ACTIVO){
+            if (Estados.fromCode(dt.getStatus()) != Estados.ACTIVO){
                 throw new IllegalStateException("El status del DT no se encuentra en activo");
             }
 

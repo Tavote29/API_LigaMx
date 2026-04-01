@@ -1,6 +1,6 @@
 package com.fdf.liga_mx.models.enums;
 
-public enum Status {
+public enum Estados {
 
     ACTIVO((short) 1),
     SUSPENDIDO((short) 2),
@@ -9,7 +9,7 @@ public enum Status {
 
     private final Short codigo;
 
-    Status(Short codigo) {
+    Estados(Short codigo) {
         this.codigo = codigo;
     }
 
@@ -17,10 +17,10 @@ public enum Status {
         return codigo;
     }
 
-    public static Status fromCode(Short code) {
-        for (Status status : Status.values()) {
-            if (status.getCodigo().equals(code)) {
-                return status;
+    public static Estados fromCode(Short code) {
+        for (Estados estados : Estados.values()) {
+            if (estados.getCodigo().equals(code)) {
+                return estados;
             }
         }
         throw new IllegalArgumentException("Código de estado no válido: " + code);
