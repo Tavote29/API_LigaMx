@@ -2,7 +2,11 @@ package com.fdf.liga_mx.util;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +48,33 @@ public class Utils {
 
         return sort;
     }
+
+    public boolean isValidImage(MultipartFile file) {
+        try {
+            if (!isImage(file)) {
+                return false;
+            }
+
+            if (!hasImageExtension(file)) {
+                return false;
+            }
+
+            BufferedImage image = ImageIO.read(file.getInputStream());
+            return image != null;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public boolean hasImageExtension(MultipartFile file) {
+        String filename = file.getOriginalFilename();
+        return filename != null && filename.matches("(?i).*\\.(png|jpg|jpeg|gif|bmp)$");
+    }
+
+    public boolean isImage(MultipartFile file) {
+        String contentType = file.getContentType();
+        return contentType != null && contentType.startsWith("image/");
+    }
+
 
 }

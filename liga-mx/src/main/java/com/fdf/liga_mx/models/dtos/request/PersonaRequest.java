@@ -35,7 +35,7 @@ public class PersonaRequest implements Serializable {
     @NotNull(message = "El peso no puede ser nulo")
     private BigDecimal peso;
 
-    @NotNull(message = "El status no puede ser nulo")
+
     private Short idStatus;
 
     @NotNull(message = "La nacionalidad no puede ser nula")
