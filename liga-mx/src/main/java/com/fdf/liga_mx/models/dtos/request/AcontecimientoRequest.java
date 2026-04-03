@@ -20,10 +20,9 @@ public class AcontecimientoRequest implements Serializable {
     private Short idTipo;
 
     @NotBlank(message = "El minuto no puede estar vacío")
-    @Size(max = 10)
     private String minuto;
 
-    @NotNull(message = "El jugador primario no puede ser nulo")
+
     private Long idJugadorPrimario;
 
     private Long idJugadorSecundario;

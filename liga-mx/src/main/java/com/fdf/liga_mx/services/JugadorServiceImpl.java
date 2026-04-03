@@ -2,7 +2,8 @@ package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.JugadorMapper;
 import com.fdf.liga_mx.mappers.PersonaMapper;
-import com.fdf.liga_mx.models.dtos.TarjetasResumen;
+import com.fdf.liga_mx.models.dtos.projection.TarjetasResumenPorTorneo;
+import com.fdf.liga_mx.models.dtos.projection.getTarjetasPorPartido;
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
@@ -17,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Transactional
 @Service
@@ -119,7 +117,7 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional(readOnly = true)
     public Map<String, Integer> obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId) {
 
-        TarjetasResumen resumen = jugadorRepository.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId);
+        TarjetasResumenPorTorneo resumen = jugadorRepository.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId);
 
         Map<String, Integer> tarjetas = new HashMap<>();
 
@@ -128,5 +126,23 @@ public class JugadorServiceImpl implements IJugadorService{
         tarjetas.put("faltas_cometidas", resumen.getFaltas_cometidas() != null ? resumen.getFaltas_cometidas() : 0);
 
         return tarjetas;
+    }
+
+    @Override
+    @Transactional
+    public void updateTarjetasByPartidoId(UUID id) {
+
+        List<getTarjetasPorPartido> tarjetasPorPartido = jugadorRepository.obtenerTarjetasPorPartidoId(id.toString());
+
+        for (getTarjetasPorPartido tarjetas : tarjetasPorPartido) {
+            Jugador jugador = jugadorRepository.findById(tarjetas.getId_jugador()).orElseThrow(() ->  new NoSuchElementException("No se encontro el jugador"));
+
+            jugador.setTarjetasAmarillas((short) (jugador.getTarjetasAmarillas()+tarjetas.getTarjetas_amarillas()));
+            jugador.setTarjetasRojas((short) (jugador.getTarjetasRojas()+tarjetas.getTarjetas_rojas()));
+
+            jugadorRepository.save(jugador);
+
+        }
+
     }
 }

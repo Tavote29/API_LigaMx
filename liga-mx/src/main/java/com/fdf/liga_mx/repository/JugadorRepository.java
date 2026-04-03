@@ -1,6 +1,7 @@
 package com.fdf.liga_mx.repository;
 
-import com.fdf.liga_mx.models.dtos.TarjetasResumen;
+import com.fdf.liga_mx.models.dtos.projection.TarjetasResumenPorTorneo;
+import com.fdf.liga_mx.models.dtos.projection.getTarjetasPorPartido;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.NativeQuery;
 
 import com.fdf.liga_mx.models.entitys.Jugador;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 
 public interface JugadorRepository extends JpaRepository<Jugador,Long> {
@@ -65,5 +68,33 @@ public interface JugadorRepository extends JpaRepository<Jugador,Long> {
             where
                 ta.DESCRIPCION_TIPO in ('TARJETA AMARILLA', 'TARJETA ROJA', 'FALTA');
 """)
-    TarjetasResumen obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId);
+    TarjetasResumenPorTorneo obtenerTarjetasJugadorPorTorneoId(Long jugadorId, Long torneoId);
+
+
+    @NativeQuery(value = """
+
+                    WITH acont_partido
+             AS (SELECT a.id_partido,
+                        a.id_jugador_primario,
+                        a.id_tipo
+                 FROM   acontecimientos a
+                 WHERE  a.id_partido = :partidoId)
+        SELECT ap.id_jugador_primario as id_jugador,
+               Sum(CASE
+                     WHEN ta.descripcion_tipo = 'TARJETA AMARILLA' THEN 1
+                     ELSE 0
+                   END) AS tarjetas_amarillas,
+               Sum(CASE
+                     WHEN ta.descripcion_tipo = 'TARJETA ROJA' THEN 1
+                     ELSE 0
+                   END) AS tarjetas_rojas
+        FROM   acont_partido ap
+               INNER JOIN tipos_acontecimientos ta
+                       ON ap.id_tipo = ta.id_tipo
+        WHERE  ta.descripcion_tipo IN ( 'TARJETA AMARILLA', 'TARJETA ROJA' )
+        GROUP  BY ap.id_jugador_primario
+            
+""")
+    List<getTarjetasPorPartido> obtenerTarjetasPorPartidoId(@Param("partidoId") String partidoId);
+
 }
