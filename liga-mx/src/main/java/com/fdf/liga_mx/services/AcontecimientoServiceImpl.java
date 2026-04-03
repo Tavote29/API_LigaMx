@@ -8,6 +8,7 @@ import com.fdf.liga_mx.models.dtos.response.AcontecimientoResponseDto;
 import com.fdf.liga_mx.models.dtos.response.TiposAcontecimientoResponseDto;
 import com.fdf.liga_mx.models.entitys.Acontecimiento;
 import com.fdf.liga_mx.models.entitys.Partido;
+import com.fdf.liga_mx.models.entitys.TiposAcontecimiento;
 import com.fdf.liga_mx.repository.AcontecimientoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,7 +43,13 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
 
         Partido partido = partidoService.findById(request.getIdPartido());
 
-        TiposAcontecimientoResponseDto tipoAcontDto = catalogosService.findTipoAcontecimientoById(request.getIdTipo());
+        if (partido.getIdStatus().getDescripcionStatus().equals("FINALIZADO"))
+            throw new IllegalStateException("Partido finalizado");
+
+
+
+
+        TiposAcontecimiento tipoAcont = catalogosService.findTipoAcontecimientoEntityById(request.getIdTipo());
 
         if (acontecimiento.getIdJugadorPrimario()!=null)
             acontecimiento.setIdJugadorPrimario(jugadorService.findById(acontecimiento.getIdJugadorPrimario().getId()));
@@ -51,11 +58,12 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
             acontecimiento.setIdJugadorSecundario(jugadorService.findById(acontecimiento.getIdJugadorSecundario().getId()));
 
 
-
+        acontecimiento.setIdTipo(tipoAcont);
+        acontecimiento.setIdPartido(partido);
 
         Acontecimiento savedAcontecimiento = acontecimientoRepo.saveAndFlush(acontecimiento);
 
-        if (savedAcontecimiento.getIdTipo().getDescripcionTipo().equals("FIN_PARTIDO"))
+        if ("FIN_PARTIDO".equals(tipoAcont.getDescripcionTipo()))
             eventPublisher.publishEvent(new PartidoFinalizadoEvent(savedAcontecimiento.getIdPartido().getId()));
 
 

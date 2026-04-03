@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.UUID;
 
 @Getter
@@ -21,6 +23,8 @@ import java.util.UUID;
 @Table(name = "ACONTECIMIENTOS")
 public class Acontecimiento {
     @Id
+    @ColumnDefault("newsequentialid()")
+    @org.hibernate.annotations.UuidGenerator(style = org.hibernate.annotations.UuidGenerator.Style.TIME)
     @Column(name = "ID_ACONTECIMIENTO", nullable = false)
     private UUID id;
 
@@ -30,20 +34,19 @@ public class Acontecimiento {
     private TiposAcontecimiento idTipo;
 
     @Size(max = 10)
-    @NotNull
     @Column(name = "MINUTO", nullable = false, length = 10)
     private String minuto;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_JUGADOR_PRIMARIO", nullable = false)
+    @JoinColumn(name = "ID_JUGADOR_PRIMARIO", nullable = true)
     private Jugador idJugadorPrimario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_JUGADOR_SECUNDARIO")
+    @JoinColumn(name = "ID_JUGADOR_SECUNDARIO", nullable = true)
     private Jugador idJugadorSecundario;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_PARTIDO", nullable = false)
     private Partido idPartido;

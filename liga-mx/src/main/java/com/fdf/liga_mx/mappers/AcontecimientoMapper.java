@@ -40,8 +40,8 @@ public class AcontecimientoMapper {
                 .id(entity.getId())
                 .idTipo(tiposAcontecimientoMapper.toDto(entity.getIdTipo()))
                 .minuto(entity.getMinuto())
-                .idJugadorPrimario(jugadorMapper.toDto(entity.getIdJugadorPrimario()))
-                .idJugadorSecundario(jugadorMapper.toDto(entity.getIdJugadorSecundario()))
+                .idJugadorPrimario(jugadorMapper.toDtoSinClub(entity.getIdJugadorPrimario()))
+                .idJugadorSecundario(jugadorMapper.toDtoSinClub(entity.getIdJugadorSecundario()))
                 .idPartido(partidoMapper.toDto(entity.getIdPartido()))
                 .build();
     }
