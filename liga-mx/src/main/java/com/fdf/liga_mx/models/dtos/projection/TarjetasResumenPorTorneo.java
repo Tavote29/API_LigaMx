@@ -1,6 +1,6 @@
-package com.fdf.liga_mx.models.dtos;
+package com.fdf.liga_mx.models.dtos.projection;
 
-public interface TarjetasResumen {
+public interface TarjetasResumenPorTorneo {
     Integer getTarjetas_amarillas();
     Integer getTarjetas_rojas();
     Integer getFaltas_cometidas();
