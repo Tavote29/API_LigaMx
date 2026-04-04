@@ -79,12 +79,14 @@ public class PartidoServiceImpl implements IPartidoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PartidoResponseDto findDtoById(UUID id) {
         Partido partido = partidoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el partido"));
         return partidoMapper.toDto(partido);
     }
 
     @Override
+    @Transactional
     public PartidoResponseDto update(PartidoRequest request, UUID id) {
         Partido partido = partidoRepo.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el partido"));
         if (!partido.getIdEstadio().getId().equals(request.getIdEstadio())){
