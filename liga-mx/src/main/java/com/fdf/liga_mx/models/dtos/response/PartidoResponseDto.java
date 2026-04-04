@@ -18,4 +18,5 @@ public class PartidoResponseDto {
     private ArbitroResponseDto idArbitroAsistente2;
     private Instant fecha;
     private StatusResponseDto idStatus;
+    private TorneoResponseDto idTorneo;
 }

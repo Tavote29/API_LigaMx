@@ -40,4 +40,6 @@ public class PartidoRequest implements Serializable {
 
     @NotNull(message = "El status no puede ser nulo")
     private Short idStatus;
+
+    private Long idTorneo;
 }

@@ -3,10 +3,10 @@ package com.fdf.liga_mx.models.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,6 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "TORNEOS")
 public class Torneo {
     @Id
@@ -38,6 +42,7 @@ public class Torneo {
     private Short status;
 
     @OneToMany(mappedBy = "idTorneo")
+    @ToString.Exclude
     private Set<Partido> partidos = new LinkedHashSet<>();
 
 
