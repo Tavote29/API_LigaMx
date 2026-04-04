@@ -55,6 +55,6 @@ public interface ICatalogosService {
 
     TiposAcontecimiento findTipoAcontecimientoEntityById(Short id);
 
-
+    Torneo findTorneoEntityById(Long id);
 
 }

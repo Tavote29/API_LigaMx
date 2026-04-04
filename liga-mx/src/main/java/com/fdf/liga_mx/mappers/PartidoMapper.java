@@ -14,6 +14,7 @@ public class PartidoMapper {
     private final EstadioMapper estadioMapper;
     private final ArbitroMapper arbitroMapper;
     private final StatusMapper statusMapper;
+    private final TorneoMapper torneoMapper;
 
     public Partido toEntity(PartidoRequest request) {
         if (request == null) {
@@ -27,6 +28,7 @@ public class PartidoMapper {
         Arbitro asis1 = request.getIdArbitroAsistente1() != null ? Arbitro.builder().id(request.getIdArbitroAsistente1()).build() : null;
         Arbitro asis2 = request.getIdArbitroAsistente2() != null ? Arbitro.builder().id(request.getIdArbitroAsistente2()).build() : null;
         Status status = request.getIdStatus() != null ? Status.builder().id(request.getIdStatus()).build() : null;
+        Torneo torneo = request.getIdTorneo() != null ? Torneo.builder().id(request.getIdTorneo()).build() : null;
 
         return Partido.builder()
                 .idLocal(local)
@@ -38,6 +40,7 @@ public class PartidoMapper {
                 .idArbitroAsistente2(asis2)
                 .fecha(request.getFecha())
                 .idStatus(status)
+                .idTorneo(torneo)
                 .build();
     }
 
@@ -56,6 +59,7 @@ public class PartidoMapper {
                 .idArbitroAsistente2(arbitroMapper.toDto(entity.getIdArbitroAsistente2()))
                 .fecha(entity.getFecha())
                 .idStatus(statusMapper.toDto(entity.getIdStatus()))
+                .idTorneo(torneoMapper.toDto(entity.getIdTorneo()))
                 .build();
     }
 }

@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(name = "PARTIDOS")
 public class Partido {
     @Id
-    @ColumnDefault("newsequentialid()")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID_PARTIDO", nullable = false)
     private UUID id;
 
