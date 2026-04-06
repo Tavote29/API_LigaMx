@@ -44,6 +44,7 @@ public class PersonaMapper {
                 .lugarNacimiento(entity.getLugarNacimiento())
                 .estatura(entity.getEstatura())
                 .peso(entity.getPeso())
+                .imageUrl(entity.getImageUrl())
                 .idStatus(statusMapper.toDto(entity.getIdStatus()))
                 .idNacionalidad(nacionalidadMapper.toDto(entity.getIdNacionalidad()))
                 .build();

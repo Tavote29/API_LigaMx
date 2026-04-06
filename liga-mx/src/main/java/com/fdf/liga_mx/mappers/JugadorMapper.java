@@ -59,6 +59,7 @@ public class JugadorMapper {
                 .tarjetasAmarillas(entity.getTarjetasAmarillas())
                 .tarjetasRojas(entity.getTarjetasRojas())
                 .dorsal(entity.getDorsal())
+                .club(entity.getIdClub().getNombreClub())
                 .idPersona(personaMapper.toDto(entity.getIdPersona()))
                 .idPosicion(posicionMapper.toDto(entity.getIdPosicion()))
                 .build();

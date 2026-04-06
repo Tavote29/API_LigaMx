@@ -58,6 +58,9 @@ public class Persona {
     @JoinColumn(name = "ID_NACIONALIDAD", nullable = false)
     private Nacionalidad idNacionalidad;
 
+    @Column(name = "IMAGE_URL",nullable = true,length = 100)
+    private String imageUrl;
+
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Arbitro> arbitros = new LinkedHashSet<>();

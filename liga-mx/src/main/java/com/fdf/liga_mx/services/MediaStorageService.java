@@ -30,19 +30,19 @@ public class MediaStorageService {
 
 
 
-    public String buildStorageKey(Long ownerId, String ext) {
-        return "%s.%s".formatted(UUID.randomUUID(), ext.toLowerCase());
+    public String buildStorageKey(String personaId, String ext) {
+        return "%s.%s".formatted(personaId, ext.toLowerCase());
     }
 
-    public String uploadFile(MultipartFile file) throws IOException {
-        String originalFilename = file.getOriginalFilename();
-        String ext = originalFilename != null && originalFilename.contains(".")
-                ? originalFilename.substring(originalFilename.lastIndexOf(".") + 1)
+    public String uploadFile(MultipartFile file,String personaId) throws IOException {
+
+        String ext = file.getOriginalFilename() != null && file.getOriginalFilename().contains(".")
+                ? file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
                 : "";
 
-        String storageKey = buildStorageKey(null, ext);
+        String storageKey = buildStorageKey(personaId, ext);
 
-        // Obtenemos el InputStream y lo pasamos junto con el tamaño del archivo
+
         try (InputStream inputStream = file.getInputStream()) {
             backendUpload(storageKey, inputStream, file.getSize(), file.getContentType());
         }
@@ -50,11 +50,12 @@ public class MediaStorageService {
         return storageKey;
     }
 
-    public String replaceFile(String oldStorageKey, MultipartFile newFile) throws IOException {
+    public String replaceFile(String oldStorageKey, String personaId, MultipartFile newFile) throws IOException {
+
         if (oldStorageKey != null && !oldStorageKey.isBlank()) {
             delete(oldStorageKey);
         }
-        return uploadFile(newFile);
+        return uploadFile(newFile,personaId);
     }
 
     public byte[] getFileBytes(String storageKey) {

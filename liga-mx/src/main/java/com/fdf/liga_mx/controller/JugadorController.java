@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +54,12 @@ public class JugadorController {
                 schema = @Schema(implementation = JugadorRequest.class)
             )
             @RequestPart("imagen") MultipartFile file,
-            @RequestPart("jugador") @Valid JugadorRequest jugadorRequest){
+            @RequestPart("jugador") @Valid JugadorRequest jugadorRequest) throws IOException {
 
-        Utils.isValidImage(file);
+        if (file!=null && !Utils.isValidImage(file))
+            throw new IllegalArgumentException(("El archivo no es una imagen válida"));
 
-        JugadorResponseDto jugadorResponsetDto =  jugadorService.save(jugadorRequest);
+        JugadorResponseDto jugadorResponsetDto =  jugadorService.save(jugadorRequest,file);
         return ResponseEntity.status(HttpStatus.CREATED).body(jugadorResponsetDto);
     }
 

@@ -59,6 +59,10 @@ public class Utils {
                 return false;
             }
 
+            if (file.getSize() > 3 * 1024 * 1024) {
+                return false;
+            }
+
             BufferedImage image = ImageIO.read(file.getInputStream());
             return image != null;
         } catch (IOException e) {

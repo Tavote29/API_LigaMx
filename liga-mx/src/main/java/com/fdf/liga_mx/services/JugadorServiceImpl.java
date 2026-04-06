@@ -17,7 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Transactional
@@ -32,6 +34,7 @@ public class JugadorServiceImpl implements IJugadorService{
     private final JugadorMapper jugadorMapper;
     private final PersonaMapper personaMapper;
     private final ICatalogosService catalogosService;
+    private final MediaStorageService mediaService;
 
     @Override
     @Transactional
@@ -144,5 +147,29 @@ public class JugadorServiceImpl implements IJugadorService{
 
         }
 
+    }
+
+    @Override
+    @Transactional
+    public JugadorResponseDto save(JugadorRequest jugadorRequest, MultipartFile file) throws IOException {
+
+        Club club = clubRepository.findById(jugadorRequest.getId_club()).orElseThrow(() -> new NoSuchElementException("No se encontro el club"));
+        Posicion posicion = posicionRepository.findById(jugadorRequest.getId_posicion()).orElseThrow(() -> new NoSuchElementException("No se encontro la posicion"));
+
+
+        Persona persona = personaMapper.toEntity(jugadorRequest.getPersona());
+        Jugador jugador = jugadorMapper.toEntity(jugadorRequest);
+        jugador.setIdPersona(persona);
+        jugador.setIdClub(club);
+        jugador.setIdPosicion(posicion);
+
+        Jugador jugadorSaved = jugadorRepository.saveAndFlush(jugador);
+
+
+        String storageKey = mediaService.uploadFile(file,jugadorSaved.getIdPersona().getId().toString());
+
+        jugadorSaved.getIdPersona().setImageUrl(storageKey);
+
+        return jugadorMapper.toDtoSinClub(jugadorRepository.save(jugadorSaved));
     }
 }

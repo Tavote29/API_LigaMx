@@ -10,6 +10,7 @@ public class JugadorResponseDto {
     private Short tarjetasAmarillas;
     private Short tarjetasRojas;
     private Short dorsal;
+    private String club;
     private PersonaResponseDto idPersona;
     private PosicionResponseDto idPosicion;
     private ClubResponseDto idClub;

@@ -13,6 +13,7 @@ public class PersonaResponseDto {
     private String nombre;
     private LocalDate fechaNacimiento;
     private String lugarNacimiento;
+    private String imageUrl;
     private BigDecimal estatura;
     private BigDecimal peso;
     private StatusResponseDto idStatus;
