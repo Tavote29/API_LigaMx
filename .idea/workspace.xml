@@ -6,31 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="83901f96-1e8b-4fe1-83b9-5a42ac303be7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/ArbitroController.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/ArbitroController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/DTController.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/DTController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/JugadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/JugadorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/request/DTRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/request/DTRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Arbitro.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Arbitro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/CategoriaArbitro.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/CategoriaArbitro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Club.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/DT.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/DT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Jugador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Nacionalidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Nacionalidad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Partido.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Partido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Persona.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Persona.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Posicion.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Posicion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/ArbitroRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/ArbitroRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/DTRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/DTRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/JugadorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/JugadorRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ArbitroService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ArbitroServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ArbitroServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/CategoriaArbitroServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/DTServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/DTServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IArbitroService.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IArbitroService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IDTService.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IDTService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IJugadorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IJugadorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/JugadorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/JugadorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/PartidoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/PartidoServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -54,12 +30,22 @@
     &quot;assignee&quot;: &quot;Tavote29&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Tavote29/API_LigaMx.git&quot;,
-    &quot;accountId&quot;: &quot;6d97149e-2b67-41d7-b6c8-3e60025e3f65&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Tavote29/API_LigaMx.git",
+    "accountId": "6d97149e-2b67-41d7-b6c8-3e60025e3f65"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "Tavote29",
+    "repository": "API_LigaMx"
   }
-}</component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -76,23 +62,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.LigaMxApplication.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Gustavo",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gusta/OneDrive/Desktop/API_LigaMx/API_LigaMx",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.LigaMxApplication.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Gustavo&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gusta/OneDrive/Desktop/API_LigaMx/API_LigaMx&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="LigaMxApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.LigaMxApplication" />
