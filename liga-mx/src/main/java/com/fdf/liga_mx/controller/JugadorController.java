@@ -6,18 +6,21 @@ import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.services.IJugadorService;
 import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.util.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +52,11 @@ public class JugadorController {
                 required = true,
                 schema = @Schema(implementation = JugadorRequest.class)
             )
-            @RequestBody JugadorRequest jugadorRequest){
+            @RequestPart("imagen") MultipartFile file,
+            @RequestPart("jugador") @Valid JugadorRequest jugadorRequest){
+
+        Utils.isValidImage(file);
+
         JugadorResponseDto jugadorResponsetDto =  jugadorService.save(jugadorRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(jugadorResponsetDto);
     }
