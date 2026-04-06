@@ -165,6 +165,10 @@ public class JugadorServiceImpl implements IJugadorService{
 
         Jugador jugadorSaved = jugadorRepository.saveAndFlush(jugador);
 
+        if (file.isEmpty())
+            return jugadorMapper.toDtoSinClub(jugadorSaved);
+
+
 
         String storageKey = mediaService.uploadFile(file,jugadorSaved.getIdPersona().getId().toString());
 

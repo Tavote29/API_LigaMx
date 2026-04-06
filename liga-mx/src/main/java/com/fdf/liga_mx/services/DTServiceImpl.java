@@ -17,8 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,6 +34,7 @@ public class DTServiceImpl implements IDTService{
     private final DTRepository dtRepository;
     private final DTMapper dtMapper;
     private final PersonaMapper personaMapper;
+    private final MediaStorageService mediaService;
 
     @Override
     @Transactional
@@ -105,5 +108,32 @@ public class DTServiceImpl implements IDTService{
         Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
         Page<DT> dtPage = dtRepository.searchDT(pageable,nombre,nacionalidad,club);
         return dtPage.map(dt-> dtMapper.toDto(dt));
+    }
+
+    @Override
+    @Transactional
+    public DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException {
+        Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow(() -> new NoSuchElementException("No se encontro el club"));
+
+        Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
+        Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
+
+        Persona persona = personaMapper.toEntity(dtRequest.getPersona());
+        persona.setIdNacionalidad(nacionalidad);
+        persona.setIdStatus(status);
+
+        DT dt = dtMapper.toEntity(dtRequest);
+        dt.setPersona(persona);
+        dt.setClub(club);
+
+        DT dtSaved = dtRepository.saveAndFlush(dt);
+
+        if (file == null || file.isEmpty())
+            return dtMapper.toDto(dtSaved);
+
+        String storageKey = mediaService.uploadFile(file, dtSaved.getPersona().getId().toString());
+        dtSaved.getPersona().setImageUrl(storageKey);
+
+        return dtMapper.toDto(dtRepository.save(dtSaved));
     }
 }

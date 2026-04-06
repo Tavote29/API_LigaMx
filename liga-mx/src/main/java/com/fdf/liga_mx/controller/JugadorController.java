@@ -33,7 +33,8 @@ import java.util.Map;
 public class JugadorController {
     private final IJugadorService jugadorService;
 
-    @PostMapping
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
         summary = "Crear un nuevo jugador",
         description = "Registra un nuevo jugador en el sistema"
@@ -49,11 +50,15 @@ public class JugadorController {
     )
     public ResponseEntity<JugadorResponseDto> post(
             @Parameter(
+                    description = "Imagen del jugador",
+                    required = false
+            )
+            @RequestPart(value = "imagen", required = false) MultipartFile file,
+            @Parameter(
                 description = "Datos del jugador a crear",
                 required = true,
                 schema = @Schema(implementation = JugadorRequest.class)
             )
-            @RequestPart("imagen") MultipartFile file,
             @RequestPart("jugador") @Valid JugadorRequest jugadorRequest) throws IOException {
 
         if (file!=null && !Utils.isValidImage(file))

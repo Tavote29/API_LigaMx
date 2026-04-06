@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,6 +28,7 @@ public class ArbitroServiceImpl implements IArbitroService {
     private final PersonaMapper personaMapper;
     private final ArbitroMapper arbitroMapper;
     private final ICatalogosService catalogosService;
+    private final MediaStorageService mediaService;
 
     @Override
     @Transactional
@@ -90,5 +93,26 @@ public class ArbitroServiceImpl implements IArbitroService {
         Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
         Page<Arbitro> arbitroPage = arbitroRepository.searchArbitro(pageable,nombre,nacionalidad,categoria);
         return arbitroPage.map(arbitro -> arbitroMapper.toDto(arbitro));
+    }
+
+    @Override
+    @Transactional
+    public ArbitroResponseDto save(ArbitroRequest arbitroRequest, MultipartFile file) throws IOException {
+        CategoriaArbitro categoriaArbitro = catalogosService.findCategoriaArbitroEntityById(arbitroRequest.getIdCategoria());
+
+        Persona persona = personaMapper.toEntity(arbitroRequest.getPersona());
+        Arbitro arbitro = arbitroMapper.toEntity(arbitroRequest);
+        arbitro.setPersona(persona);
+        arbitro.setIdCategoriaArbitro(categoriaArbitro);
+
+        Arbitro arbitroSaved = arbitroRepository.saveAndFlush(arbitro);
+
+        if (file == null || file.isEmpty())
+            return arbitroMapper.toDto(arbitroSaved);
+
+        String storageKey = mediaService.uploadFile(file, arbitroSaved.getPersona().getId().toString());
+        arbitroSaved.getPersona().setImageUrl(storageKey);
+
+        return arbitroMapper.toDto(arbitroRepository.save(arbitroSaved));
     }
 }
