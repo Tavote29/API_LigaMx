@@ -13,6 +13,7 @@ public class SwaggerTags {
     public static final String CATALOGOS_TAG = "Catálogos";
     public static final String PERSONA_TAG = "Personas";
     public static final String PARTIDO_TAG = "Partidos";
+    public static final String ESTADISTICAS_TAG = "Estadisticas";
     public static final String ACONTECIMIENTO_TAG = "Acontecimientos";
     
     // Descriptions para tags
@@ -24,5 +25,6 @@ public class SwaggerTags {
     public static final String CATALOGOS_DESC = "Catálogos del sistema (estados, ciudades, posiciones, etc.)";
     public static final String PERSONA_DESC = "Gestión de personas";
     public static final String PARTIDO_DESC = "Gestión de partidos";
+    public static final String ESTADISTICAS_DESC = "Gestión de estadisticas";
     public static final String ACONTECIMIENTO_DESC = "Gestión de acontecimientos en partidos";
 }
