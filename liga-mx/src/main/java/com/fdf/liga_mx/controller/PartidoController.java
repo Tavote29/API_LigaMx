@@ -1,6 +1,7 @@
 package com.fdf.liga_mx.controller;
 
 import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/partidos")
 @AllArgsConstructor
+@Tag(name = SwaggerTags.PARTIDO_TAG, description = SwaggerTags.PARTIDO_DESC)
 public class PartidoController {
     private final IPartidoService partidoService;
 
