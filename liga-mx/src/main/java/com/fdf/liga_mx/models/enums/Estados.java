@@ -1,7 +1,7 @@
 package com.fdf.liga_mx.models.enums;
 
 public enum Estados {
-
+    INACTIVO((short) 0),
     ACTIVO((short) 1),
     SUSPENDIDO((short) 2),
     RETIRADO((short) 3),
