@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class ClubController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Crear un nuevo club",
         description = "Crea un nuevo club de fútbol con la información proporcionada"
@@ -59,6 +61,7 @@ public class ClubController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los clubes",
         description = "Retorna una lista de todos los clubes registrados en el sistema"
@@ -77,6 +80,7 @@ public class ClubController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener club por ID",
         description = "Retorna los detalles de un club específico basado en su ID"
@@ -101,6 +105,7 @@ public class ClubController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Actualizar un club existente",
         description = "Actualiza la información de un club existente basado en su ID"
@@ -131,6 +136,7 @@ public class ClubController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Eliminar un club",
         description = "Elimina un club del sistema basado en su ID"
@@ -148,6 +154,7 @@ public class ClubController {
     }
 
     @PatchMapping("/{idClub}/change-stadium")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Cambiar estadio de un club",
         description = "Asigna un nuevo estadio a un club específico"
@@ -178,6 +185,7 @@ public class ClubController {
     }
 
     @PatchMapping("/{idClub}/assign-dt")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Asignar director técnico a un club",
         description = "Asigna un director técnico a un club específico"
@@ -201,6 +209,7 @@ public class ClubController {
     }
 
     @GetMapping("/estado/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener clubes por estado",
         description = "Retorna una lista de clubes que pertenecen a un estado específico"
@@ -225,6 +234,7 @@ public class ClubController {
     }
 
     @GetMapping("/ciudad/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener clubes por ciudad",
         description = "Retorna una lista de clubes que pertenecen a una ciudad específica"

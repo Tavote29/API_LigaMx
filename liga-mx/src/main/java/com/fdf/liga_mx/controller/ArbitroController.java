@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ public class ArbitroController {
     private final IArbitroService arbitroService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Crear un nuevo árbitro",
         description = "Registra un nuevo árbitro en el sistema"
@@ -66,6 +68,7 @@ public class ArbitroController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los árbitros",
         description = "Retorna una lista de todos los árbitros registrados en el sistema"
@@ -84,6 +87,7 @@ public class ArbitroController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener árbitro por ID",
         description = "Retorna los detalles de un árbitro específico basado en su ID"
@@ -108,6 +112,7 @@ public class ArbitroController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Actualizar árbitro existente",
         description = "Actualiza la información de un árbitro existente basado en su ID"
@@ -139,6 +144,7 @@ public class ArbitroController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Buscar árbitros con filtros",
         description = "Realiza una búsqueda paginada de árbitros con múltiples filtros"

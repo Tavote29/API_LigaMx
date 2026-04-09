@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class EstadisticasController {
     private final IEstadisticasService estadisticasService;
 
     @GetMapping("/tablaPosiciones/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Tabla de posiciones del torneo",
             description = "Retorna la tabla de posiciones mediante el id del torneo"
@@ -56,6 +58,7 @@ public class EstadisticasController {
     }
 
     @GetMapping("/tablaGoleo/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Tabla de Goleo",
             description = "Retorna la tabla de goleo mediante el id del torneo"
@@ -80,6 +83,7 @@ public class EstadisticasController {
     }
 
     @GetMapping("/tablaCociente")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Tabla de Cociente",
             description = "Retorna la tabla de cociente segun los resultados de los ultimos 6 torneos. " +
@@ -100,6 +104,7 @@ public class EstadisticasController {
     }
 
     @GetMapping("/tablaOfensiva/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Tabla Mejor Ofensiva",
             description = "Retorna la tabla ordenada por goles a favor de manera descendente de cada equipo del torneo requerido"
@@ -124,6 +129,7 @@ public class EstadisticasController {
     }
 
     @GetMapping("/tablaDefensiva/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Tabla Mejor Defensiva",
             description = "Retorna la tabla ordenada de manera ascendente por goles en contra de cada equipo del torneo requerido"

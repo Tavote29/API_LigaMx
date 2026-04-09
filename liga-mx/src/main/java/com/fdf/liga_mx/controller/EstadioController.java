@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class EstadioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Crear un nuevo estadio",
         description = "Registra un nuevo estadio en el sistema"
@@ -57,6 +59,7 @@ public class EstadioController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los estadios",
         description = "Retorna una lista de todos los estadios registrados en el sistema"
@@ -75,6 +78,7 @@ public class EstadioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener estadio por ID",
         description = "Retorna los detalles de un estadio específico basado en su ID"
@@ -99,6 +103,7 @@ public class EstadioController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Actualizar estadio existente",
         description = "Actualiza la información de un estadio existente basado en su ID"
@@ -130,6 +135,7 @@ public class EstadioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Eliminar un estadio",
         description = "Elimina un estadio del sistema basado en su ID"
@@ -147,6 +153,7 @@ public class EstadioController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Buscar estadios con filtros",
         description = "Realiza una búsqueda paginada de estadios con múltiples filtros"

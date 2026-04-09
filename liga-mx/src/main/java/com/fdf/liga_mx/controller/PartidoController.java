@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class PartidoController {
     private final IPartidoService partidoService;
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
             summary = "Crear un nuevo partido",
             description = "Registra un nuevo partido en el sistema"
@@ -53,6 +55,7 @@ public class PartidoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Obtener el partido por id",
             description = "Regresa los detalles del partido basado en el id proporcionado"
@@ -77,6 +80,7 @@ public class PartidoController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Obtener todos los partidos",
             description = "Retorna una lista de todos los partidos registrados en el sistema"
@@ -95,6 +99,7 @@ public class PartidoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
             summary = "Actualizar partido con el id proporcionado",
             description = "Metodo para actualizar los datos de un partido con el id proporcionado"
@@ -126,6 +131,7 @@ public class PartidoController {
     }
 
     @GetMapping("/marcador/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
             summary = "Marcador del partido",
             description = "Metodo para obtener el mercado del partido mediante su id"

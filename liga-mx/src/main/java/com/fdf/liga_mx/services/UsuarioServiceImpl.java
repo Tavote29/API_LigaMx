@@ -29,7 +29,7 @@ public class UsuarioServiceImpl implements  IUsuarioService{
                 .email(usuarioRequestDto.getEmail().toLowerCase())
                 .username(usuarioRequestDto.getUsername().toLowerCase())
                 .password(encoder.encode(usuarioRequestDto.getPassword()))
-                .role(Roles.fromCode(usuarioRequestDto.getRoleId()))
+                .role(Roles.BASICO) 
                 .build();
 
         usuarioRepo.save(usuario);

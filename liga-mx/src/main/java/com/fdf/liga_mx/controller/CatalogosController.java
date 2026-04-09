@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/categoriasArbitro")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todas las categorías de árbitro",
         description = "Retorna una lista de todas las categorías de árbitro disponibles en el sistema"
@@ -51,6 +53,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/nacionalidades")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todas las nacionalidades",
         description = "Retorna una lista de todas las nacionalidades disponibles en el sistema"
@@ -69,6 +72,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/posiciones")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todas las posiciones",
         description = "Retorna una lista de todas las posiciones de jugador disponibles en el sistema"
@@ -87,6 +91,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/status")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los estados de registro",
         description = "Retorna una lista de todos los estados de registro disponibles en el sistema"
@@ -105,6 +110,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/ciudades")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todas las ciudades",
         description = "Retorna una lista de todas las ciudades disponibles en el sistema"
@@ -123,6 +129,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/estados")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los estados",
         description = "Retorna una lista de todos los estados disponibles en el sistema"
@@ -141,6 +148,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/tiposAcontecimientos")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los tipos de acontecimientos",
         description = "Retorna una lista de todos los tipos de acontecimientos disponibles en el sistema"
@@ -159,6 +167,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/categoriasArbitro/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener categoría de árbitro por ID",
         description = "Retorna los detalles de una categoría de árbitro específica basada en su ID"
@@ -183,6 +192,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/nacionalidades/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener nacionalidad por ID",
         description = "Retorna los detalles de una nacionalidad específica basada en su ID"
@@ -207,6 +217,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/posiciones/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener posición por ID",
         description = "Retorna los detalles de una posición específica basada en su ID"
@@ -231,6 +242,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/status/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener estado de registro por ID",
         description = "Retorna los detalles de un estado de registro específico basado en su ID"
@@ -255,6 +267,7 @@ public class CatalogosController {
     }
 
     @GetMapping("/tiposAcontecimientos/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener tipo de acontecimiento por ID",
         description = "Retorna los detalles de un tipo de acontecimiento específico basado en su ID"

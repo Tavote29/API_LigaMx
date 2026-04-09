@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +34,7 @@ public class DTController {
     private final IDTService idtService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Crear un nuevo director técnico",
         description = "Registra un nuevo director técnico en el sistema"
@@ -67,6 +69,7 @@ public class DTController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener director técnico por ID",
         description = "Retorna los detalles de un director técnico específico basado en su ID"
@@ -91,6 +94,7 @@ public class DTController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Obtener todos los directores técnicos",
         description = "Retorna una lista de todos los directores técnicos registrados en el sistema"
@@ -109,6 +113,7 @@ public class DTController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
         summary = "Actualizar director técnico existente",
         description = "Actualiza la información de un director técnico existente basado en su ID"
@@ -140,6 +145,7 @@ public class DTController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'BASICO')")
     @Operation(
         summary = "Buscar directores técnicos con filtros",
         description = "Realiza una búsqueda paginada de directores técnicos con múltiples filtros"
