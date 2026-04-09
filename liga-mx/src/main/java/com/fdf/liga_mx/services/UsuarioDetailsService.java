@@ -27,14 +27,14 @@ public class UsuarioDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        Usuario usuario = usuarioRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Credenciales inválidas"));
 
-        if(usuario.getIdStatus().equals(Estados.INACTIVO.getCodigo()))
-            throw new UsernameNotFoundException("Usuario inactivo");
+        boolean isEnabled = !Estados.INACTIVO.getCodigo().equals(usuario.getIdStatus());
 
 
         List<GrantedAuthority> roles = new ArrayList<>(List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole().name())));
 
-        return new CustomUserDetails(usuario.getUsername(), usuario.getPassword(), roles, usuario.getId());
+        return new CustomUserDetails(usuario.getUsername(), usuario.getPassword(), isEnabled, roles, usuario.getId());
     }
 }

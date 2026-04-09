@@ -16,9 +16,9 @@ public class CustomUserDetails extends User {
 
     private Long userId;
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
+    public CustomUserDetails(String username, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities,
                              Long userId) {
-        super(username, password, authorities);
+        super(username, password, enabled, true, true, true, authorities);
         this.userId = userId;
     }
 
