@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -39,29 +42,24 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
 
             String jwt = parseJwt(request);
 
-            if (jwt != null) {
+            if (jwt != null && jwtUtil.isTokenValido(jwt)) {
 
                 String username = jwtUtil.extraerUsuario(jwt);
 
-
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    UserDetails userDetails = usuarioDetailsService.loadUserByUsername(username);
+                    List<GrantedAuthority> authorities = jwtUtil.extraerAutoridades(jwt);
+                    UserDetails userDetails = new User(username, "", authorities);
 
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    authorities);
 
-                    if (jwtUtil.validarToken(jwt, userDetails.getUsername())) {
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                        UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails,
-                                        null,
-                                        userDetails.getAuthorities());
-
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
         } catch (Exception e) {

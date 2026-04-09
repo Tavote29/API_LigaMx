@@ -14,9 +14,13 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
 public class JwtUtil {
@@ -65,13 +69,23 @@ public class JwtUtil {
         return extraerClaims(token).getSubject();
     }
 
-    public boolean validarToken(String token, String usuarioEsperado) {
+    public List<GrantedAuthority> extraerAutoridades(String token) {
+        Claims claims = extraerClaims(token);
+        String rolesString = claims.get("roles", String.class);
+        
+        if (rolesString == null || rolesString.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        return Arrays.stream(rolesString.split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    public boolean isTokenValido(String token) {
         try {
-            Claims claims = extraerClaims(token);
-
-            return usuarioEsperado.equals(claims.getSubject())
-                    && claims.getExpiration().after(new Date());
-
+            extraerClaims(token);
+            return true;
         } catch (JwtException | IllegalArgumentException e) {
             log.error("Token JWT inválido o expirado: {}", e.getMessage());
             return false;
