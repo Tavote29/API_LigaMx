@@ -16,6 +16,7 @@ public class ClubResponseDto {
     private CiudadResponseDto idCiudad;
     private DTResponseDto idDt;
     private EstadioResponseDto idEstadio;
+    private String imageUrl;
     private List<JugadorResponseDto> jugadores;
 
 }

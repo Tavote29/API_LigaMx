@@ -14,9 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.fdf.liga_mx.models.enums.Estados;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +37,8 @@ public class ClubServiceImpl implements IClubService{
     private final IDTService dtService;
 
     private final IEstadioService estadioService;
+
+    private final MediaStorageService storageService;
 
 
     @Override
@@ -55,6 +61,25 @@ public class ClubServiceImpl implements IClubService{
         Estadio estadio = estadioService.findById(estadioSaved.getId());
 
         club.setIdEstadio(estadio);
+
+        return clubMapper.toDto(clubRepo.save(club));
+    }
+
+    @Override
+    @Transactional
+    public ClubResponseDto updateEscudo(MultipartFile file, Short idClub) throws IOException {
+
+        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+
+
+
+        if (StringUtils.hasText(club.getImageUrl())){
+
+           club.setImageUrl(storageService.replaceFile(club.getImageUrl(), UUID.randomUUID().toString(),file));
+
+        }else club.setImageUrl(storageService.uploadFile(file,UUID.randomUUID().toString()));
+
+
 
         return clubMapper.toDto(clubRepo.save(club));
     }

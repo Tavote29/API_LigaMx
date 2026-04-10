@@ -7,6 +7,7 @@ import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.services.IClubService;
 import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.util.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -257,4 +260,39 @@ public class ClubController {
             @PathVariable Short id) {
         return ResponseEntity.ok(clubService.findByCiudadId(id));
     }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PatchMapping(value = "/escudo/{idClub}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(
+        summary = "Actualizar escudo de un club",
+        description = "Actualiza la imagen del escudo de un club mediante un archivo de imagen (requiere formato multipart/form-data)"
+    )
+    @SwaggerResponses.UpdateApiResponses
+    @ApiResponse(
+        responseCode = "200",
+        description = "Escudo actualizado exitosamente",
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = ClubResponseDto.class)
+        )
+    )
+    public ResponseEntity<ClubResponseDto> updateEscudo(
+            @Parameter(
+                description = "Archivo de imagen para el nuevo escudo",
+                required = true
+            )
+            @RequestPart(value = "imagen", required = true) MultipartFile file,
+            @Parameter(
+                description = "ID del club al que se le actualizará el escudo",
+                required = true,
+                example = "1"
+            )
+            @PathVariable Short idClub) throws IOException {
+
+        if (file!=null && !Utils.isValidImage(file))
+            throw new IllegalArgumentException(("El archivo no es una imagen válida"));
+
+        return ResponseEntity.ok(clubService.updateEscudo(file, idClub));
+    }
+
 }

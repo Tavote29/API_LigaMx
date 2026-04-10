@@ -56,6 +56,7 @@ public class ClubMapper {
                 .propietario(entity.getPropietario())
                 .idCiudad(ciudadMapper.toDto(entity.getIdCiudad()))
                 .idDt(dtMapper.toDto(entity.getIdDt()))
+                .imageUrl(entity.getImageUrl())
                 .idEstadio(estadioMapper.toDto(entity.getIdEstadio()))
                 .build();
     }

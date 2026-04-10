@@ -48,6 +48,10 @@ public class Club {
     @JoinColumn(name = "ID_DT", nullable = false,unique = true)
     private DT idDt;
 
+    @Size(max = 100)
+    @Column(name = "IMAGE_URL", length = 100)
+    private String imageUrl;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ESTADIO", nullable = false)
@@ -67,6 +71,7 @@ public class Club {
     @OneToMany(mappedBy = "idVisitante")
     @ToString.Exclude
     private Set<Partido> partidosVisitante = new LinkedHashSet<>();
+
 
     @PrePersist
     public void prePersist(){

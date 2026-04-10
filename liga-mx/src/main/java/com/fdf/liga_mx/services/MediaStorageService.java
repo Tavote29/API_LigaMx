@@ -30,17 +30,17 @@ public class MediaStorageService {
 
 
 
-    public String buildStorageKey(String personaId, String ext) {
-        return "%s.%s".formatted(personaId, ext.toLowerCase());
+    public String buildStorageKey(String uuid, String ext) {
+        return "%s.%s".formatted(uuid, ext.toLowerCase());
     }
 
-    public String uploadFile(MultipartFile file,String personaId) throws IOException {
+    public String uploadFile(MultipartFile file,String uuid) throws IOException {
 
         String ext = file.getOriginalFilename() != null && file.getOriginalFilename().contains(".")
                 ? file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
                 : "";
 
-        String storageKey = buildStorageKey(personaId, ext);
+        String storageKey = buildStorageKey(uuid, ext);
 
 
         try (InputStream inputStream = file.getInputStream()) {
@@ -50,12 +50,12 @@ public class MediaStorageService {
         return storageKey;
     }
 
-    public String replaceFile(String oldStorageKey, String personaId, MultipartFile newFile) throws IOException {
+    public String replaceFile(String oldStorageKey, String uuid, MultipartFile newFile) throws IOException {
 
         if (oldStorageKey != null && !oldStorageKey.isBlank()) {
             delete(oldStorageKey);
         }
-        return uploadFile(newFile,personaId);
+        return uploadFile(newFile,uuid);
     }
 
     public byte[] getFileBytes(String storageKey) {
