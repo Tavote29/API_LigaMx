@@ -38,6 +38,12 @@ public class Partido {
     @JoinColumn(name = "ID_ESTADIO", nullable = false)
     private Estadio idEstadio;
 
+    @Column(name = "GOLES_LOCAL", columnDefinition = "tinyint",nullable = true)
+    private Short golesLocal;
+
+    @Column(name = "GOLES_VISITANTE", columnDefinition = "tinyint",nullable = true)
+    private Short golesVisitante;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_ARBITRO_CENTRAL", nullable = false)
@@ -72,6 +78,8 @@ public class Partido {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TORNEO", nullable = true)
     private Torneo idTorneo;
+
+
 
 
 }

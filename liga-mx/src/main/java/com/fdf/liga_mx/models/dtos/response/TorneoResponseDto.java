@@ -12,5 +12,5 @@ public class TorneoResponseDto {
     private String nombreTorneo;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private Short status;
+    private String status;
 }

@@ -27,7 +27,7 @@ public class Torneo {
 
     @Size(max = 100)
     @Nationalized
-    @Column(name = "NOMBRE_TORNEO", length = 100)
+    @Column(name = "NOMBRE_TORNEO", length = 100, nullable = false,unique = true)
     private String nombreTorneo;
 
     @NotNull

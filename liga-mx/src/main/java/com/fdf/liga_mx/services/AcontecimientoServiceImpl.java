@@ -63,7 +63,7 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
 
         Acontecimiento savedAcontecimiento = acontecimientoRepo.saveAndFlush(acontecimiento);
 
-        if ("FIN_PARTIDO".equals(tipoAcont.getDescripcionTipo()))
+        if ("FIN PARTIDO".equals(tipoAcont.getDescripcionTipo()))
             eventPublisher.publishEvent(new PartidoFinalizadoEvent(savedAcontecimiento.getIdPartido().getId()));
 
 

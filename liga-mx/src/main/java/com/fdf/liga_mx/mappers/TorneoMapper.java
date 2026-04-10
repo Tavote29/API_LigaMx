@@ -2,6 +2,7 @@ package com.fdf.liga_mx.mappers;
 
 import com.fdf.liga_mx.models.dtos.response.TorneoResponseDto;
 import com.fdf.liga_mx.models.entitys.Torneo;
+import com.fdf.liga_mx.models.enums.Estados;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class TorneoMapper {
                 .nombreTorneo(entity.getNombreTorneo())
                 .fechaInicio(entity.getFechaInicio())
                 .fechaFin(entity.getFechaFin())
-                .status(entity.getStatus())
+                .status(Estados.fromCode(entity.getStatus()).name())
                 .build();
     }
 

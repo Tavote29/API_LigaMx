@@ -135,7 +135,19 @@ public class PartidoServiceImpl implements IPartidoService {
 
         jugadorService.updateTarjetasByPartidoId(partido.getId());
 
-        partidoRepo.save(partido);
+        List<getMarcadorPartido> marcadorPartido = partidoRepo.obtenerMarcador(partido.getId());
+
+        for (getMarcadorPartido marcador : marcadorPartido) {
+
+            if (marcador.getIdClub().equals(partido.getIdLocal().getId())){
+                partido.setGolesLocal(marcador.getGoles());
+            }else{
+                partido.setGolesVisitante(marcador.getGoles());
+            }
+
+        }
+
+        partidoRepo.saveAndFlush(partido);
     }
 
     @Override
