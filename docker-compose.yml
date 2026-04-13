@@ -16,6 +16,17 @@ services:
     volumes:
       - minio-data:/data
 
+  ligamx-service:
+    image: hilariotetsu/api-ligamx:latest
+    container_name: ligamx-service
+    ports:
+      - "8080:8080" 
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - minio
+        
+
 
 volumes:
   minio-data:

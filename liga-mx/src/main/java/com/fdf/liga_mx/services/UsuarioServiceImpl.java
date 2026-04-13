@@ -21,6 +21,7 @@ public class UsuarioServiceImpl implements  IUsuarioService{
 
     private final PasswordEncoder encoder;
 
+
     @Override
     @Transactional
     public UsuarioResponseDto save(UsuarioRequestDto usuarioRequestDto) {
@@ -42,35 +43,14 @@ public class UsuarioServiceImpl implements  IUsuarioService{
                 .build();
     }
 
-    @Override
-    public List<Usuario> findAll() {
-        return List.of();
-    }
 
-    @Override
-    public List<UsuarioResponseDto> findAllDto() {
-        return List.of();
-    }
 
     @Override
     public Usuario findById(Long id) {
         return usuarioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
     }
 
-    @Override
-    public UsuarioResponseDto findDtoById(Long aLong) {
-        return null;
-    }
 
-    @Override
-    public UsuarioResponseDto update(UsuarioRequestDto usuarioRequestDto, Long aLong) {
-        return null;
-    }
-
-    @Override
-    public void delete(Long aLong) {
-
-    }
 
     @Override
     public Usuario findByUsername(String username) {

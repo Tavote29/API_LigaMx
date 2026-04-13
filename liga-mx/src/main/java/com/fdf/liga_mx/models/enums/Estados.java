@@ -6,7 +6,8 @@ public enum Estados {
     SUSPENDIDO((short) 2),
     RETIRADO((short) 3),
     CANCELADO((short) 4),
-    FINALIZADO((short) 5);
+    FINALIZADO((short) 5),
+    AGENTE_LIBRE((short) 6);
 
     private final Short codigo;
 
