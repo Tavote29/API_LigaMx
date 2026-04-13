@@ -16,38 +16,12 @@ public class RoleServiceImpl implements IRoleService{
 
     private final IRoleRepository roleRepo;
 
-    @Override
-    public RoleResponseDto save(RoleRequestDto roleRequestDto) {
-        return null;
-    }
-
-    @Override
-    public List<Role> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public List<RoleResponseDto> findAllDto() {
-        return List.of();
-    }
 
     @Override
     public Role findById(Short id) {
         return roleRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Rol no encontrado"));
     }
 
-    @Override
-    public RoleResponseDto findDtoById(Short aShort) {
-        return null;
-    }
 
-    @Override
-    public RoleResponseDto update(RoleRequestDto roleRequestDto, Short aShort) {
-        return null;
-    }
 
-    @Override
-    public void delete(Short aShort) {
-
-    }
 }
