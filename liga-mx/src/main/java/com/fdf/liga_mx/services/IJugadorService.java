@@ -17,4 +17,6 @@ public interface IJugadorService extends CrudService<JugadorRequest, JugadorResp
     void updateTarjetasByPartidoId(UUID id);
 
     JugadorResponseDto save(JugadorRequest jugadorRequest, MultipartFile file) throws IOException;
+
+    void liberarJugador (Long jugadorId);
 }

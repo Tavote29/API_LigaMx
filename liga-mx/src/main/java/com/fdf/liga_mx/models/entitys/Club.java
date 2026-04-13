@@ -45,7 +45,7 @@ public class Club {
 
 
     @OneToOne
-    @JoinColumn(name = "ID_DT", nullable = false,unique = true)
+    @JoinColumn(name = "ID_DT", nullable = true,unique = true)
     private DT idDt;
 
     @Size(max = 100)

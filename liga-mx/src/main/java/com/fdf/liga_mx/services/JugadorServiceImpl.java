@@ -7,6 +7,7 @@ import com.fdf.liga_mx.models.dtos.projection.getTarjetasPorPartido;
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.models.repositories.IPosicionRepository;
 import com.fdf.liga_mx.repository.*;
 import com.fdf.liga_mx.util.Utils;
@@ -175,5 +176,25 @@ public class JugadorServiceImpl implements IJugadorService{
         jugadorSaved.getIdPersona().setImageUrl(storageKey);
 
         return jugadorMapper.toDtoSinClub(jugadorRepository.save(jugadorSaved));
+    }
+
+    @Override
+    @Transactional
+    public void liberarJugador(Long jugadorId) {
+
+        Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+
+        if (jugador.getStatus().equals(Estados.RETIRADO.getCodigo()) || jugador.getStatus().equals(Estados.AGENTE_LIBRE.getCodigo())){
+            throw new IllegalStateException("Jugador ya se encuentra libre de competencia");
+        }
+
+
+        jugador.setStatus(Estados.AGENTE_LIBRE.getCodigo());
+        jugador.setTarjetasAmarillas((short) 0);
+        jugador.setTarjetasRojas((short) 0);
+        jugador.setIdClub(null);
+
+        jugadorRepository.save(jugador);
+
     }
 }
