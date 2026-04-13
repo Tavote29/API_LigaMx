@@ -41,9 +41,9 @@ public class Jugador {
     @JoinColumn(name = "ID_POSICION", nullable = false)
     private Posicion idPosicion;
 
-    @NotNull
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_CLUB", nullable = false)
+    @JoinColumn(name = "ID_CLUB", nullable = true)
     private Club idClub;
 
     @Column(name = "ID_STATUS", nullable = true)

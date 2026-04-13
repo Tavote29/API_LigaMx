@@ -234,4 +234,30 @@ public class JugadorController {
             ) {
         return ResponseEntity.ok(jugadorService.obtenerTarjetasJugadorPorTorneoId(jugadorId, torneoId));
     }
+
+    @PatchMapping("/{id}/liberar")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @Operation(
+        summary = "Liberar jugador",
+        description = "Libera a un jugador de su club actual, dejándolo como agente libre"
+    )
+    @SwaggerResponses.UpdateApiResponses
+    @ApiResponse(
+        responseCode = "204",
+        description = "Jugador liberado exitosamente"
+    )
+    public ResponseEntity<Void> liberarJugador(
+            @Parameter(
+                description = "ID del jugador a liberar",
+                required = true,
+                example = "1"
+            )
+            @PathVariable Long id){
+
+        jugadorService.liberarJugador(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
