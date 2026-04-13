@@ -41,6 +41,8 @@ public class CatalogosServiceImpl implements ICatalogosService{
 
     private final ITorneoRepository torneoRepository;
 
+    private final ITipoTraspasoRepository tipoTraspasoRepository;
+
 
     @Override
     public List<CategoriaArbitro> findAllCategoriasArbitrosEntity() {
@@ -184,5 +186,10 @@ public class CatalogosServiceImpl implements ICatalogosService{
     @Override
     public Torneo findTorneoEntityById(Long id) {
         return torneoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el torneo"));
+    }
+
+    @Override
+    public TipoTraspaso findTipoTraspasoEntityById(Short id) {
+        return tipoTraspasoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el elemento"));
     }
 }

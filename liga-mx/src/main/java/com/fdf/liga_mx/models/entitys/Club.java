@@ -72,6 +72,14 @@ public class Club {
     @ToString.Exclude
     private Set<Partido> partidosVisitante = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "clubOrigen")
+    @ToString.Exclude
+    private Set<Traspaso> origen = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "clubDestino")
+    @ToString.Exclude
+    private Set<Traspaso> destino = new LinkedHashSet<>();
+
 
     @PrePersist
     public void prePersist(){
