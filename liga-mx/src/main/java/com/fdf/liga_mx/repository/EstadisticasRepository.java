@@ -81,24 +81,98 @@ public interface EstadisticasRepository extends JpaRepository<Torneo, Long> {
             """;
 
     String TABLA_GOLEO_INDIVIDUAL = """
+            WITH Cambios AS (
+                SELECT 
+                    A.ID_PARTIDO,
+                    A.ID_JUGADOR_PRIMARIO AS ID_JUGADOR_SALE,
+                    A.ID_JUGADOR_SECUNDARIO AS ID_JUGADOR_ENTRA,
+                    CASE 
+                        WHEN CHARINDEX('+', A.MINUTO) > 0 THEN 
+                            TRY_CAST(LEFT(A.MINUTO, CHARINDEX('+', A.MINUTO) - 1) AS INT) +
+                            TRY_CAST(RIGHT(A.MINUTO, LEN(A.MINUTO) - CHARINDEX('+', A.MINUTO)) AS INT)
+                        ELSE 
+                            TRY_CAST(A.MINUTO AS INT)
+                    END AS MINUTO
+                FROM ACONTECIMIENTOS A
+                WHERE A.ID_TIPO = 2
+            )
+            , JugadoresPartido AS (
+                SELECT DISTINCT
+                    A.ID_PARTIDO,
+                    A.ID_JUGADOR_PRIMARIO AS ID_JUGADOR
+                FROM ACONTECIMIENTOS A
+            
+                UNION
+            
+                SELECT DISTINCT
+                    C.ID_PARTIDO,
+                    C.ID_JUGADOR_ENTRA
+                FROM Cambios C
+            )
+            , EntradasSalidas AS (
+                SELECT 
+                    JP.ID_PARTIDO,
+                    JP.ID_JUGADOR,
+            
+                    ISNULL(
+                        (SELECT MIN(C.MINUTO) 
+                         FROM Cambios C 
+                         WHERE C.ID_PARTIDO = JP.ID_PARTIDO 
+                         AND C.ID_JUGADOR_ENTRA = JP.ID_JUGADOR),
+                        0
+                    ) AS MINUTO_ENTRADA,
+            
+                    ISNULL(
+                        (SELECT MIN(C.MINUTO) 
+                         FROM Cambios C  
+                         WHERE C.ID_PARTIDO = JP.ID_PARTIDO 
+                         AND C.ID_JUGADOR_SALE = JP.ID_JUGADOR),
+                        90
+                    ) AS MINUTO_SALIDA
+            
+                FROM JugadoresPartido JP
+            )
+            , MinutosPorJugador AS (
+                SELECT 
+                    E.ID_JUGADOR,
+                    SUM(E.MINUTO_SALIDA - E.MINUTO_ENTRADA) AS MINUTOS_TOTALES
+                FROM EntradasSalidas E
+                INNER JOIN PARTIDOS P
+                    ON E.ID_PARTIDO = P.ID_PARTIDO
+                    AND P.ID_STATUS = 5
+                WHERE P.ID_TORNEO = :id
+                GROUP BY E.ID_JUGADOR
+            )
+            
             SELECT
-            	P.NOMBRE AS NOMBRE,
-            	J.DORSAL AS DORSAL,
-            	C.NOMBRE_CLUB AS CLUB, 
-            	N.NOMBRE_NACIONALIDAD AS NACIONALIDAD, 
-            	COUNT(*) AS GOLES
-            FROM
-            	JUGADORES AS J
-            INNER JOIN ACONTECIMIENTOS AS A ON J.NUI_JUGADOR = A.ID_JUGADOR_PRIMARIO
-            AND A.ID_TIPO = 1
-            LEFT JOIN CLUBES AS C ON J.ID_CLUB = C.ID_CLUB
-            INNER JOIN PERSONAS AS P ON J.ID_PERSONA = P.ID_PERSONA
-            INNER JOIN NACIONALIDADES AS N ON P.ID_NACIONALIDAD = N.ID_NACIONALIDAD 
-            INNER JOIN PARTIDOS AS PA ON A.ID_PARTIDO  = PA.ID_PARTIDO
-            INNER JOIN TORNEOS AS T ON PA.ID_TORNEO = T.ID_TORNEO 
-            AND T.ID_TORNEO = :id
-            GROUP BY P.NOMBRE, J.DORSAL, C.NOMBRE_CLUB, N.NOMBRE_NACIONALIDAD 
-            ORDER BY GOLES DESC
+                P.NOMBRE AS NOMBRE,
+                MAX(J.DORSAL) AS DORSAL,
+                MAX(C.NOMBRE_CLUB) AS CLUB, 
+                MAX(N.NOMBRE_NACIONALIDAD) AS NACIONALIDAD, 
+                COUNT(*) AS GOLES,
+                ISNULL(M.MINUTOS_TOTALES, 0) AS MINUTOS_TOTALES
+            FROM JUGADORES AS J
+            INNER JOIN ACONTECIMIENTOS AS A 
+                ON J.NUI_JUGADOR = A.ID_JUGADOR_PRIMARIO
+                AND A.ID_TIPO = 1
+            LEFT JOIN CLUBES AS C 
+                ON J.ID_CLUB = C.ID_CLUB
+            INNER JOIN PERSONAS AS P 
+                ON J.ID_PERSONA = P.ID_PERSONA
+            INNER JOIN NACIONALIDADES AS N 
+                ON P.ID_NACIONALIDAD = N.ID_NACIONALIDAD 
+            INNER JOIN PARTIDOS AS PA 
+                ON A.ID_PARTIDO = PA.ID_PARTIDO
+                AND PA.ID_STATUS = 5
+            INNER JOIN TORNEOS AS T 
+                ON PA.ID_TORNEO = T.ID_TORNEO 
+                AND T.ID_TORNEO = :id
+            LEFT JOIN MinutosPorJugador M
+                ON J.NUI_JUGADOR = M.ID_JUGADOR
+            GROUP BY 
+                P.NOMBRE,
+                M.MINUTOS_TOTALES
+            ORDER BY GOLES DESC;
             """;
 
     String TABLA_COCIENTE = """

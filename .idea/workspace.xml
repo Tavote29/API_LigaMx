@@ -5,18 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83901f96-1e8b-4fe1-83b9-5a42ac303be7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/EstadisticasController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/projection/getTablaCociente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/projection/getTablaGoleoIndividual.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/projection/getTablaPosiciones.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/EstadisticasRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/EstadisticasServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/IEstadisticasService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/TraspasoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/mappers/TipoTraspasoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/mappers/TraspasoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/request/TraspasoRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/response/TipoTraspasoResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/response/TraspasoResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/TipoTraspaso.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Traspaso.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/enums/TiposTraspasos.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/ITipoTraspasoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/TraspasoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ITraspasoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/TraspasoServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/config/SwaggerTags.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/config/SwaggerTags.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/PartidoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/controller/PartidoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/projection/getTablaGoleoIndividual.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/dtos/projection/getTablaGoleoIndividual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Club.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/models/entitys/Jugador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/EstadisticasRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/repository/EstadisticasRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/CatalogosServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/CatalogosServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ICatalogosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/ICatalogosService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/liga-mx/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/Script-ligaMX.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/Script-ligaMX.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +37,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
         <option value="Interface" />
       </list>
@@ -72,23 +84,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Application.LigaMxApplication.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Gustavo&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gusta/OneDrive/Desktop/API_LigaMx/API_LigaMx&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.LigaMxApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Gustavo",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gusta/OneDrive/Desktop/API_LigaMx/API_LigaMx",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.editor"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="LigaMxApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.LigaMxApplication" />
@@ -118,5 +130,25 @@
       <updated>1757689887270</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/TraspasoServiceImpl.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/TraspasoServiceImpl.java</url>
+          <line>70</line>
+          <properties class="com.fdf.liga_mx.services.TraspasoServiceImpl" method="update">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
