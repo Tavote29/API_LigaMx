@@ -29,7 +29,7 @@ jobs:
           cache: maven
 
       - name: Compilar y Ejecutar Pruebas
-        run: mvn clean package -DskipTests
+        run: mvn clean test  
 
 
   # 2:(Docker y Producción)

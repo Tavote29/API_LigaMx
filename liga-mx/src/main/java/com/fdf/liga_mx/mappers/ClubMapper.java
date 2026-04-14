@@ -3,27 +3,21 @@ package com.fdf.liga_mx.mappers;
 import com.fdf.liga_mx.models.dtos.request.ClubRequest;
 import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 @Component
+@RequiredArgsConstructor
 public class ClubMapper {
 
     private final EstadoMapper estadoMapper;
     private final CiudadMapper ciudadMapper;
     private final DTMapper dtMapper;
     private final EstadioMapper estadioMapper;
-    private final JugadorMapper jugadorMapper;
 
-    @Autowired
-    public ClubMapper(EstadoMapper estadoMapper, CiudadMapper ciudadMapper, DTMapper dtMapper, EstadioMapper estadioMapper, @Lazy JugadorMapper jugadorMapper) {
-        this.estadoMapper = estadoMapper;
-        this.ciudadMapper = ciudadMapper;
-        this.dtMapper = dtMapper;
-        this.estadioMapper = estadioMapper;
-        this.jugadorMapper = jugadorMapper;
-    }
+
 
     public Club toEntity(ClubRequest request) {
         if (request == null) {
