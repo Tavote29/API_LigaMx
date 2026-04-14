@@ -12,4 +12,6 @@ import java.io.IOException;
 public interface IDTService extends  CrudService<DTRequest, DTResponseDto, DT, Long>{
     Page<DTResponseDto> searchDT(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short club);
     DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException;
+
+    void liberarDt(Long id);
 }
