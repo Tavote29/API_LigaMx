@@ -136,4 +136,31 @@ public class DTServiceImpl implements IDTService{
 
         return dtMapper.toDto(dtRepository.save(dtSaved));
     }
+
+    @Override
+    @Transactional
+    public void liberarDt(Long id) {
+
+        DT dt = dtRepository.findById(id).orElseThrow(() -> new NoSuchElementException("DT no encontrado"));
+
+        if (dt.getPersona().getIdStatus().getId().equals(Estados.INACTIVO.getCodigo())) {
+            throw new IllegalStateException("Ya se encuentra libre de competencia");
+        }
+
+        if (dt.getStatus().equals(Estados.RETIRADO.getCodigo() )) {
+            throw new IllegalStateException("Ya se encuentra libre de competencia");
+        }
+
+        if (dt.getStatus().equals(Estados.AGENTE_LIBRE.getCodigo() )) {
+            throw new IllegalStateException("Ya se encuentra libre de competencia");
+        }
+
+        dt.setStatus(Estados.AGENTE_LIBRE.getCodigo());
+        dt.setClub(null);
+
+        dtRepository.save(dt);
+
+
+
+    }
 }

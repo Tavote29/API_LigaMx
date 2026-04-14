@@ -200,4 +200,28 @@ public class DTController {
         Page<DTResponseDto> response =  idtService.searchDT(page, size, sorts, nombre, nacionalidad, club);
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PatchMapping("/{id}/liberar")
+    @Operation(
+        summary = "Liberar director técnico",
+        description = "Libera a un director técnico de su club actual, dejándolo como agente libre"
+    )
+    @SwaggerResponses.UpdateApiResponses
+    @ApiResponse(
+        responseCode = "204",
+        description = "Director técnico liberado exitosamente"
+    )
+    public ResponseEntity<Void> liberarDT(
+            @Parameter(
+                description = "ID del director técnico a liberar",
+                required = true,
+                example = "1"
+            )
+            @PathVariable Long id){
+
+        idtService.liberarDt(id);
+        return ResponseEntity.noContent().build();
+
+    }
 }
