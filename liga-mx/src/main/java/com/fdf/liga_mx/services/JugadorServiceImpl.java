@@ -8,7 +8,6 @@ import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
-import com.fdf.liga_mx.models.repositories.IPosicionRepository;
 import com.fdf.liga_mx.repository.*;
 import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
@@ -29,8 +28,7 @@ import java.util.*;
 @AllArgsConstructor
 public class JugadorServiceImpl implements IJugadorService{
 
-    private final ClubRepository clubRepository;
-    private final IPosicionRepository posicionRepository;
+    private final IClubService clubService;
     private final JugadorRepository jugadorRepository;
     private final JugadorMapper jugadorMapper;
     private final PersonaMapper personaMapper;
@@ -41,8 +39,8 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional
     public JugadorResponseDto save(JugadorRequest jugadorRequest) {
 
-        Club club = clubRepository.findById(jugadorRequest.getId_club()).orElseThrow();
-        Posicion posicion = posicionRepository.findById(jugadorRequest.getId_posicion()).orElseThrow();
+        Club club = clubService.findById(jugadorRequest.getId_club());
+        Posicion posicion = catalogosService.findPosicionEntityById(jugadorRequest.getId_posicion());
 
         Persona persona = personaMapper.toEntity(jugadorRequest.getPersona());
         Jugador jugador = jugadorMapper.toEntity(jugadorRequest);
@@ -92,7 +90,7 @@ public class JugadorServiceImpl implements IJugadorService{
             jugador.setIdPosicion(posicion);
         }
         if (!jugador.getIdClub().getId().equals(jugadorRequest.getId_club())){
-            Club club = clubRepository.findById(jugadorRequest.getId_club()).orElseThrow();
+            Club club = clubService.findById(jugadorRequest.getId_club());
             jugador.setIdClub(club);
         }
 
@@ -154,8 +152,8 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional
     public JugadorResponseDto save(JugadorRequest jugadorRequest, MultipartFile file) throws IOException {
 
-        Club club = clubRepository.findById(jugadorRequest.getId_club()).orElseThrow(() -> new NoSuchElementException("No se encontro el club"));
-        Posicion posicion = posicionRepository.findById(jugadorRequest.getId_posicion()).orElseThrow(() -> new NoSuchElementException("No se encontro la posicion"));
+        Club club = clubService.findById(jugadorRequest.getId_club());
+        Posicion posicion = catalogosService.findPosicionEntityById(jugadorRequest.getId_posicion());
 
 
         Persona persona = personaMapper.toEntity(jugadorRequest.getPersona());
