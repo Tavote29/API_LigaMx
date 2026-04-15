@@ -11,6 +11,7 @@ import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.JugadorRepository;
 import com.fdf.liga_mx.testdata.ClubTestDataBuilder;
 import com.fdf.liga_mx.testdata.JugadorRequestTestDataBuilder;
+import com.fdf.liga_mx.testdata.JugadorTestDataBuilder;
 import com.fdf.liga_mx.testdata.PosicionTestDataBuilder;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +23,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -210,37 +213,156 @@ import static org.mockito.Mockito.*;
 
     @Test
     void findAll_mustReturnListOfJugadores() {
-        // TODO: Implement test
+       //Arrange
+
+        Jugador jugador1 = JugadorTestDataBuilder.aJugador().build();
+
+        Jugador jugador2 = JugadorTestDataBuilder.aJugador().build();
+
+        Jugador jugador3 = JugadorTestDataBuilder.aJugador().build();
+
+        when(jugadorRepository.findAll()).thenReturn(List.of(jugador1,jugador2,jugador3));
+
+       //Act
+
+        List<Jugador> jugadorList = jugadorService.findAll();
+
+       //Assert
+
+        assertNotNull(jugadorList);
+        assertEquals(3, jugadorList.size());
+
+
     }
 
     @Test
     void findAllDto_mustReturnListOfJugadorResponseDto() {
-        // TODO: Implement test
+        //Arrange
+
+        Jugador jugador1 = JugadorTestDataBuilder.aJugador().build();
+
+        Jugador jugador2 = JugadorTestDataBuilder.aJugador().build();
+
+        Jugador jugador3 = JugadorTestDataBuilder.aJugador().build();
+
+        when(jugadorRepository.findAll()).thenReturn(List.of(jugador1,jugador2,jugador3));
+
+        //Act
+
+        List<JugadorResponseDto> jugadorList = jugadorService.findAllDto();
+
+        //Assert
+
+        assertNotNull(jugadorList);
+        assertEquals(3, jugadorList.size());
     }
 
     @Test
     void findById_mustThrowNoSuchElementException_whenJugadorNotFound() {
-        // TODO: Implement test
+        //Arrange
+
+        Long id = faker.number().randomNumber();
+
+        when(jugadorRepository.findById(id))
+                .thenReturn(Optional.empty());
+        //Act
+
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.findById(id));
+
+        //Assert
+
+        assertEquals("No se encontro el jugador", exception.getMessage());
     }
 
     @Test
     void findById_mustReturnJugador_whenFound() {
-        // TODO: Implement test
+        //Arrange
+
+        Long id = faker.number().randomNumber();
+
+        Jugador jugador = JugadorTestDataBuilder.aJugador().withId(id).build();
+
+        when(jugadorRepository.findById(id))
+                .thenReturn(Optional.of(jugador));
+
+        //Act
+
+        Jugador result = jugadorService.findById(id);
+
+        //Assert
+
+        assertNotNull(result);
+        assertEquals(id, result.getId());
+        assertSame(jugador, result);
+
     }
 
     @Test
     void findDtoById_mustThrowNoSuchElementException_whenJugadorNotFound() {
-        // TODO: Implement test
+        //Arrange
+
+        Long id = faker.number().randomNumber();
+
+        when(jugadorRepository.findById(id))
+                .thenReturn(Optional.empty());
+        //Act
+
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.findDtoById(id));
+
+        //Assert
+
+        assertEquals("No se encontro el jugador", exception.getMessage());
     }
 
     @Test
     void findDtoById_mustReturnJugadorResponseDto_whenFound() {
-        // TODO: Implement test
+        //Arrange
+
+        Long id = faker.number().randomNumber();
+
+        Jugador jugador = JugadorTestDataBuilder.aJugador().withId(id).build();
+
+        when(jugadorRepository.findById(id))
+                .thenReturn(Optional.of(jugador));
+
+        //Act
+
+        JugadorResponseDto result = jugadorService.findDtoById(id);
+
+        //Assert
+
+        assertNotNull(result);
+        assertEquals(id, result.getId());
+        assertEquals(jugador.getIdPersona().getNombre(), result.getIdPersona().getNombre());
+        assertEquals(jugador.getDorsal(), result.getDorsal());
+        assertEquals(jugador.getIdPosicion().getId(), result.getIdPosicion().getId());
+
+
     }
 
     @Test
     void update_mustThrowNoSuchElementException_whenJugadorNotFound() {
-        // TODO: Implement test
+        //Arrange
+
+        Long id = faker.number().randomNumber();
+
+        JugadorRequest jugadorRequest = new JugadorRequest();
+
+        when(jugadorRepository.findById(id))
+                .thenReturn(Optional.empty());
+        //Act
+
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.update(jugadorRequest,id));
+
+        //Assert
+
+        assertEquals("No se encontro el jugador", exception.getMessage());
+
+        verifyNoInteractions(catalogosService);
+
+        verifyNoInteractions(clubService);
+
+        verify(jugadorRepository,never()).saveAndFlush(any());
     }
 
     @Test

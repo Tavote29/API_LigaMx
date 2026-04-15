@@ -85,19 +85,19 @@ public class JugadorServiceImpl implements IJugadorService{
         Status status = catalogosService.findStatusEntityById(jugadorRequest.getPersona().getIdStatus());
 
         if (!jugador.getDorsal().equals(jugadorRequest.getDorsal())) jugador.setDorsal(jugadorRequest.getDorsal());
+
+
         if (!jugador.getIdPosicion().getId().equals(jugadorRequest.getId_posicion())) {
             Posicion posicion = catalogosService.findPosicionEntityById(jugadorRequest.getId_posicion());
             jugador.setIdPosicion(posicion);
         }
+
         if (!jugador.getIdClub().getId().equals(jugadorRequest.getId_club())){
             Club club = clubService.findById(jugadorRequest.getId_club());
             jugador.setIdClub(club);
         }
 
-
         personaMapper.updateEntity(jugador.getIdPersona(), jugadorRequest.getPersona(),nacionalidad,status);
-
-
 
         return jugadorMapper.toDto(jugadorRepository.saveAndFlush(jugador));
     }
