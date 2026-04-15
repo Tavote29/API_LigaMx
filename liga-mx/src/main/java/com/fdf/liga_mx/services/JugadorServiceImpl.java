@@ -109,7 +109,8 @@ public class JugadorServiceImpl implements IJugadorService{
     }
 
     @Override
-    public Page<JugadorResponseDto> searchJugador(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short club) {
+    @Transactional(readOnly = true)
+    public Page<JugadorResponseDto> searchJugador(Integer page, Integer size, String sorts, String nombre, Short nacionalidad, Short club) {
         Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
         Page<Jugador> jugadorPage = jugadorRepository.searchJugador(pageable,nombre,nacionalidad, club);
         return jugadorPage.map(j-> jugadorMapper.toDto(j));

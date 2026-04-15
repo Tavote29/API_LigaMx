@@ -32,7 +32,6 @@ public class PersonaTestDataBuilder {
                 .peso(BigDecimal.valueOf(faker.number().randomDouble(1, 60, 100)).setScale(1, RoundingMode.HALF_UP))
                 .idStatus(status)
                 .idNacionalidad(nacionalidad)
-                .imageUrl(faker.internet().url())
                 .arbitros(new LinkedHashSet<>())
                 .DTS(new LinkedHashSet<>())
                 .jugadores(new LinkedHashSet<>());

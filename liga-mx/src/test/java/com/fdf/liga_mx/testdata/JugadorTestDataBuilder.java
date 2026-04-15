@@ -1,9 +1,13 @@
 package com.fdf.liga_mx.testdata;
 
+import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
+import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
 import com.fdf.liga_mx.models.entitys.Club;
 import com.fdf.liga_mx.models.entitys.Jugador;
 import com.fdf.liga_mx.models.entitys.Persona;
 import com.fdf.liga_mx.models.entitys.Posicion;
+import com.fdf.liga_mx.models.entitys.Nacionalidad;
+import com.fdf.liga_mx.models.entitys.Status;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.github.javafaker.Faker;
 
@@ -23,8 +27,8 @@ public class JugadorTestDataBuilder {
 
         this.builder = Jugador.builder()
                 .id(faker.number().randomNumber())
-                .tarjetasAmarillas(null)
-                .tarjetasRojas(null)
+                .tarjetasAmarillas((short)0)
+                .tarjetasRojas((short)0)
                 .dorsal((short) faker.number().numberBetween(1, 99))
                 .idPersona(persona)
                 .idPosicion(posicion)
@@ -75,6 +79,58 @@ public class JugadorTestDataBuilder {
 
     public JugadorTestDataBuilder withStatus(Short status) {
         builder.status(status);
+        return this;
+    }
+
+    public JugadorTestDataBuilder fromRequest(JugadorRequest request) {
+        if (request != null) {
+            if (request.getDorsal() != null) {
+                this.withDorsal(request.getDorsal());
+            }
+            if (request.getTarjetasAmarillas() != null) {
+                this.withTarjetasAmarillas(request.getTarjetasAmarillas());
+            }
+            if (request.getTarjetasRojas() != null) {
+                this.withTarjetasRojas(request.getTarjetasRojas());
+            }
+            if (request.getId_posicion() != null) {
+                Posicion posicion = PosicionTestDataBuilder.aPosicion().withId(request.getId_posicion()).build();
+                this.withIdPosicion(posicion);
+            }
+            if (request.getId_club() != null) {
+                Club club = ClubTestDataBuilder.aClub().withId(request.getId_club()).build();
+                this.withIdClub(club);
+            }
+
+            PersonaRequest personaRequest = request.getPersona();
+            if (personaRequest != null) {
+                PersonaTestDataBuilder personaBuilder = PersonaTestDataBuilder.aPersona();
+                if (personaRequest.getNombre() != null) {
+                    personaBuilder.withNombre(personaRequest.getNombre());
+                }
+                if (personaRequest.getFechaNacimiento() != null) {
+                    personaBuilder.withFechaNacimiento(personaRequest.getFechaNacimiento());
+                }
+                if (personaRequest.getLugarNacimiento() != null) {
+                    personaBuilder.withLugarNacimiento(personaRequest.getLugarNacimiento());
+                }
+                if (personaRequest.getEstatura() != null) {
+                    personaBuilder.withEstatura(personaRequest.getEstatura());
+                }
+                if (personaRequest.getPeso() != null) {
+                    personaBuilder.withPeso(personaRequest.getPeso());
+                }
+                if (personaRequest.getIdNacionalidad() != null) {
+                    Nacionalidad nacionalidad = NacionalidadTestDataBuilder.aNacionalidad().withId(personaRequest.getIdNacionalidad()).build();
+                    personaBuilder.withIdNacionalidad(nacionalidad);
+                }
+                if (personaRequest.getIdStatus() != null) {
+                    Status status = StatusTestDataBuilder.aStatus().withId(personaRequest.getIdStatus()).build();
+                    personaBuilder.withIdStatus(status);
+                }
+                this.withIdPersona(personaBuilder.build());
+            }
+        }
         return this;
     }
 
