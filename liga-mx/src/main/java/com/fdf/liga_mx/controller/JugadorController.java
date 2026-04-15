@@ -191,7 +191,7 @@ public class JugadorController {
                 required = false,
                 example = "1"
             )
-            @RequestParam(required = false) Integer nacionalidad,
+            @RequestParam(required = false) Short nacionalidad,
             @Parameter(
                 description = "ID del club para filtrar",
                 required = false,
