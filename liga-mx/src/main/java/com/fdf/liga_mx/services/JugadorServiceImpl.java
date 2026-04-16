@@ -85,19 +85,19 @@ public class JugadorServiceImpl implements IJugadorService{
         Status status = catalogosService.findStatusEntityById(jugadorRequest.getPersona().getIdStatus());
 
         if (!jugador.getDorsal().equals(jugadorRequest.getDorsal())) jugador.setDorsal(jugadorRequest.getDorsal());
+
+
         if (!jugador.getIdPosicion().getId().equals(jugadorRequest.getId_posicion())) {
             Posicion posicion = catalogosService.findPosicionEntityById(jugadorRequest.getId_posicion());
             jugador.setIdPosicion(posicion);
         }
+
         if (!jugador.getIdClub().getId().equals(jugadorRequest.getId_club())){
             Club club = clubService.findById(jugadorRequest.getId_club());
             jugador.setIdClub(club);
         }
 
-
         personaMapper.updateEntity(jugador.getIdPersona(), jugadorRequest.getPersona(),nacionalidad,status);
-
-
 
         return jugadorMapper.toDto(jugadorRepository.saveAndFlush(jugador));
     }
@@ -109,7 +109,8 @@ public class JugadorServiceImpl implements IJugadorService{
     }
 
     @Override
-    public Page<JugadorResponseDto> searchJugador(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short club) {
+    @Transactional(readOnly = true)
+    public Page<JugadorResponseDto> searchJugador(Integer page, Integer size, String sorts, String nombre, Short nacionalidad, Short club) {
         Pageable pageable = PageRequest.of(page,size, Utils.parseSortParams(sorts));
         Page<Jugador> jugadorPage = jugadorRepository.searchJugador(pageable,nombre,nacionalidad, club);
         return jugadorPage.map(j-> jugadorMapper.toDto(j));

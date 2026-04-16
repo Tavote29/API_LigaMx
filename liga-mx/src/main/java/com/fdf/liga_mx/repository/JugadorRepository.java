@@ -30,7 +30,7 @@ public interface JugadorRepository extends JpaRepository<Jugador,Long> {
     @NativeQuery(value = QUERY + FILTERS,countQuery = "SELECT COUNT(j) FROM Jugador j")
     Page<Jugador> searchJugador(Pageable pageable,
                                 @Param("nombre") String nombre,
-                                @Param("nacionalidad") Integer nacionalidad,
+                                @Param("nacionalidad") Short nacionalidad,
                                 @Param("clubId") Short clubId
     );
 
