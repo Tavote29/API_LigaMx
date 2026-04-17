@@ -33,6 +33,8 @@ public class DTMapper {
                 .tarjetasAmarillas(entity.getTarjetasAmarillas())
                 .tarjetasRojas(entity.getTarjetasRojas())
                 .idPersona(personaMapper.toDto(entity.getPersona()))
+                .idClub(entity.getClub() != null ? entity.getClub().getId() : null)
+                .nombreClub(entity.getClub() != null ? entity.getClub().getNombreClub() : null)
                 .build();
     }
 }
