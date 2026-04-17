@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.testdata;
 
+import com.fdf.liga_mx.models.dtos.request.EstadioRequestDto;
 import com.fdf.liga_mx.models.entitys.Ciudad;
 import com.fdf.liga_mx.models.entitys.Estadio;
 import com.fdf.liga_mx.models.entitys.Estado;
@@ -62,6 +63,32 @@ public class EstadioTestDataBuilder {
         builder.idCiudad(idCiudad);
         return this;
     }
+    public EstadioTestDataBuilder fromRequest(EstadioRequestDto request) {
+        if (request != null) {
+            if (request.getId() != null) {
+                this.withId(request.getId());
+            }
+            if (request.getNombreEstadio() != null) {
+                this.withNombreEstadio(request.getNombreEstadio());
+            }
+            if (request.getDireccion() != null) {
+                this.withDireccion(request.getDireccion());
+            }
+            if (request.getCapacidad() != null) {
+                this.withCapacidad(request.getCapacidad());
+            }
+            if (request.getIdEstado() != null) {
+                Estado estado = EstadoTestDataBuilder.anEstado().withId(request.getIdEstado()).build();
+                this.withIdEstado(estado);
+            }
+            if (request.getIdCiudad() != null) {
+                Ciudad ciudad = CiudadTestDataBuilder.aCiudad().withId(request.getIdCiudad()).build();
+                this.withIdCiudad(ciudad);
+            }
+        }
+        return this;
+    }
+
 
     public Estadio build() {
         return builder.build();

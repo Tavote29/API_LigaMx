@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.testdata;
 
+import com.fdf.liga_mx.models.dtos.request.ClubRequest;
 import com.fdf.liga_mx.models.entitys.Ciudad;
 import com.fdf.liga_mx.models.entitys.Club;
 import com.fdf.liga_mx.models.entitys.DT;
@@ -40,6 +41,27 @@ public class ClubTestDataBuilder {
 
     public static ClubTestDataBuilder aClub() {
         return new ClubTestDataBuilder();
+    }
+
+    public ClubTestDataBuilder fromRequest(ClubRequest request) {
+        builder.nombreClub(request.getNombreClub())
+                .fechaFundacion(request.getFechaFundacion())
+                .propietario(request.getPropietario());
+
+        if (request.getIdEstado() != null) {
+            builder.idEstado(EstadoTestDataBuilder.anEstado().withId(request.getIdEstado()).build());
+        }
+        if (request.getIdCiudad() != null) {
+            builder.idCiudad(CiudadTestDataBuilder.aCiudad().withId(request.getIdCiudad()).build());
+        }
+        if (request.getIdDt() != null) {
+            builder.idDt(DTTestDataBuilder.aDT().withId(request.getIdDt()).build());
+        }
+        if (request.getIdEstadio() != null) {
+            builder.idEstadio(EstadioTestDataBuilder.anEstadio().withId(request.getIdEstadio()).build());
+        }
+
+        return this;
     }
 
     public ClubTestDataBuilder withId(Short id) {

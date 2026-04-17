@@ -30,8 +30,6 @@ public class ClubServiceImpl implements IClubService{
 
     private final ClubMapper clubMapper;
 
-    private final IEstadoRepository estadoRepo;
-
     private final ICatalogosService catalogosService;
 
     private final IDTService dtService;
@@ -144,7 +142,7 @@ public class ClubServiceImpl implements IClubService{
 
         Club club = clubMapper.toEntity(clubRequest);
 
-        if (clubRequest.getIdEstadio() != null){
+        if (clubRequest.getIdDt() != null){
             DT dt = dtService.findById(clubRequest.getIdDt());
 
             if(dt.getClub()!=null) throw new IllegalArgumentException("El DT ya tiene un club asignado");
@@ -152,7 +150,7 @@ public class ClubServiceImpl implements IClubService{
             club.setIdDt(dt);
         }
 
-        if (clubRequest.getIdDt() != null){
+        if (clubRequest.getIdEstadio() != null){
             Estadio estadio = estadioService.findById(clubRequest.getIdEstadio());
             club.setIdEstadio(estadio);
         }
