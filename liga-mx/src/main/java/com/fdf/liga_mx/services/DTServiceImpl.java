@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class DTServiceImpl implements IDTService{
 
-    private final ClubRepository clubRepository;
+    private final IClubService clubService;
     private final ICatalogosService catalogosService;
     private final DTRepository dtRepository;
     private final DTMapper dtMapper;
@@ -39,7 +39,7 @@ public class DTServiceImpl implements IDTService{
     @Override
     @Transactional
     public DTResponseDto save( DTRequest dtRequest) {
-        Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow();
+        Club club = clubService.findById(dtRequest.getIdClub());
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -113,7 +113,8 @@ public class DTServiceImpl implements IDTService{
     @Override
     @Transactional
     public DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException {
-        Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow(() -> new NoSuchElementException("No se encontro el club"));
+
+        Club club = clubService.findById(dtRequest.getIdClub());
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -144,11 +145,11 @@ public class DTServiceImpl implements IDTService{
         DT dt = dtRepository.findById(id).orElseThrow(() -> new NoSuchElementException("DT no encontrado"));
 
         if (dt.getPersona().getIdStatus().getId().equals(Estados.INACTIVO.getCodigo())) {
-            throw new IllegalStateException("Ya se encuentra libre de competencia");
+            throw new IllegalStateException("La persona ya se encuentra inactiva");
         }
 
         if (dt.getStatus().equals(Estados.RETIRADO.getCodigo() )) {
-            throw new IllegalStateException("Ya se encuentra libre de competencia");
+            throw new IllegalStateException("La persona ya se encuentra retirada");
         }
 
         if (dt.getStatus().equals(Estados.AGENTE_LIBRE.getCodigo() )) {

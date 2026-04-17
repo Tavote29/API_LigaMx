@@ -1,6 +1,7 @@
 package com.fdf.liga_mx.testdata;
 
 import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.github.javafaker.Faker;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class PersonaRequestTestDataBuilder {
                 .lugarNacimiento(faker.address().city())
                 .estatura(BigDecimal.valueOf(faker.number().randomDouble(2, 1, 2)).setScale(2, RoundingMode.HALF_UP))
                 .peso(BigDecimal.valueOf(faker.number().randomDouble(2, 60, 100)).setScale(2, RoundingMode.HALF_UP))
-                .idStatus((short) 1)
+                .idStatus(Estados.ACTIVO.getCodigo())
                 .idNacionalidad((short) faker.number().numberBetween(1, 200));
     }
 

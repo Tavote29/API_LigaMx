@@ -10,4 +10,6 @@ public class DTResponseDto {
     private Short tarjetasAmarillas;
     private Short tarjetasRojas;
     private PersonaResponseDto idPersona;
+    private Short idClub;
+    private String nombreClub;
 }

@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.testdata;
 
+import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
 import com.fdf.liga_mx.models.entitys.Nacionalidad;
 import com.fdf.liga_mx.models.entitys.Persona;
 import com.fdf.liga_mx.models.entitys.Status;
@@ -88,5 +89,34 @@ public class PersonaTestDataBuilder {
 
     public Persona build() {
         return builder.build();
+    }
+
+    public PersonaTestDataBuilder fromRequest(PersonaRequest request) {
+        if (request != null) {
+            if (request.getNombre() != null) {
+                this.withNombre(request.getNombre());
+            }
+            if (request.getFechaNacimiento() != null) {
+                this.withFechaNacimiento(request.getFechaNacimiento());
+            }
+            if (request.getLugarNacimiento() != null) {
+                this.withLugarNacimiento(request.getLugarNacimiento());
+            }
+            if (request.getEstatura() != null) {
+                this.withEstatura(request.getEstatura());
+            }
+            if (request.getPeso() != null) {
+                this.withPeso(request.getPeso());
+            }
+            if (request.getIdStatus() != null) {
+                Status status = StatusTestDataBuilder.aStatus().withId(request.getIdStatus()).build();
+                this.withIdStatus(status);
+            }
+            if (request.getIdNacionalidad() != null) {
+                Nacionalidad nacionalidad = NacionalidadTestDataBuilder.aNacionalidad().withId(request.getIdNacionalidad()).build();
+                this.withIdNacionalidad(nacionalidad);
+            }
+        }
+        return this;
     }
 }
