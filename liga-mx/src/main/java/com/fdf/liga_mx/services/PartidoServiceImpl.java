@@ -7,15 +7,15 @@ import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
 import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
-import com.fdf.liga_mx.repository.ArbitroRepository;
-import com.fdf.liga_mx.repository.ClubRepository;
-import com.fdf.liga_mx.repository.EstadioRepository;
 import com.fdf.liga_mx.repository.PartidoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -29,20 +29,23 @@ public class PartidoServiceImpl implements IPartidoService {
     private final ICatalogosService catalogosService;
 
     private final IJugadorService jugadorService;
-    private final ClubRepository clubRepository;
-    private final ArbitroRepository arbitroRepository;
-    private final EstadioRepository estadioRepository;
+    private final IClubService clubService;
+    private final IArbitroService arbitroService;
+    private final IEstadioService estadioService;
 
     @Override
     @Transactional
     public PartidoResponseDto save(PartidoRequest request) {
-        Club local = clubRepository.findById(request.getIdLocal()).orElseThrow();
-        Club visitante = clubRepository.findById(request.getIdVisitante()).orElseThrow();
-        Estadio estadio = estadioRepository.findById(request.getIdEstadio()).orElseThrow();
-        Arbitro arbitroCentral = arbitroRepository.findById(request.getIdArbitroCentral()).orElseThrow();
-        Arbitro arbitroAsistente1 = arbitroRepository.findById(request.getIdArbitroAsistente1()).orElseThrow();
-        Arbitro arbitroAsistente2 = arbitroRepository.findById(request.getIdArbitroAsistente2()).orElseThrow();
-        Arbitro cuartoArbitro = arbitroRepository.findById(request.getIdCuartoArbitro()).orElseThrow();
+        if (request.getFecha().isBefore(Instant.now())){
+            throw new DateTimeException("La fecha no es valida");
+        }
+        Club local = clubService.findById(request.getIdLocal());
+        Club visitante = clubService.findById(request.getIdVisitante());
+        Estadio estadio = estadioService.findById(request.getIdEstadio());
+        Arbitro arbitroCentral = arbitroService.findById(request.getIdArbitroCentral());
+        Arbitro arbitroAsistente1 = arbitroService.findById(request.getIdArbitroAsistente1());
+        Arbitro arbitroAsistente2 = arbitroService.findById(request.getIdArbitroAsistente2());
+        Arbitro cuartoArbitro = arbitroService.findById(request.getIdCuartoArbitro());
         Status status = catalogosService.findStatusEntityById(request.getIdStatus());
         Torneo torneo = catalogosService.findTorneoEntityById(request.getIdTorneo());
 
@@ -90,26 +93,26 @@ public class PartidoServiceImpl implements IPartidoService {
     public PartidoResponseDto update(PartidoRequest request, UUID id) {
         Partido partido = partidoRepo.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el partido"));
         if (!partido.getIdEstadio().getId().equals(request.getIdEstadio())){
-            Estadio estadio = estadioRepository.findById(request.getIdEstadio()).orElseThrow();
+            Estadio estadio = estadioService.findById(request.getIdEstadio());
             partido.setIdEstadio(estadio);
         }
 
         if (!partido.getFecha().equals(request.getFecha())) partido.setFecha(request.getFecha());
 
         if (!partido.getIdArbitroCentral().getId().equals(request.getIdArbitroCentral())){
-            Arbitro arbitroCentral = arbitroRepository.findById(request.getIdArbitroCentral()).orElseThrow();
+            Arbitro arbitroCentral = arbitroService.findById(request.getIdArbitroCentral());
             partido.setIdArbitroCentral(arbitroCentral);
         }
         if (!partido.getIdArbitroAsistente1().getId().equals(request.getIdArbitroAsistente1())){
-            Arbitro arbitroAsistente1 = arbitroRepository.findById(request.getIdArbitroAsistente1()).orElseThrow();
+            Arbitro arbitroAsistente1 = arbitroService.findById(request.getIdArbitroAsistente1());
             partido.setIdArbitroCentral(arbitroAsistente1);
         }
         if (!partido.getIdArbitroAsistente2().getId().equals(request.getIdArbitroAsistente2())){
-            Arbitro arbitroAsistente2 = arbitroRepository.findById(request.getIdArbitroAsistente2()).orElseThrow();
+            Arbitro arbitroAsistente2 = arbitroService.findById(request.getIdArbitroAsistente2());
             partido.setIdArbitroCentral(arbitroAsistente2);
         }
         if (!partido.getIdCuartoArbitro().getId().equals(request.getIdCuartoArbitro())){
-            Arbitro cuartoArbitro = arbitroRepository.findById(request.getIdCuartoArbitro()).orElseThrow();
+            Arbitro cuartoArbitro = arbitroService.findById(request.getIdCuartoArbitro());
             partido.setIdArbitroCentral(cuartoArbitro);
         }
 
