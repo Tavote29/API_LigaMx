@@ -6,6 +6,7 @@ import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.repository.PartidoRepository;
 import com.fdf.liga_mx.testdata.PartidoRequestTestDataBuilder;
+import com.fdf.liga_mx.testdata.PartidoTestDataBuilder;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.DateTimeException;
 import java.time.Instant;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -79,7 +82,10 @@ public class PartidoServiceImplTest {
         Arbitro arbitroAsistente1 = Arbitro.builder().id(partidoRequest.getIdArbitroAsistente1()).build();
         Arbitro arbitroAsistente2 = Arbitro.builder().id(partidoRequest.getIdArbitroAsistente2()).build();
         Arbitro cuartoArbitro = Arbitro.builder().id(partidoRequest.getIdCuartoArbitro()).build();
-        Torneo torneo = Torneo.builder().id(partidoRequest.getIdTorneo()).build();
+        Torneo torneo = Torneo.builder()
+                .id(partidoRequest.getIdTorneo())
+                .status((short)1)
+                .build();
 
         when(clubService.findById(partidoRequest.getIdLocal())).thenReturn(local);
         when(clubService.findById(partidoRequest.getIdVisitante())).thenReturn(visitante);
@@ -92,6 +98,7 @@ public class PartidoServiceImplTest {
 
         when(partidoRepository.saveAndFlush(any(Partido.class))).thenAnswer( match ->{
                Partido partido = match.getArgument(0);
+               partido.setId(UUID.randomUUID());
                return partido;
             }
         );
@@ -115,6 +122,19 @@ public class PartidoServiceImplTest {
         assertEquals(partidoRequest.getIdTorneo(), result.getIdTorneo().getId());
 
         verify(partidoRepository).saveAndFlush(captor.capture());
+
+        Partido partidoSaved = captor.getValue();
+
+        assertNotNull(partidoSaved);
+
+        assertSame(local,partidoSaved.getIdLocal());
+        assertSame(visitante,partidoSaved.getIdVisitante());
+        assertSame(estadio, partidoSaved.getIdEstadio());
+        assertNotNull(partidoSaved.getId());
+
+        verify(clubService).findById(partidoRequest.getIdLocal());
+        verify(clubService).findById(partidoRequest.getIdVisitante());
+        verify(estadioService).findById(partidoRequest.getIdEstadio());
         verify(catalogosService).findTorneoEntityById(partidoRequest.getIdTorneo());
     }
 
@@ -154,7 +174,8 @@ public class PartidoServiceImplTest {
     }
 
     @Test
-    public void savePartido_mustThrowException_ifDateIsNotValid(){
+    public void savePartido_mustThrowDateException_ifDateIsNotValid(){
+        //Arrange
         Instant from = Instant.parse("2020-01-01T00:00:00Z");
         PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder().withFecha(from).build();
 
@@ -170,5 +191,38 @@ public class PartidoServiceImplTest {
         verifyNoInteractions(partidoRepository);
     }
 
+    @Test
+    public void findAll_mustReturnListOfPartidos(){
+        //Arrange
+        Partido partido1 = PartidoTestDataBuilder.aPartido().build();
+        Partido partido2 = PartidoTestDataBuilder.aPartido().build();
+        Partido partido3 = PartidoTestDataBuilder.aPartido().build();
+
+        when(partidoRepository.findAll()).thenReturn(List.of(partido1,partido2,partido3));
+
+        //Act
+        List<Partido> partidoList = partidoService.findAll();
+
+        //Assert
+        assertNotNull(partidoList);
+        assertEquals(3, partidoList.size());
+    }
+
+    @Test
+    public void findAllDto_mustReturnListOfPartidos(){
+        //Arrange
+        Partido partido1 = PartidoTestDataBuilder.aPartido().build();
+        Partido partido2 = PartidoTestDataBuilder.aPartido().build();
+        Partido partido3 = PartidoTestDataBuilder.aPartido().build();
+
+        when(partidoRepository.findAll()).thenReturn(List.of(partido1,partido2,partido3));
+
+        //Act
+        List<PartidoResponseDto> partidoList = partidoService.findAllDto();
+
+        //Assert
+        assertNotNull(partidoList);
+        assertEquals(3, partidoList.size());
+    }
 
 }

@@ -45,7 +45,7 @@ public class PartidoRequestTestDataBuilder {
 
     }
 
-        public PartidoRequest build(){
+    public PartidoRequest build(){
         return builder.build();
     }
 }
