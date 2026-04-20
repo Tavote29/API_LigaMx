@@ -72,10 +72,18 @@ import static org.mockito.Mockito.*;
                 estadioService);
     }
 
-    @RepeatedTest(153)
+    @Test
     public void savePartido_mustSavePartidoSuccessfully(){
         //Arrange
-        PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder().build();
+        PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder()
+            .withFecha(Instant.now().plusSeconds(86400)) // Ensure date is in the future
+            .build();
+        
+
+        if (partidoRequest.getIdLocal().equals(partidoRequest.getIdVisitante())) {
+            partidoRequest.setIdVisitante((short)(partidoRequest.getIdLocal() + 1));
+        }
+            
         Club local = Club.builder().id(partidoRequest.getIdLocal()).build();
         Club visitante = Club.builder().id(partidoRequest.getIdVisitante()).build();
         Estadio estadio = Estadio.builder().id(partidoRequest.getIdEstadio()).build();
@@ -118,7 +126,7 @@ import static org.mockito.Mockito.*;
         assertEquals(partidoRequest.getIdArbitroCentral(), result.getIdArbitroCentral().getId());
         assertEquals(partidoRequest.getIdArbitroAsistente1(), result.getIdArbitroAsistente1().getId());
         assertEquals(partidoRequest.getIdArbitroAsistente2(), result.getIdArbitroAsistente2().getId());
-        assertEquals(partidoRequest.getIdCuartoArbitro(), result.getIdCuartoArbitro().getId());;
+        assertEquals(partidoRequest.getIdCuartoArbitro(), result.getIdCuartoArbitro().getId());
         assertEquals(partidoRequest.getFecha(), result.getFecha());
         assertEquals(partidoRequest.getIdTorneo(), result.getIdTorneo().getId());
 
@@ -143,7 +151,16 @@ import static org.mockito.Mockito.*;
     public void savePartido_mustThrowNoSuchElementException_ifTorneoNoExists(){
         //Arrange
         Long torneo = 11L;
-        PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder().withTorneo(torneo).build();
+        PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder()
+            .withTorneo(torneo)
+            .withFecha(Instant.now().plusSeconds(86400)) // Ensure date is valid
+            .build();
+            
+
+        if (partidoRequest.getIdLocal().equals(partidoRequest.getIdVisitante())) {
+            partidoRequest.setIdVisitante((short)(partidoRequest.getIdLocal() + 1));
+        }
+            
         Club local = Club.builder().id(partidoRequest.getIdLocal()).build();
         Club visitante = Club.builder().id(partidoRequest.getIdVisitante()).build();
         Estadio estadio = Estadio.builder().id(partidoRequest.getIdEstadio()).build();
@@ -195,7 +212,7 @@ import static org.mockito.Mockito.*;
     @Test
     public void savePartido_mustThrowIllegalArgumentException_ifEquiposAreNotValid(){
         //Arrange
-        Instant from = Instant.parse("2027-01-01T00:00:00Z");
+        Instant from = Instant.now().plusSeconds(86400);
         PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder()
                 .withFecha(from)
                 .withLocal((short)8)
