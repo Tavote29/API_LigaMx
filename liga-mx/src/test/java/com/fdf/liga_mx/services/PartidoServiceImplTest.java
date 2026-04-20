@@ -8,6 +8,7 @@ import com.fdf.liga_mx.repository.PartidoRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -71,7 +72,7 @@ public class PartidoServiceImplTest {
                 estadioService);
     }
 
-    @Test
+    @RepeatedTest(153)
     public void savePartido_mustSavePartidoSuccessfully(){
         //Arrange
         PartidoRequest partidoRequest = new PartidoRequestTestDataBuilder().build();

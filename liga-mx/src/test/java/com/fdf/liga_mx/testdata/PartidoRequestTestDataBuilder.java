@@ -12,11 +12,17 @@ public class PartidoRequestTestDataBuilder {
 
     public PartidoRequestTestDataBuilder() {
         Faker faker = new Faker(new Locale("es-MX"));
+        short local = (short) faker.number().numberBetween(1,18);
+        short visitante = (short) faker.number().numberBetween(1,17);
 
+        if(visitante >= local){
+            visitante++;
+        }
         List<Long> torneos = List.of(1L,5L,6L,7L);
+        
         this.builder = PartidoRequest.builder()
-                .idLocal((short) faker.number().numberBetween(1,18))
-                .idVisitante((short) faker.number().numberBetween(1,18))
+                .idLocal(local)
+                .idVisitante(visitante)
                 .idEstadio((short) faker.number().numberBetween(1,17))
                 .idArbitroCentral(faker.number().randomNumber())
                 .idArbitroAsistente1(faker.number().randomNumber())
