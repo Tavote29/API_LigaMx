@@ -34,6 +34,8 @@ public class PartidoMapper {
                 .idLocal(local)
                 .idVisitante(visitante)
                 .idEstadio(estadio)
+                .golesLocal(null)
+                .golesVisitante(null)
                 .idArbitroCentral(central)
                 .idCuartoArbitro(cuarto)
                 .idArbitroAsistente1(asis1)
