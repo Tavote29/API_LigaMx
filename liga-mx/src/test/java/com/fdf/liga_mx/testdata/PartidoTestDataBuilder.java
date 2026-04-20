@@ -49,6 +49,42 @@ public class PartidoTestDataBuilder {
         builder.id(uuid);
         return this;
     }
+    public PartidoTestDataBuilder withLocal(Club local){
+        builder.idLocal(local);
+        return this;
+    }
+    public PartidoTestDataBuilder withVisitante(Club visitante){
+        builder.idVisitante(visitante);
+        return this;
+    }
+    public PartidoTestDataBuilder withEstadio(Estadio estadio){
+        builder.idEstadio(estadio);
+        return this;
+    }
+    public PartidoTestDataBuilder withArbitroCentral(Arbitro arbitroCentral){
+        builder.idArbitroCentral(arbitroCentral);
+        return this;
+    }
+    public PartidoTestDataBuilder withArbitroAsistente1(Arbitro arbitroAsistente1){
+        builder.idArbitroCentral(arbitroAsistente1);
+        return this;
+    }
+    public PartidoTestDataBuilder withArbitroAsistente2(Arbitro arbitroAsistente2){
+        builder.idArbitroAsistente2(arbitroAsistente2);
+        return this;
+    }
+    public PartidoTestDataBuilder withCuartoArbitro(Arbitro cuartoArbitro){
+        builder.idCuartoArbitro(cuartoArbitro);
+        return this;
+    }
+    public PartidoTestDataBuilder withStatus(Status status){
+        builder.idStatus(status);
+        return this;
+    }
+    public PartidoTestDataBuilder withTorneo(Torneo torneo){
+        builder.idTorneo(torneo);
+        return this;
+    }
     public Partido build(){
         return builder.build();
     }

@@ -39,6 +39,10 @@ public class PartidoServiceImpl implements IPartidoService {
         if (request.getFecha().isBefore(Instant.now())){
             throw new DateTimeException("La fecha no es valida");
         }
+
+        if (request.getIdVisitante().equals(request.getIdLocal())){
+            throw new IllegalArgumentException("Los clubes no deben ser iguales");
+        }
         Club local = clubService.findById(request.getIdLocal());
         Club visitante = clubService.findById(request.getIdVisitante());
         Estadio estadio = estadioService.findById(request.getIdEstadio());

@@ -1,12 +1,9 @@
 package com.fdf.liga_mx.testdata;
 
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
-import com.fdf.liga_mx.models.entitys.Status;
 import com.github.javafaker.Faker;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,7 +39,22 @@ public class PartidoRequestTestDataBuilder {
     public PartidoRequestTestDataBuilder withFecha(Instant fecha) {
         builder.fecha(fecha);
         return this;
-
+    }
+    public PartidoRequestTestDataBuilder withLocal(Short local){
+        builder.idLocal(local);
+        return this;
+    }
+    public PartidoRequestTestDataBuilder withVisitante(Short visitante){
+        builder.idVisitante(visitante);
+        return this;
+    }
+    public PartidoRequestTestDataBuilder withEstadio(Short estadio){
+        builder.idEstadio(estadio);
+        return this;
+    }
+    public PartidoRequestTestDataBuilder withArbitroCentral(Long arbitroCentral){
+        builder.idArbitroCentral(arbitroCentral);
+        return this;
     }
 
     public PartidoRequest build(){
