@@ -94,8 +94,5 @@ public class TraspasoServiceImpl implements ITraspasoService{
         return traspasoMapper.toDto(traspasoRepository.saveAndFlush(traspaso));
     }
 
-    @Override
-    public void delete(UUID uuid) {
 
-    }
 }
