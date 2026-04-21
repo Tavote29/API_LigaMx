@@ -372,6 +372,52 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
+    void delete_mustThrowNoSuchElementException_whenJugadorNotFound() {
+        // Arrange
+        Long id = faker.number().randomNumber();
+        when(jugadorRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.delete(id));
+        assertEquals("No se encontro el jugador", exception.getMessage());
+
+        verify(jugadorRepository).findById(id);
+        verifyNoInteractions(personaService);
+        verify(jugadorRepository, never()).save(any());
+    }
+
+    @Test
+    void delete_mustDeleteJugadorSuccessfully_whenValidData() {
+        // Arrange
+        Long idJugador = faker.number().randomNumber();
+        UUID idPersona = UUID.randomUUID();
+
+        Jugador jugador = JugadorTestDataBuilder.aJugador()
+                .withId(idJugador)
+                .withIdPersona(PersonaTestDataBuilder.aPersona().withId(idPersona).build())
+                .build();
+
+        when(jugadorRepository.findById(idJugador)).thenReturn(Optional.of(jugador));
+
+        ArgumentCaptor<Jugador> jugadorCaptor = ArgumentCaptor.forClass(Jugador.class);
+
+
+        // Act
+        jugadorService.delete(idJugador);
+
+        // Assert
+
+        verify(jugadorRepository).save(jugadorCaptor.capture());
+        Jugador jugadorSaved = jugadorCaptor.getValue();
+
+        assertEquals(Estados.INACTIVO.getCodigo(), jugadorSaved.getStatus());
+        assertNull(jugadorSaved.getIdClub());
+        assertEquals(idJugador, jugadorSaved.getId());
+
+        verify(jugadorRepository).findById(idJugador);
+    }
+
+    @Test
     void update_mustUpdateJugadorSuccessfully_whenAllDataIsDifferentAndValid() {
         // TODO: Implement test
     }

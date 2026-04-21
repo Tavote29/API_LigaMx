@@ -331,6 +331,92 @@ class DTServiceImplTest {
     }
 
     @Test
+    void update_mustUpdatePersonaDataSuccessfully_whenValidData() {
+        // Arrange
+        Long idDT = faker.number().randomNumber();
+        DTRequest dtRequest = DTRequestTestDataBuilder.aDTRequest().build();
+
+
+        Nacionalidad nacionalidad = NacionalidadTestDataBuilder.aNacionalidad()
+                .withId(dtRequest.getPersona().getIdNacionalidad()).build();
+        Status status = StatusTestDataBuilder.aStatus()
+                .withId(dtRequest.getPersona().getIdStatus()).build();
+
+
+        DT dt = DTTestDataBuilder.aDT()
+                .withId(idDT)
+                .build();
+
+        when(dtRepository.findById(idDT)).thenReturn(Optional.of(dt));
+        when(catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad())).thenReturn(nacionalidad);
+        when(catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus())).thenReturn(status);
+
+
+        when(dtRepository.saveAndFlush(any(DT.class))).thenAnswer(i -> i.getArgument(0));
+
+        // Act
+        DTResponseDto result = dtService.update(dtRequest, idDT);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(dtRequest.getPersona().getNombre(), dt.getPersona().getNombre());
+        assertEquals(dtRequest.getPersona().getFechaNacimiento(), dt.getPersona().getFechaNacimiento());
+        assertEquals(nacionalidad, dt.getPersona().getIdNacionalidad());
+        assertEquals(status, dt.getPersona().getIdStatus());
+
+        verify(dtRepository).findById(idDT);
+        verify(catalogosService).findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
+        verify(catalogosService).findStatusEntityById(dtRequest.getPersona().getIdStatus());
+        verify(dtRepository).saveAndFlush(dt);
+    }
+
+    @Test
+    void delete_mustThrowNoSuchElementException_whenDTNotFound() {
+        // Arrange
+        Long idDT = faker.number().randomNumber();
+        when(dtRepository.findById(idDT)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> dtService.delete(idDT));
+        verify(dtRepository).findById(idDT);
+        verifyNoInteractions(personaService);
+        verify(dtRepository, never()).save(any());
+    }
+
+    @Test
+    void delete_mustDeleteDT_whenDataValid() {
+        // Arrange
+        Long idDT = faker.number().randomNumber();
+        UUID idPersona = UUID.randomUUID();
+
+        DT dt = DTTestDataBuilder.aDT()
+                .withId(idDT)
+                .withPersona(PersonaTestDataBuilder.aPersona().withId(idPersona).build())
+                .build();
+
+        when(dtRepository.findById(idDT)).thenReturn(Optional.of(dt));
+
+        ArgumentCaptor<DT> dtCaptor = ArgumentCaptor.forClass(DT.class);
+
+
+        // Act
+        dtService.delete(idDT);
+
+        // Assert
+        verify(dtRepository).findById(idDT);
+
+
+
+        verify(dtRepository).save(dtCaptor.capture());
+
+        DT dtSaved = dtCaptor.getValue();
+
+        assertEquals(Estados.INACTIVO.getCodigo(), dtSaved.getStatus());
+
+        assertEquals(idDT, dtSaved.getId());
+    }
+
+    @Test
     void searchDT_mustReturnEmptyPage_whenNoMatchesFound() {
         // Arrange
 
