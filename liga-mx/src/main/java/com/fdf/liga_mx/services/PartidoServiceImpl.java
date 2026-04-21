@@ -161,7 +161,7 @@ public class PartidoServiceImpl implements IPartidoService {
     @Transactional(readOnly = true)
     public List<getMarcadorPartido> obtenerMarcadorPartido(UUID uuid) {
         List<getMarcadorPartido> marcadorPartido = partidoRepo.obtenerMarcador(uuid);
-        if (marcadorPartido == null) throw new RuntimeException("Partido no encontrado");
+        if (marcadorPartido == null) throw new NoSuchElementException("Partido no encontrado");
         return marcadorPartido;
     }
 
