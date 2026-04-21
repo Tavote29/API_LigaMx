@@ -45,7 +45,7 @@ public class Club {
 
 
     @OneToOne
-    @JoinColumn(name = "ID_DT", nullable = true,unique = true)
+    @JoinColumn(name = "ID_DT", nullable = true)
     private DT idDt;
 
     @Size(max = 100)
@@ -54,7 +54,7 @@ public class Club {
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_ESTADIO", nullable = false)
+    @JoinColumn(name = "ID_ESTADIO", nullable = true)
     private Estadio idEstadio;
 
     @Column(name = "ID_STATUS", nullable = true)

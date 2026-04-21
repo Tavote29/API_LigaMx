@@ -141,16 +141,15 @@ public class ClubController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
-        summary = "Eliminar un club",
-        description = "Elimina un club del sistema basado en su ID"
+            summary = "Eliminar un club por ID",
+            description = "Realiza una baja lógica de un club, liberando a sus jugadores y director técnico."
     )
-    @SwaggerResponses.DeleteApiResponses
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Club eliminado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Club no encontrado")
+    })
     public ResponseEntity<Void> deleteClub(
-            @Parameter(
-                description = "ID del club a eliminar",
-                required = true,
-                example = "1"
-            )
+            @Parameter(description = "ID del club a eliminar", required = true)
             @PathVariable Short id) {
         clubService.delete(id);
         return ResponseEntity.noContent().build();

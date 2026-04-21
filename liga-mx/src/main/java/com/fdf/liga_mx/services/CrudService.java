@@ -18,5 +18,5 @@ public interface CrudService<request,response,entity,id> {
 
     response update(request request, id id);
 
-    void delete(id id);
+
 }

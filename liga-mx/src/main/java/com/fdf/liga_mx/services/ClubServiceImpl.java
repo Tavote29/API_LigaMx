@@ -10,6 +10,7 @@ import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.repository.IEstadoRepository;
+import com.fdf.liga_mx.repository.JugadorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.fdf.liga_mx.models.enums.Estados;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -37,6 +39,8 @@ public class ClubServiceImpl implements IClubService{
     private final IEstadioService estadioService;
 
     private final MediaStorageService storageService;
+
+    private final JugadorRepository jugadorRepository;
 
 
     @Override
@@ -196,9 +200,36 @@ public class ClubServiceImpl implements IClubService{
     }
 
     @Override
+    @Transactional
     public void delete(Short id) {
 
-        //NO UTILIZAR, IMPLEMENTACION PENDIENTE
+        Club club = clubRepo.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+
+        Set<Jugador> jugadores = club.getJugadores();
+
+        for (Jugador jugador : jugadores) {
+            jugador.setStatus(Estados.AGENTE_LIBRE.getCodigo());
+            jugador.setIdClub(null);
+        }
+
+        jugadorRepository.saveAll(jugadores);
+        
+
+        DT dt = club.getIdDt();
+
+        if(dt!=null){
+            dt.setStatus(Estados.AGENTE_LIBRE.getCodigo());
+            dt.setClub(null);
+            dtService.save(dt);
+        }
+
+
+        club.setStatus(Estados.INACTIVO.getCodigo());
+        club.setIdDt(null);
+        club.setJugadores(null);
+
+        clubRepo.save(club);
+
 
     }
 }

@@ -7,4 +7,6 @@ import com.fdf.liga_mx.models.entitys.Persona;
 import java.util.UUID;
 
 public interface IPersonaService extends CrudService<PersonaRequest, PersonaResponseDto, Persona, UUID> {
+
+    void delete(UUID id);
 }

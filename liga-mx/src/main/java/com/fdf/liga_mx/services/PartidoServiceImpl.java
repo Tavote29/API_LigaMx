@@ -120,10 +120,7 @@ public class PartidoServiceImpl implements IPartidoService {
         return partidoMapper.toDto(partidoRepo.saveAndFlush(partido));
     }
 
-    @Override
-    public void delete(UUID id) {
-        //no usar, se debe implementar un metodo de baja
-    }
+
 
     @Override
     @Transactional

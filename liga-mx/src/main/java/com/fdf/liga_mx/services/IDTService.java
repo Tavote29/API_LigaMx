@@ -14,4 +14,8 @@ public interface IDTService extends  CrudService<DTRequest, DTResponseDto, DT, L
     DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException;
 
     void liberarDt(Long id);
+
+    DT save(DT entity);
+
+    void delete(Long id);
 }

@@ -6,6 +6,7 @@ import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.ArbitroRequest;
 import com.fdf.liga_mx.models.dtos.response.ArbitroResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.ArbitroRepository;
 import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class ArbitroServiceImpl implements IArbitroService {
     private final ArbitroMapper arbitroMapper;
     private final ICatalogosService catalogosService;
     private final MediaStorageService mediaService;
+    private final IPersonaService personaService;
 
     @Override
     @Transactional
@@ -84,8 +86,17 @@ public class ArbitroServiceImpl implements IArbitroService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
 
+        Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("No se encontro el arbitro"));
+
+        arbitro.setStatus(Estados.INACTIVO.getCodigo());
+
+        personaService.delete(arbitro.getPersona().getId());
+
+        arbitroRepository.save(arbitro);
     }
 
     @Override

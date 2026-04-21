@@ -6,6 +6,7 @@ import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.DTRepository;
+import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,13 +34,15 @@ import static org.mockito.Mockito.*;
 class DTServiceImplTest {
 
     @Mock
-    private IClubService clubService;
+    private IClubRepository clubRepository;
     @Mock
     private ICatalogosService catalogosService;
     @Mock
     private DTRepository dtRepository;
     @Mock
     private MediaStorageService mediaService;
+    @Mock
+    private IPersonaService personaService;
 
     private DTServiceImpl dtService;
 
@@ -53,12 +56,13 @@ class DTServiceImplTest {
         DTMapper dtMapper = new DTMapper(personaMapper);
 
         dtService = new DTServiceImpl(
-                clubService,
+                clubRepository,
                 catalogosService,
                 dtRepository,
                 dtMapper,
                 personaMapper,
-                mediaService
+                mediaService,
+                personaService
         );
     }
 
@@ -68,11 +72,11 @@ class DTServiceImplTest {
     void save_mustThrowNoSuchElementException_whenClubNotFound() {
         // Arrange
         DTRequest request = DTRequestTestDataBuilder.aDTRequest().build();
-        when(clubService.findById(request.getIdClub())).thenThrow(new NoSuchElementException("Club no encontrado"));
+        when(clubRepository.findByIdAndStatusIs(request.getIdClub(), Estados.ACTIVO.getCodigo())).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(NoSuchElementException.class, () -> dtService.save(request));
-        verify(clubService).findById(request.getIdClub());
+        verify(clubRepository).findByIdAndStatusIs(request.getIdClub(), Estados.ACTIVO.getCodigo());
         verifyNoInteractions(dtRepository);
     }
 
@@ -80,7 +84,7 @@ class DTServiceImplTest {
     void save_mustThrowNoSuchElementException_whenNacionalidadNotFound() {
         // Arrange
         DTRequest request = DTRequestTestDataBuilder.aDTRequest().build();
-        when(clubService.findById(request.getIdClub())).thenReturn(new Club());
+        when(clubRepository.findByIdAndStatusIs(request.getIdClub(), Estados.ACTIVO.getCodigo())).thenReturn(Optional.of(new Club()));
         when(catalogosService.findNacionalidadEntityById(request.getPersona().getIdNacionalidad()))
                 .thenThrow(new NoSuchElementException("No se encontro la nacionalidad"));
 
@@ -94,7 +98,7 @@ class DTServiceImplTest {
     void save_mustThrowNoSuchElementException_whenStatusNotFound() {
         // Arrange
         DTRequest request = DTRequestTestDataBuilder.aDTRequest().build();
-        when(clubService.findById(request.getIdClub())).thenReturn(new Club());
+        when(clubRepository.findByIdAndStatusIs(request.getIdClub(), Estados.ACTIVO.getCodigo())).thenReturn(Optional.of(new Club()));
         when(catalogosService.findNacionalidadEntityById(request.getPersona().getIdNacionalidad())).thenReturn(new Nacionalidad());
         when(catalogosService.findStatusEntityById(request.getPersona().getIdStatus()))
                 .thenThrow(new NoSuchElementException("No se encontro el status"));
@@ -308,7 +312,7 @@ class DTServiceImplTest {
 
         UUID newPersonaId = UUID.randomUUID();
 
-        when(clubService.findById(any())).thenReturn(club);
+        when(clubRepository.findByIdAndStatusIs(anyShort(), eq(Estados.ACTIVO.getCodigo()))).thenReturn(Optional.of(club));
         when(catalogosService.findNacionalidadEntityById(anyShort())).thenReturn(nacionalidad);
         when(catalogosService.findStatusEntityById(anyShort())).thenReturn(status);
 
@@ -362,7 +366,7 @@ class DTServiceImplTest {
 
         UUID newPersonaId = UUID.randomUUID();
 
-        when(clubService.findById(any())).thenReturn(club);
+        when(clubRepository.findByIdAndStatusIs(anyShort(), eq(Estados.ACTIVO.getCodigo()))).thenReturn(Optional.of(club));
         when(catalogosService.findNacionalidadEntityById(anyShort())).thenReturn(nacionalidad);
         when(catalogosService.findStatusEntityById(anyShort())).thenReturn(status);
 
@@ -425,7 +429,7 @@ class DTServiceImplTest {
         long newDTId = faker.number().randomNumber();
         UUID newPersonaId = UUID.randomUUID();
 
-        when(clubService.findById(any())).thenReturn(club);
+        when(clubRepository.findByIdAndStatusIs(anyShort(), eq(Estados.ACTIVO.getCodigo()))).thenReturn(Optional.of(club));
         when(catalogosService.findNacionalidadEntityById(anyShort())).thenReturn(nacionalidad);
         when(catalogosService.findStatusEntityById(anyShort())).thenReturn(status);
 

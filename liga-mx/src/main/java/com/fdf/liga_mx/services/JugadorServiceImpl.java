@@ -34,6 +34,7 @@ public class JugadorServiceImpl implements IJugadorService{
     private final PersonaMapper personaMapper;
     private final ICatalogosService catalogosService;
     private final MediaStorageService mediaService;
+    private final IPersonaService personaService;
 
     @Override
     @Transactional
@@ -47,6 +48,7 @@ public class JugadorServiceImpl implements IJugadorService{
         jugador.setIdPersona(persona);
         jugador.setIdClub(club);
         jugador.setIdPosicion(posicion);
+
 
         return jugadorMapper.toDto(jugadorRepository.saveAndFlush(jugador));
     }
@@ -105,6 +107,15 @@ public class JugadorServiceImpl implements IJugadorService{
     @Override
     @Transactional
     public void delete(Long id) {
+
+        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+
+        jugador.setStatus(Estados.INACTIVO.getCodigo());
+        jugador.setIdClub(null);
+
+        personaService.delete(jugador.getIdPersona().getId());
+
+        jugadorRepository.save(jugador);
 
     }
 
@@ -196,4 +207,6 @@ public class JugadorServiceImpl implements IJugadorService{
         jugadorRepository.save(jugador);
 
     }
+
+
 }

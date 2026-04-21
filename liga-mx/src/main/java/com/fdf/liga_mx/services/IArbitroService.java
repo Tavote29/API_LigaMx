@@ -13,4 +13,5 @@ import java.io.IOException;
 public interface IArbitroService extends CrudService<ArbitroRequest, ArbitroResponseDto, Arbitro, Long> {
     Page<ArbitroResponseDto> searchArbitro(Integer page, Integer size, String sorts, String nombre, Integer nacionalidad, Short categoria);
     ArbitroResponseDto save(ArbitroRequest arbitroRequest, MultipartFile file) throws IOException;
+    void delete(Long id);
 }

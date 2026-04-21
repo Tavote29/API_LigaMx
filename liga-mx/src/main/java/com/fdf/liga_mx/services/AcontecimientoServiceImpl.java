@@ -97,8 +97,5 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
         return null;
     }
 
-    @Override
-    public void delete(UUID id) {
 
-    }
 }

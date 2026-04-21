@@ -48,6 +48,8 @@ import static org.mockito.Mockito.*;
     private ICatalogosService catalogosService;
     @Mock
     private MediaStorageService mediaService;
+    @Mock
+    private IPersonaService personaService;
 
 
 
@@ -82,7 +84,8 @@ import static org.mockito.Mockito.*;
               jugadorMapper,
               personaMapper,
               catalogosService,
-              mediaService
+              mediaService,
+              personaService
       );
    }
 

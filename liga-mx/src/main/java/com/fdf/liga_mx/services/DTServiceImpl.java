@@ -9,6 +9,7 @@ import com.fdf.liga_mx.models.entitys.Status;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.ClubRepository;
 import com.fdf.liga_mx.repository.DTRepository;
+import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,17 +30,18 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class DTServiceImpl implements IDTService{
 
-    private final IClubService clubService;
+    private final IClubRepository clubRepository;
     private final ICatalogosService catalogosService;
     private final DTRepository dtRepository;
     private final DTMapper dtMapper;
     private final PersonaMapper personaMapper;
     private final MediaStorageService mediaService;
+    private final IPersonaService personaService;
 
     @Override
     @Transactional
     public DTResponseDto save( DTRequest dtRequest) {
-        Club club = clubService.findById(dtRequest.getIdClub());
+        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro el club"));
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -99,7 +101,15 @@ public class DTServiceImpl implements IDTService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
+
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
+        dt.setStatus(Estados.INACTIVO.getCodigo());
+
+        personaService.delete(dt.getPersona().getId());
+
+        dtRepository.save(dt);
 
     }
 
@@ -114,7 +124,7 @@ public class DTServiceImpl implements IDTService{
     @Transactional
     public DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException {
 
-        Club club = clubService.findById(dtRequest.getIdClub());
+        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro el club"));
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -163,5 +173,11 @@ public class DTServiceImpl implements IDTService{
 
 
 
+    }
+
+    @Override
+    @Transactional
+    public DT save(DT entity) {
+        return dtRepository.save(entity);
     }
 }

@@ -11,4 +11,5 @@ public interface IEstadioService extends CrudService<EstadioRequestDto, EstadioR
 
     Page<EstadioResponseDto> searchStadium(Integer page,Integer size,String sorts,Short ciudadId,Short estadoId,String nombre, Integer minCapacity, Integer maxCapacity);
 
+    void delete(Short id);
 }

@@ -8,6 +8,7 @@ import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.IClubRepository;
+import com.fdf.liga_mx.repository.JugadorRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +21,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -48,6 +46,8 @@ import static org.mockito.Mockito.*;
 
     @Mock
     private MediaStorageService storageService;
+    @Mock
+    private JugadorRepository jugadorRepository;
 
     private static final Faker faker = new Faker();
 
@@ -69,7 +69,8 @@ import static org.mockito.Mockito.*;
                 catalogosService,
                 dtService,
                 estadioService,
-                storageService
+                storageService,
+                jugadorRepository
         );
     }
 
@@ -1011,6 +1012,95 @@ import static org.mockito.Mockito.*;
         assertEquals(club.getPropietario(),updatedClub.getPropietario());
         assertEquals(club.getIdCiudad(),updatedClub.getIdCiudad());
         assertEquals(club.getIdEstado(),updatedClub.getIdEstado());
+
+
+
+    }
+    @Test
+    void delete_mustThrowNoSuchElementException_whenClubNotFound(){
+        //Arrange
+        short idClub = 1;
+
+        when(clubRepo.findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo())).thenReturn(Optional.empty());
+
+        // Act
+        assertThrows(NoSuchElementException.class, () -> clubService.delete(idClub));
+
+        // Assert
+        verify(clubRepo).findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo());
+        verifyNoInteractions(jugadorRepository);
+        verifyNoInteractions(dtService);
+        verify(clubRepo,never()).save(any(Club.class));
+    }
+
+    @Test
+    void delete_mustDeleteClubSuccessfully(){
+        //Arrange
+        short idClub = (short) faker.number().numberBetween(1,18);
+
+        Club club = ClubTestDataBuilder.aClub().withId(idClub).build();
+
+        Jugador jugador = JugadorTestDataBuilder.aJugador()
+                .withIdClub(club)
+                .build();
+
+        DT dt = DTTestDataBuilder.aDT().withClub(club).build();
+
+        club.setJugadores(new LinkedHashSet<>(Collections.singletonList(jugador)));
+        club.setIdDt(dt);
+
+
+        when(clubRepo.findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo())).thenReturn(Optional.of(club));
+        when(jugadorRepository.saveAll(any())).thenAnswer(invocation -> {
+
+            Collection<Jugador> jugadoresEnviados = invocation.getArgument(0);
+
+            return new ArrayList<>(jugadoresEnviados);
+        });
+        when(dtService.save(any(DT.class))).thenAnswer(i -> i.getArgument(0));
+        when(clubRepo.save(any(Club.class))).thenAnswer(i -> i.getArgument(0));
+
+        ArgumentCaptor<Club> captor = ArgumentCaptor.forClass(Club.class);
+        ArgumentCaptor<DT> captorDT = ArgumentCaptor.forClass(DT.class);
+        ArgumentCaptor<Set<Jugador>> captorJugador = ArgumentCaptor.forClass(Set.class);
+
+
+        //Act
+        clubService.delete(idClub);
+
+        //Assert
+        verify(clubRepo).findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo());
+
+        verify(jugadorRepository).saveAll(captorJugador.capture());
+        verify(dtService).save(captorDT.capture());
+        verify(clubRepo).save(captor.capture());
+
+        Club clubSaved = captor.getValue();
+
+
+
+        assertEquals(Estados.INACTIVO.getCodigo(),clubSaved.getStatus());
+        assertNull(clubSaved.getIdDt());
+        assertNull(clubSaved.getJugadores());
+
+        DT dtSaved = captorDT.getValue();
+        assertEquals(Estados.AGENTE_LIBRE.getCodigo(),dtSaved.getStatus());
+        assertNull(dtSaved.getClub());
+
+
+        Set<Jugador> jugadoresSaved = captorJugador.getValue();
+        assertNotNull(jugadoresSaved);
+        assertEquals(1,jugadoresSaved.size());
+
+        Jugador jugadorSaved = jugadoresSaved.iterator().next();
+
+        assertEquals(Estados.AGENTE_LIBRE.getCodigo(),jugadorSaved.getStatus());
+        assertNull(jugadorSaved.getIdClub());
+
+
+
+
+
 
 
 

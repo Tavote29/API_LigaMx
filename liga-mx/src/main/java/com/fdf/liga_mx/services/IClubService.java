@@ -23,4 +23,6 @@ public interface IClubService extends CrudService<ClubRequest, ClubResponseDto, 
 
     List<ClubResponseDto> findByCiudadId(Short id);
 
+    void delete(Short id);
+
 }

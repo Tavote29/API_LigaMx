@@ -5,6 +5,7 @@ import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
 import com.fdf.liga_mx.models.dtos.response.PersonaResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.PersonaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,12 @@ public class PersonaServiceImpl implements IPersonaService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
+        Persona persona = personaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la persona indicada"));
+
+        persona.setIdStatus(Status.builder().id(Estados.INACTIVO.getCodigo()).build());
+        personaRepository.save(persona);
 
     }
 }
