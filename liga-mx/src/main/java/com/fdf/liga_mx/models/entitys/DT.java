@@ -31,7 +31,7 @@ public class DT {
     @JoinColumn(name = "ID_PERSONA", nullable = false)
     private Persona persona;
 
-    @OneToOne(mappedBy = "idDt", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "idDt")
     @ToString.Exclude
     private Club club;
 

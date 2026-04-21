@@ -108,6 +108,90 @@ class DTServiceImplTest {
     }
 
     @Test
+    void save_mustSaveDTSuccessfully_whenDataIsValid(){
+        //Arrange
+        DTRequest dtRequest = DTRequestTestDataBuilder.aDTRequest()
+                .withNUIDT(null)
+                .build();
+
+
+
+        Club club = ClubTestDataBuilder.aClub()
+                .withId(dtRequest.getIdClub())
+                .build();
+
+        Nacionalidad nacionalidad = NacionalidadTestDataBuilder.aNacionalidad()
+                .withId(dtRequest.getPersona().getIdNacionalidad())
+                .build();
+
+        Status status = StatusTestDataBuilder.aStatus().withId(dtRequest.getPersona().getIdStatus()).build();
+
+        long newIdDT = faker.number().randomNumber();
+
+        UUID newPersonaId = UUID.randomUUID();
+
+        when(clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo())).thenReturn(Optional.of(club));
+        when(catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad())).thenReturn(nacionalidad);
+        when(catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus())).thenReturn(status);
+        when(dtRepository.saveAndFlush(any(DT.class))).thenAnswer(i -> {
+
+            DT dt = i.getArgument(0);
+
+            dt.setId(newIdDT);
+            dt.getPersona().setId(newPersonaId);
+
+
+
+            return dt;
+
+        });
+
+        ArgumentCaptor<DT> captor = ArgumentCaptor.forClass(DT.class);
+
+
+        //Act
+
+        DTResponseDto result = dtService.save(dtRequest);
+
+
+
+        //Assert
+        assertNotNull(result);
+        assertNotNull(result.getId());
+        assertNotNull(result.getIdPersona().getId());
+        assertEquals(dtRequest.getIdClub(), result.getIdClub());
+        assertEquals(dtRequest.getPersona().getNombre(), result.getIdPersona().getNombre());
+        assertEquals(dtRequest.getPersona().getFechaNacimiento(), result.getIdPersona().getFechaNacimiento());
+        assertEquals(dtRequest.getPersona().getLugarNacimiento(), result.getIdPersona().getLugarNacimiento());
+        assertEquals(dtRequest.getPersona().getEstatura(), result.getIdPersona().getEstatura());
+
+        verify(dtRepository).saveAndFlush(captor.capture());
+
+        DT dtSaved = captor.getValue();
+
+        assertNotNull(dtSaved);
+        assertNotNull(dtSaved.getId());
+        assertNotNull(dtSaved.getPersona().getId());
+        assertEquals(newIdDT, dtSaved.getId());
+        assertEquals(newPersonaId, dtSaved.getPersona().getId());
+        assertEquals(dtRequest.getIdClub(), dtSaved.getClub().getId());
+        assertEquals(dtRequest.getPersona().getNombre(), dtSaved.getPersona().getNombre());
+        assertEquals(dtRequest.getPersona().getFechaNacimiento(), dtSaved.getPersona().getFechaNacimiento());
+        assertEquals(dtRequest.getPersona().getLugarNacimiento(), dtSaved.getPersona().getLugarNacimiento());
+        assertEquals(dtRequest.getPersona().getEstatura(), dtSaved.getPersona().getEstatura());
+
+
+        verify(dtRepository).saveAndFlush(any(DT.class));
+        verify(clubRepository).findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo());
+        verify(catalogosService).findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
+        verify(catalogosService).findStatusEntityById(dtRequest.getPersona().getIdStatus());
+
+
+    }
+
+
+
+    @Test
     void findAll_mustReturnList() {
         // Arrange
         DT dt1 = DTTestDataBuilder.aDT().build();
