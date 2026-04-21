@@ -6,4 +6,5 @@ public interface getTablaGoleoIndividual {
     String getClub();
     String getNacionalidad();
     Short getGoles();
+    Integer getMinutosTotales();
 }

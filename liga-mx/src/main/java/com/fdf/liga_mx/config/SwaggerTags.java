@@ -16,6 +16,7 @@ public class SwaggerTags {
     public static final String ESTADISTICAS_TAG = "Estadisticas";
     public static final String ACONTECIMIENTO_TAG = "Acontecimientos";
     public static final String AUTH_TAG = "Autenticación";
+    public static final String TRASPASOS_TAG = "Draft";
     
     // Descriptions para tags
     public static final String CLUB_DESC = "Operaciones relacionadas con clubes de fútbol";
@@ -29,4 +30,5 @@ public class SwaggerTags {
     public static final String ESTADISTICAS_DESC = "Gestión de estadisticas";
     public static final String ACONTECIMIENTO_DESC = "Gestión de acontecimientos en partidos";
     public static final String AUTH_DESC = "Gestión de usuarios y autenticación";
+    public static final String TRASPASOS_DESC = "Gestión de traspasos en el futbol de estufa";
 }

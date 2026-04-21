@@ -57,4 +57,6 @@ public interface ICatalogosService {
 
     Torneo findTorneoEntityById(Long id);
 
+    TipoTraspaso findTipoTraspasoEntityById(Short id);
+
 }
