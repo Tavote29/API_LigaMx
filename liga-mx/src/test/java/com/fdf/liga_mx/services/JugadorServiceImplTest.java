@@ -6,15 +6,13 @@ import com.fdf.liga_mx.models.dtos.projection.TarjetasResumenPorTorneo;
 import com.fdf.liga_mx.models.dtos.projection.getTarjetasPorPartido;
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
-import com.fdf.liga_mx.models.entitys.Club;
-import com.fdf.liga_mx.models.entitys.Jugador;
-import com.fdf.liga_mx.models.entitys.Nacionalidad;
-import com.fdf.liga_mx.models.entitys.Posicion;
+import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.JugadorRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -419,7 +417,69 @@ import static org.mockito.Mockito.*;
 
     @Test
     void update_mustUpdateJugadorSuccessfully_whenAllDataIsDifferentAndValid() {
-        // TODO: Implement test
+        // Arrange
+        Long idJugador = faker.number().randomNumber();
+
+        JugadorRequest jugadorRequest = JugadorRequestTestDataBuilder.aJugadorRequest()
+                .withIdPosicion((short)9)
+                .withIdClub((short)9)
+                .build();
+
+
+        Nacionalidad nacionalidad = NacionalidadTestDataBuilder.aNacionalidad()
+                .withId(jugadorRequest.getPersona().getIdNacionalidad()).build();
+
+        Status status = StatusTestDataBuilder.aStatus()
+                .withId(jugadorRequest.getPersona().getIdStatus()).build();
+
+        Club nuevoClub = ClubTestDataBuilder.aClub()
+                .withId(jugadorRequest.getId_club()).build();
+
+        Posicion nuevaPosicion = PosicionTestDataBuilder.aPosicion()
+                .withId(jugadorRequest.getId_posicion()).build();
+
+
+        Jugador jugadorExistente = JugadorTestDataBuilder.aJugador()
+                .withId(idJugador)
+                .withDorsal((short)100)
+                .withIdPosicion(PosicionTestDataBuilder.aPosicion().withId((short)5).build())
+                .withIdClub(ClubTestDataBuilder.aClub().withId((short)5).build())
+                .build();
+
+        when(jugadorRepository.findById(idJugador)).thenReturn(Optional.of(jugadorExistente));
+        when(catalogosService.findNacionalidadEntityById(jugadorRequest.getPersona().getIdNacionalidad())).thenReturn(nacionalidad);
+        when(catalogosService.findStatusEntityById(jugadorRequest.getPersona().getIdStatus())).thenReturn(status);
+        when(catalogosService.findPosicionEntityById(jugadorRequest.getId_posicion())).thenReturn(nuevaPosicion);
+        when(clubService.findById(jugadorRequest.getId_club())).thenReturn(nuevoClub);
+
+        when(jugadorRepository.saveAndFlush(any(Jugador.class))).thenAnswer(i -> i.getArgument(0));
+
+        ArgumentCaptor<Jugador> captor = ArgumentCaptor.forClass(Jugador.class);
+
+        // Act
+        JugadorResponseDto result = jugadorService.update(jugadorRequest, idJugador);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(jugadorRequest.getPersona().getNombre(), result.getIdPersona().getNombre());
+        assertEquals(jugadorRequest.getDorsal(), result.getDorsal());
+        assertEquals(jugadorRequest.getId_posicion(), result.getIdPosicion().getId());
+
+
+        verify(jugadorRepository).saveAndFlush(captor.capture());
+
+        Jugador jugadorActualizado = captor.getValue();
+
+        assertEquals(jugadorRequest.getDorsal(), jugadorActualizado.getDorsal());
+        assertEquals(nuevaPosicion.getId(), jugadorActualizado.getIdPosicion().getId());
+        assertEquals(nuevoClub.getId(), jugadorActualizado.getIdClub().getId());
+        assertEquals(jugadorRequest.getPersona().getNombre(), jugadorActualizado.getIdPersona().getNombre());
+        assertEquals(nacionalidad.getId(), jugadorActualizado.getIdPersona().getIdNacionalidad().getId());
+        assertEquals(status.getId(), jugadorActualizado.getIdPersona().getIdStatus().getId());
+
+        verify(jugadorRepository).findById(idJugador);
+        verify(clubService).findById(jugadorRequest.getId_club());
+        verify(catalogosService).findPosicionEntityById(jugadorRequest.getId_posicion());
     }
 
     @Test

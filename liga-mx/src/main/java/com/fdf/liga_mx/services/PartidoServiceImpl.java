@@ -106,21 +106,21 @@ public class PartidoServiceImpl implements IPartidoService {
 
         if (!partido.getFecha().equals(request.getFecha())) partido.setFecha(request.getFecha());
 
-        if (!partido.getIdArbitroCentral().getId().equals(request.getIdArbitroCentral())){
+        if (!String.valueOf(partido.getIdArbitroCentral().getId()).equals(String.valueOf(request.getIdArbitroCentral()))) {
             Arbitro arbitroCentral = arbitroService.findById(request.getIdArbitroCentral());
             partido.setIdArbitroCentral(arbitroCentral);
         }
-        if (!partido.getIdArbitroAsistente1().getId().equals(request.getIdArbitroAsistente1())){
+        if (!String.valueOf(partido.getIdArbitroAsistente1().getId()).equals(String.valueOf(request.getIdArbitroAsistente1()))) {
             Arbitro arbitroAsistente1 = arbitroService.findById(request.getIdArbitroAsistente1());
-            partido.setIdArbitroCentral(arbitroAsistente1);
+            partido.setIdArbitroAsistente1(arbitroAsistente1);
         }
-        if (!partido.getIdArbitroAsistente2().getId().equals(request.getIdArbitroAsistente2())){
+        if (!String.valueOf(partido.getIdArbitroAsistente2().getId()).equals(String.valueOf(request.getIdArbitroAsistente2()))) {
             Arbitro arbitroAsistente2 = arbitroService.findById(request.getIdArbitroAsistente2());
-            partido.setIdArbitroCentral(arbitroAsistente2);
+            partido.setIdArbitroAsistente2(arbitroAsistente2);
         }
-        if (!partido.getIdCuartoArbitro().getId().equals(request.getIdCuartoArbitro())){
+        if (!String.valueOf(partido.getIdCuartoArbitro().getId()).equals(String.valueOf(request.getIdCuartoArbitro()))) {
             Arbitro cuartoArbitro = arbitroService.findById(request.getIdCuartoArbitro());
-            partido.setIdArbitroCentral(cuartoArbitro);
+            partido.setIdCuartoArbitro(cuartoArbitro);
         }
 
         if(!partido.getIdStatus().getId().equals(request.getIdStatus())){

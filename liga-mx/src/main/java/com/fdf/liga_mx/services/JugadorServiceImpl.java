@@ -86,7 +86,8 @@ public class JugadorServiceImpl implements IJugadorService{
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(jugadorRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(jugadorRequest.getPersona().getIdStatus());
 
-        if (!jugador.getDorsal().equals(jugadorRequest.getDorsal())) jugador.setDorsal(jugadorRequest.getDorsal());
+        if (!jugador.getDorsal().equals(jugadorRequest.getDorsal()))
+            jugador.setDorsal(jugadorRequest.getDorsal());
 
 
         if (!jugador.getIdPosicion().getId().equals(jugadorRequest.getId_posicion())) {

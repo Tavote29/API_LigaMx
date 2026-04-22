@@ -350,84 +350,73 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void update_mustUpdatePartido_whenDataisValid(){
-        //Arrange
+    public void update_mustUpdatePartido_whenDataisValid() {
+
+        // Arrange
         UUID uuid = UUID.randomUUID();
         PartidoRequest request = new PartidoRequestTestDataBuilder().build();
 
-        Club local = Club.builder().id(request.getIdLocal()).build();
-        Club visitante = Club.builder().id(request.getIdVisitante()).build();
-        Estadio estadio = Estadio.builder().id(request.getIdEstadio()).build();
-        Arbitro arbitroCentral = Arbitro.builder().id(request.getIdArbitroCentral()).build();
-        Arbitro arbitroAsistente1 = Arbitro.builder().id(request.getIdArbitroAsistente1()).build();
-        Arbitro arbitroAsistente2 = Arbitro.builder().id(request.getIdArbitroAsistente2()).build();
-        Arbitro cuartoArbitro = Arbitro.builder().id(request.getIdCuartoArbitro()).build();
-        Status status = Status.builder().id(request.getIdStatus()).build();
-        Torneo torneo = Torneo.builder()
-                .id(request.getIdTorneo())
-                .status((short) 1)
-                .build();
 
-        Partido partido = PartidoTestDataBuilder.aPartido()
+        Estadio estadioNuevo = Estadio.builder().id(request.getIdEstadio()).build();
+        Arbitro centralNuevo = Arbitro.builder().id(request.getIdArbitroCentral()).build();
+        Arbitro asis1Nuevo = Arbitro.builder().id(request.getIdArbitroAsistente1()).build();
+        Arbitro asis2Nuevo = Arbitro.builder().id(request.getIdArbitroAsistente2()).build();
+        Arbitro cuartoNuevo = Arbitro.builder().id(request.getIdCuartoArbitro()).build();
+        Status statusNuevo = Status.builder().id(request.getIdStatus()).build();
+
+
+        when(estadioService.findById(request.getIdEstadio())).thenReturn(estadioNuevo);
+        when(arbitroService.findById(request.getIdArbitroCentral())).thenReturn(centralNuevo);
+        when(arbitroService.findById(request.getIdArbitroAsistente1())).thenReturn(asis1Nuevo);
+        when(arbitroService.findById(request.getIdArbitroAsistente2())).thenReturn(asis2Nuevo);
+        when(arbitroService.findById(request.getIdCuartoArbitro())).thenReturn(cuartoNuevo);
+        when(catalogosService.findStatusEntityById(request.getIdStatus())).thenReturn(statusNuevo);
+
+
+        Partido partidoEnBD = PartidoTestDataBuilder.aPartido()
                 .withId(uuid)
-                .withLocal(local)
-                .withVisitante(visitante)
-                .withEstadio(estadio)
-                .withArbitroCentral(arbitroCentral)
-                .withArbitroAsistente1(arbitroAsistente1)
-                .withArbitroAsistente2(arbitroAsistente2)
-                .withCuartoArbitro(cuartoArbitro)
-                .withStatus(status)
-                .withTorneo(torneo)
+                .withEstadio(Estadio.builder().id((short) (request.getIdEstadio() + 100)).build())
+                .withArbitroCentral(Arbitro.builder().id((request.getIdArbitroCentral() + 100)).build())
+                .withArbitroAsistente1(Arbitro.builder().id((request.getIdArbitroAsistente1() + 100)).build())
+                .withArbitroAsistente2(Arbitro.builder().id( (request.getIdArbitroAsistente2() + 100)).build())
+                .withCuartoArbitro(Arbitro.builder().id( (request.getIdCuartoArbitro() + 100)).build())
+                .withStatus(Status.builder().id((short) (request.getIdStatus() + 100)).build())
+                .withFecha(Instant.now().minusSeconds(86400))
                 .build();
 
 
-        //when(clubService.findById(request.getIdLocal())).thenReturn(local);
-        //when(clubService.findById(request.getIdVisitante())).thenReturn(visitante);
-        //when(estadioService.findById(request.getIdEstadio())).thenReturn(estadio);
-        when(arbitroService.findById(request.getIdArbitroCentral())).thenReturn(arbitroCentral);
-        when(arbitroService.findById(request.getIdArbitroAsistente1())).thenReturn(arbitroAsistente1);
-        //when(arbitroService.findById(request.getIdArbitroAsistente2())).thenReturn(arbitroAsistente2);
-        //when(arbitroService.findById(request.getIdCuartoArbitro())).thenReturn(cuartoArbitro);
-        //when(catalogosService.findStatusEntityById(request.getIdStatus())).thenReturn(status);
-        //when(catalogosService.findTorneoEntityById(request.getIdTorneo())).thenReturn(torneo);
+        when(partidoRepository.findById(uuid)).thenReturn(Optional.of(partidoEnBD));
 
-        when(partidoRepository.findById(uuid)).thenReturn(Optional.of(partido));
 
-        when(partidoRepository.saveAndFlush(any(Partido.class)))
-                .thenAnswer(match -> match.getArgument(0));
+        when(partidoRepository.saveAndFlush(any(Partido.class))).thenAnswer(i -> i.getArgument(0));
 
         ArgumentCaptor<Partido> captor = ArgumentCaptor.forClass(Partido.class);
 
-        //Act
-        PartidoResponseDto response = partidoService.update(request,uuid);
 
-        //Assert
+        PartidoResponseDto response = partidoService.update(request, uuid);
+
+
         assertNotNull(response);
-        assertEquals(request.getIdLocal(), response.getIdLocal().getId());
-        assertEquals(request.getIdVisitante(), response.getIdVisitante().getId());
-        /*
-        assertEquals(request.getIdArbitroCentral(), response.getIdArbitroCentral().getId());
-        assertEquals(request.getIdArbitroAsistente1(), response.getIdArbitroAsistente1().getId());
-        assertEquals(request.getIdArbitroAsistente2(), response.getIdArbitroAsistente2().getId());
-        assertEquals(request.getIdCuartoArbitro(), response.getIdCuartoArbitro().getId());
-        assertEquals(request.getFecha(), response.getFecha());
-        assertEquals(request.getIdStatus(), response.getIdStatus().getId());
-        assertEquals(request.getIdTorneo(), response.getIdTorneo().getId());
-        */
-        verify(partidoRepository).saveAndFlush(captor.capture());
-        /*
-        verify(clubService).findById(request.getIdLocal());
-        verify(clubService).findById(request.getIdVisitante());
 
-         */
-        //verify(estadioService).findById(request.getIdEstadio());
+
+        verify(partidoRepository).saveAndFlush(captor.capture());
+        Partido partidoActualizado = captor.getValue();
+
+
+        assertEquals(request.getIdEstadio(), partidoActualizado.getIdEstadio().getId());
+        assertEquals(request.getIdArbitroCentral(), partidoActualizado.getIdArbitroCentral().getId());
+        assertEquals(request.getIdArbitroAsistente1(), partidoActualizado.getIdArbitroAsistente1().getId());
+        assertEquals(request.getIdArbitroAsistente2(), partidoActualizado.getIdArbitroAsistente2().getId());
+        assertEquals(request.getIdCuartoArbitro(), partidoActualizado.getIdCuartoArbitro().getId());
+        assertEquals(request.getIdStatus(), partidoActualizado.getIdStatus().getId());
+        assertEquals(request.getFecha(), partidoActualizado.getFecha());
+
+
+        verify(estadioService).findById(request.getIdEstadio());
         verify(arbitroService).findById(request.getIdArbitroCentral());
         verify(arbitroService).findById(request.getIdArbitroAsistente1());
-        //verify(arbitroService).findById(request.getIdArbitroAsistente2());
-        //verify(arbitroService).findById(request.getIdCuartoArbitro());
-        //verify(catalogosService).findStatusById(request.getIdStatus());
-        //verify(catalogosService).findTorneoEntityById(request.getIdTorneo());
-
+        verify(arbitroService).findById(request.getIdArbitroAsistente2());
+        verify(arbitroService).findById(request.getIdCuartoArbitro());
+        verify(catalogosService).findStatusEntityById(request.getIdStatus());
     }
 }

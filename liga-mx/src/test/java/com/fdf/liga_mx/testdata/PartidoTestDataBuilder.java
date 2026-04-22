@@ -89,4 +89,8 @@ public class PartidoTestDataBuilder {
         return builder.build();
     }
 
+    public PartidoTestDataBuilder withFecha(Instant instant) {
+        builder.fecha(instant);
+        return this;
+    }
 }
