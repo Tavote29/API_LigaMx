@@ -1,20 +1,24 @@
 package com.fdf.liga_mx.services;
 
 import com.fdf.liga_mx.mappers.*;
+import com.fdf.liga_mx.models.dtos.events.PartidoFinalizadoEvent;
+import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
 import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.PartidoRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 
 import java.time.DateTimeException;
 import java.time.Instant;
@@ -419,4 +423,135 @@ import static org.mockito.Mockito.*;
         verify(arbitroService).findById(request.getIdCuartoArbitro());
         verify(catalogosService).findStatusEntityById(request.getIdStatus());
     }
+
+    @Test
+    public void obtenerMarcadorPartido_mustReturnMarcadorSucessfully(){
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        short local = 4;
+        short visitante = 2;
+        Partido partido = PartidoTestDataBuilder.aPartido()
+                .withId(uuid)
+                .withLocal(ClubTestDataBuilder.aClub()
+                        .withId(local)
+                        .build())
+                .withVisitante(ClubTestDataBuilder.aClub()
+                        .withId(visitante)
+                        .build())
+                .build();
+        getMarcadorPartido marcadorPartidoLocal = mock(getMarcadorPartido.class);
+        when(marcadorPartidoLocal.getGoles()).thenReturn((short)5);
+
+        getMarcadorPartido marcadorPartidoVisitante = mock(getMarcadorPartido.class);
+        when(marcadorPartidoVisitante.getGoles()).thenReturn((short)1);
+
+        when(partidoRepository.obtenerMarcador(partido.getId()))
+                .thenReturn(List.of(marcadorPartidoLocal,marcadorPartidoVisitante));
+        //Act
+        List<getMarcadorPartido> marcador = partidoService.obtenerMarcadorPartido(partido.getId());
+
+        //Assert
+        assertNotNull(marcador);
+        assertEquals(2, marcador.size());
+        assertEquals(5, marcador.get(0).getGoles().shortValue());
+        assertEquals(1,marcador.get(1).getGoles().shortValue());
+
+        verify(partidoRepository).obtenerMarcador(partido.getId());
+    }
+
+    @Test
+    public void finalizarPartido_mustChangeStatusMarcadorAndTarjetas(){
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        short local = 1;
+        short visitante = 2;
+        short estadio = 10;
+        short status = 1;
+        long torneo = 2;
+        PartidoFinalizadoEvent event = new PartidoFinalizadoEvent(uuid);
+
+        Partido partido = PartidoTestDataBuilder.aPartido()
+                .withId(uuid)
+                .withLocal(ClubTestDataBuilder.aClub()
+                        .withId(local)
+                        .build())
+                .withVisitante(ClubTestDataBuilder.aClub()
+                        .withId(visitante)
+                        .build())
+                .withEstadio(EstadioTestDataBuilder.anEstadio()
+                        .withId(estadio)
+                        .build())
+                .withStatus(StatusTestDataBuilder.aStatus()
+                        .withId(status)
+                        .build())
+                .withTorneo(TorneoTestDataBuilder.aTorneo()
+                        .withId(torneo)
+                        .build())
+                .withArbitroCentral(ArbitroTestDataBuilder.anArbitro()
+                        .withId(1L)
+                        .build())
+                .withArbitroAsistente1(ArbitroTestDataBuilder.anArbitro()
+                        .withId(2L)
+                        .build())
+                .withArbitroAsistente2(ArbitroTestDataBuilder.anArbitro()
+                        .withId(3L)
+                        .build())
+                .withCuartoArbitro(ArbitroTestDataBuilder.anArbitro()
+                        .withId(4L)
+                        .build())
+                .withStatus(StatusTestDataBuilder.aStatus()
+                        .withId((short)1)
+                        .build())
+                .build();
+
+        Status statusFinalizado = StatusTestDataBuilder.aStatus()
+                .withId(Estados.FINALIZADO.getCodigo())
+                .build();
+
+        when(partidoRepository.findById(uuid)).thenReturn(Optional.of(partido));
+
+        when(catalogosService.findStatusEntityById(Estados.FINALIZADO.getCodigo())).thenReturn(statusFinalizado);
+
+        getMarcadorPartido marcadorLocal = mock(getMarcadorPartido.class);
+        when(marcadorLocal.getIdClub()).thenReturn(local);
+        when(marcadorLocal.getGoles()).thenReturn((short)2);
+
+        getMarcadorPartido marcadorVisitante = mock(getMarcadorPartido.class);
+        when(marcadorVisitante.getIdClub()).thenReturn(visitante);
+        when(marcadorVisitante.getGoles()).thenReturn((short)3);
+
+
+        when(partidoRepository.obtenerMarcador(uuid))
+                .thenReturn(List.of(marcadorLocal,marcadorVisitante));
+
+        //Act
+        partidoService.finalizarPartido(event);
+
+        //Assert
+        assertEquals(Estados.FINALIZADO.getCodigo(), partido.getIdStatus().getId());
+        assertEquals(marcadorLocal.getGoles(), partido.getGolesLocal());
+        assertEquals(marcadorVisitante.getGoles(), partido.getGolesVisitante());
+
+        verify(jugadorService).updateTarjetasByPartidoId(uuid);
+        verify(partidoRepository).saveAndFlush(partido);
+    }
+
+    @Test
+    public void obtenerMarcadorPartido_mustThrowNoSuchElementException(){
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        when(partidoRepository.findById(uuid)).thenReturn(Optional.empty());
+
+        //Act
+        NoSuchElementException noSuchElementException = assertThrows(
+                NoSuchElementException.class,
+                ()-> partidoService.findById(uuid));
+
+        //Assert
+        assertEquals("No se encontro el partido", noSuchElementException.getMessage());
+        verify(partidoRepository).findById(uuid);
+        verifyNoMoreInteractions(partidoRepository);
+    }
+
+
 }

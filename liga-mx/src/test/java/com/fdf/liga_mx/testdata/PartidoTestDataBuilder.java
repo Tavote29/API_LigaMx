@@ -85,6 +85,14 @@ public class PartidoTestDataBuilder {
         builder.idTorneo(torneo);
         return this;
     }
+    public PartidoTestDataBuilder withGolesLocal(Short goles){
+        builder.golesLocal(goles);
+        return this;
+    }
+    public PartidoTestDataBuilder withGolesVisitante(Short goles){
+        builder.golesVisitante(goles);
+        return this;
+    }
     public Partido build(){
         return builder.build();
     }

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83901f96-1e8b-4fe1-83b9-5a42ac303be7" name="Changes" comment="" />
+    <list default="true" id="83901f96-1e8b-4fe1-83b9-5a42ac303be7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/PartidoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/PartidoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/testdata/PartidoTestDataBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/testdata/PartidoTestDataBuilder.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,11 +78,15 @@
     "JUnit.JugadorServiceImplTest.saveJugador_mustThrowException_ifPosicionNoExists.executor": "Run",
     "JUnit.JugadorServiceImplTest.saveJugador_mustThrowNoSuchElementException_ifClubNoExists.executor": "Debug",
     "JUnit.PartidoServiceImplTest.executor": "Run",
+    "JUnit.PartidoServiceImplTest.finalizarPartido_mustChangeStatus.executor": "Run",
+    "JUnit.PartidoServiceImplTest.finalizarPartido_mustChangeStatusMarcadorAndTarjetas.executor": "Run",
     "JUnit.PartidoServiceImplTest.findAllDto_mustReturnListOfPartidos.executor": "Run",
     "JUnit.PartidoServiceImplTest.findAll_mustReturnListOfPartidos.executor": "Run",
     "JUnit.PartidoServiceImplTest.findById_mustReturnPartido_whenFound.executor": "Run",
     "JUnit.PartidoServiceImplTest.findById_mustThrowNoSuchElementException_whenPartidoNotFound.executor": "Run",
     "JUnit.PartidoServiceImplTest.findDtoById_mustReturnPartidoResponseDto_whenFound.executor": "Run",
+    "JUnit.PartidoServiceImplTest.obtenerMarcadorPartido_mustReturnMarcadorSucessfully.executor": "Run",
+    "JUnit.PartidoServiceImplTest.obtenerMarcadorPartido_mustThrowNoSuchElementException.executor": "Run",
     "JUnit.PartidoServiceImplTest.savePartido_mustSavePartidoSuccessfully.executor": "Run",
     "JUnit.PartidoServiceImplTest.savePartido_mustThrowException_ifDateIsNotValid.executor": "Run",
     "JUnit.PartidoServiceImplTest.savePartido_mustThrowIllegalArgumentException_ifEquiposIsNotValid.executor": "Run",
@@ -86,7 +96,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#17 on Gustavo",
+    "git-widget-placeholder": "Gustavo",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/gusta/OneDrive/Desktop/API_LigaMx/API_LigaMx",
@@ -112,7 +122,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PartidoServiceImplTest.findDtoById_mustReturnPartidoResponseDto_whenFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PartidoServiceImplTest.finalizarPartido_mustChangeStatusMarcadorAndTarjetas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="liga-mx" />
       <extension name="coverage">
         <pattern>
@@ -122,7 +132,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.fdf.liga_mx.services" />
       <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.services.PartidoServiceImplTest" />
-      <option name="METHOD_NAME" value="findDtoById_mustReturnPartidoResponseDto_whenFound" />
+      <option name="METHOD_NAME" value="finalizarPartido_mustChangeStatusMarcadorAndTarjetas" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PartidoServiceImplTest.obtenerMarcadorPartido_mustReturnMarcadorSucessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="liga-mx" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fdf.liga_mx.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.fdf.liga_mx.services" />
+      <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.services.PartidoServiceImplTest" />
+      <option name="METHOD_NAME" value="obtenerMarcadorPartido_mustReturnMarcadorSucessfully" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PartidoServiceImplTest.obtenerMarcadorPartido_mustThrowNoSuchElementException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="liga-mx" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fdf.liga_mx.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.fdf.liga_mx.services" />
+      <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.services.PartidoServiceImplTest" />
+      <option name="METHOD_NAME" value="obtenerMarcadorPartido_mustThrowNoSuchElementException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -144,45 +186,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PartidoServiceImplTest.update_mustThrowNoSuchElementException_whenPartidoNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="liga-mx" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.fdf.liga_mx.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.fdf.liga_mx.services" />
-      <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.services.PartidoServiceImplTest" />
-      <option name="METHOD_NAME" value="update_mustThrowNoSuchElementException_whenPartidoNotFound" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PartidoServiceImplTest.update_mustUpdatePartido_whenDataisValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="liga-mx" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.fdf.liga_mx.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.fdf.liga_mx.services" />
-      <option name="MAIN_CLASS_NAME" value="com.fdf.liga_mx.services.PartidoServiceImplTest" />
-      <option name="METHOD_NAME" value="update_mustUpdatePartido_whenDataisValid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.PartidoServiceImplTest" />
+        <item itemvalue="JUnit.PartidoServiceImplTest.obtenerMarcadorPartido_mustReturnMarcadorSucessfully" />
+        <item itemvalue="JUnit.PartidoServiceImplTest.obtenerMarcadorPartido_mustThrowNoSuchElementException" />
+        <item itemvalue="JUnit.PartidoServiceImplTest.finalizarPartido_mustChangeStatusMarcadorAndTarjetas" />
         <item itemvalue="JUnit.PartidoServiceImplTest.savePartido_mustSavePartidoSuccessfully" />
-        <item itemvalue="JUnit.PartidoServiceImplTest.update_mustUpdatePartido_whenDataisValid" />
-        <item itemvalue="JUnit.PartidoServiceImplTest.update_mustThrowNoSuchElementException_whenPartidoNotFound" />
-        <item itemvalue="JUnit.PartidoServiceImplTest.findDtoById_mustReturnPartidoResponseDto_whenFound" />
       </list>
     </recent_temporary>
   </component>
@@ -196,6 +206,17 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -206,33 +227,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>163</line>
+          <line>183</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>166</line>
+          <line>186</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>183</line>
+          <line>203</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>338</line>
+          <line>358</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>385</line>
+          <line>405</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
-          <line>353</line>
+          <line>373</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
+          <line>483</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/liga-mx/src/test/java/com/fdf/liga_mx/services/PartidoServiceImplTest.java</url>
+          <line>538</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/liga-mx/src/main/java/com/fdf/liga_mx/services/TraspasoServiceImpl.java</url>
