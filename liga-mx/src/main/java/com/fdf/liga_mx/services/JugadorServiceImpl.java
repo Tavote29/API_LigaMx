@@ -118,6 +118,17 @@ public class JugadorServiceImpl implements IJugadorService{
 
         jugadorRepository.save(jugador);
 
+        long a = 1L;
+        Long ab = a;
+
+
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isMatchPlayer(UUID partidoId, Long jugadorId) {
+        return jugadorRepository.isMatchPlayer(partidoId, jugadorId) == 1;
     }
 
     @Override

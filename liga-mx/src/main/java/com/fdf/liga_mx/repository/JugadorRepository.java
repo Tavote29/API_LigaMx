@@ -11,6 +11,7 @@ import com.fdf.liga_mx.models.entitys.Jugador;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface JugadorRepository extends JpaRepository<Jugador,Long> {
@@ -96,5 +97,28 @@ public interface JugadorRepository extends JpaRepository<Jugador,Long> {
             
 """)
     List<getTarjetasPorPartido> obtenerTarjetasPorPartidoId(@Param("partidoId") String partidoId);
+
+
+    @NativeQuery(value = """
+
+            SELECT CASE
+		WHEN EXISTS (
+				SELECT 1
+				FROM JUGADORES J
+				WHERE J.ID_CLUB IN (
+						P.ID_LOCAL
+						,P.ID_VISITANTE
+						)
+					AND J.NUI_JUGADOR = :jugadorId
+				)
+			THEN 1
+		ELSE 0
+		END AS ExisteJugador
+            FROM PARTIDOS P
+            WHERE P.ID_PARTIDO = :partidoId;
+
+            
+""")
+    int isMatchPlayer(@Param("partidoId") UUID partidoId, @Param("jugadorId") Long jugadorId);
 
 }

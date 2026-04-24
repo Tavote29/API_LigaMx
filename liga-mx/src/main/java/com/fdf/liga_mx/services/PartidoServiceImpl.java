@@ -1,10 +1,14 @@
 package com.fdf.liga_mx.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fdf.liga_mx.mappers.PartidoMapper;
 import com.fdf.liga_mx.models.dtos.events.PartidoFinalizadoEvent;
 import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
 import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
+import com.fdf.liga_mx.models.dtos.response.ResumenCambiosDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.ArbitroRepository;
@@ -34,6 +38,7 @@ public class PartidoServiceImpl implements IPartidoService {
     private final IClubService clubService;
     private final IArbitroService arbitroService;
     private final IEstadioService estadioService;
+    private final ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -163,6 +168,23 @@ public class PartidoServiceImpl implements IPartidoService {
         List<getMarcadorPartido> marcadorPartido = partidoRepo.obtenerMarcador(uuid);
         if (marcadorPartido == null) throw new NoSuchElementException("Partido no encontrado");
         return marcadorPartido;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ResumenCambiosDto> obtenerResumenCambios(UUID uuid) {
+
+        String rawJson = partidoRepo.obtenerResumenCambios(uuid);
+
+
+
+        if (rawJson == null || rawJson.isEmpty()) return List.of();
+
+        try {
+            return objectMapper.readValue(rawJson, new TypeReference<List<ResumenCambiosDto>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error al procesar el JSON", e);
+        }
     }
 
 }

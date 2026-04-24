@@ -1,5 +1,6 @@
 package com.fdf.liga_mx.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.events.PartidoFinalizadoEvent;
 import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
@@ -49,6 +50,8 @@ import static org.mockito.Mockito.*;
     @Mock
     private ITorneoService torneoService;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     private static final Faker faker = new Faker();
 
     @BeforeEach
@@ -73,7 +76,8 @@ import static org.mockito.Mockito.*;
                 jugadorService,
                 clubService,
                 arbitroService,
-                estadioService);
+                estadioService,
+                objectMapper);
     }
 
     @Test

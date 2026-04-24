@@ -24,5 +24,6 @@ public interface IJugadorService extends CrudService<JugadorRequest, JugadorResp
 
     void delete(Long id);
 
+    boolean isMatchPlayer(UUID partidoId, Long jugadorId);
 
 }
