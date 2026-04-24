@@ -5,10 +5,10 @@ import com.fdf.liga_mx.mappers.AcontecimientoMapper;
 import com.fdf.liga_mx.models.dtos.events.PartidoFinalizadoEvent;
 import com.fdf.liga_mx.models.dtos.request.AcontecimientoRequest;
 import com.fdf.liga_mx.models.dtos.response.AcontecimientoResponseDto;
-import com.fdf.liga_mx.models.dtos.response.TiposAcontecimientoResponseDto;
 import com.fdf.liga_mx.models.entitys.Acontecimiento;
 import com.fdf.liga_mx.models.entitys.Partido;
 import com.fdf.liga_mx.models.entitys.TiposAcontecimiento;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.AcontecimientoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -43,9 +44,8 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
 
         Partido partido = partidoService.findById(request.getIdPartido());
 
-        if (partido.getIdStatus().getDescripcionStatus().equals("FINALIZADO"))
+        if (partido.getIdStatus().getId().equals(Estados.FINALIZADO.getCodigo()))
             throw new IllegalStateException("Partido finalizado");
-
 
 
 
@@ -67,32 +67,37 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
             eventPublisher.publishEvent(new PartidoFinalizadoEvent(savedAcontecimiento.getIdPartido().getId()));
 
 
-
         return acontecimientoMapper.toDto(savedAcontecimiento);
 
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Acontecimiento> findAll() {
-        return null;
+        return acontecimientoRepo.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AcontecimientoResponseDto> findAllDto() {
-        return null;
+        return acontecimientoRepo.findAll().stream().map(acontecimiento -> acontecimientoMapper.toDto(acontecimiento)).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Acontecimiento findById(UUID id) {
-        return null;
+        return acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("No se encontro el acontecimiento"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AcontecimientoResponseDto findDtoById(UUID id) {
-        return null;
+        Acontecimiento acontecimiento = acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("No se encontro el acontecimiento"));
+        return acontecimientoMapper.toDto(acontecimiento);
     }
 
     @Override
+    @Transactional
     public AcontecimientoResponseDto update(AcontecimientoRequest request, UUID id) {
         return null;
     }
