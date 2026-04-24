@@ -5,8 +5,8 @@ import com.fdf.liga_mx.models.dtos.response.PersonaResponseDto;
 import com.fdf.liga_mx.models.entitys.Nacionalidad;
 import com.fdf.liga_mx.models.entitys.Persona;
 import com.fdf.liga_mx.models.entitys.Status;
-import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

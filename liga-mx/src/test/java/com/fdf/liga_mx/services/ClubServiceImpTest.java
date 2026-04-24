@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -196,7 +195,7 @@ import static org.mockito.Mockito.*;
 
         //Assert
 
-        assertEquals("Club no encontrado",ex.getMessage());
+        assertEquals("error.club.not_found",ex.getMessage());
 
         verify(clubRepo).findById(idClub);
         verifyNoInteractions(storageService);
@@ -298,7 +297,7 @@ import static org.mockito.Mockito.*;
                 () -> clubService.assignDT(dtRequest, idClub));
 
         //Assert
-        assertEquals("Club no encontrado", exception.getMessage());
+        assertEquals("error.club.not_found", exception.getMessage());
         verify(clubRepo).findById(idClub);
         verify(clubRepo, never()).save(any(Club.class));
         verifyNoInteractions(dtService);
@@ -386,7 +385,7 @@ import static org.mockito.Mockito.*;
         IllegalStateException ex = assertThrows(IllegalStateException.class,() -> clubService.assignDT(dtRequest, idClub));
 
         //Assert
-        assertEquals("El status del DT no se encuentra en activo",ex.getMessage());
+        assertEquals("error.club.dt_inactivo",ex.getMessage());
 
         verify(clubRepo,never()).save(any(Club.class));
         verify(dtService,never()).save(any(DTRequest.class));
@@ -414,7 +413,7 @@ import static org.mockito.Mockito.*;
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,() -> clubService.assignDT(dtRequest, idClub));
 
         //Assert
-        assertEquals("El DT ya tiene un club asignado",ex.getMessage());
+        assertEquals("error.club.dt_asignado",ex.getMessage());
 
         verify(clubRepo,never()).save(any(Club.class));
 
@@ -642,7 +641,7 @@ import static org.mockito.Mockito.*;
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> clubService.save(request));
 
         //Assert
-        assertEquals("El DT ya tiene un club asignado",ex.getMessage());
+        assertEquals("error.club.dt_asignado",ex.getMessage());
 
 
         verifyNoInteractions(estadioService);
@@ -858,7 +857,7 @@ import static org.mockito.Mockito.*;
         NoSuchElementException ex = assertThrows(NoSuchElementException.class, () -> clubService.findById(id));
 
         //Assert
-        assertEquals("Club no encontrado",ex.getMessage());
+        assertEquals("error.club.not_found",ex.getMessage());
 
     }
 
@@ -890,7 +889,7 @@ import static org.mockito.Mockito.*;
         NoSuchElementException ex = assertThrows(NoSuchElementException.class, () -> clubService.findDtoById(id));
 
         //Assert
-        assertEquals("Club no encontrado",ex.getMessage());
+        assertEquals("error.club.not_found",ex.getMessage());
     }
 
     @Test
@@ -922,7 +921,7 @@ import static org.mockito.Mockito.*;
         NoSuchElementException ex = assertThrows(NoSuchElementException.class, () -> clubService.update(request, id));
 
         //Assert
-        assertEquals("Club no encontrado",ex.getMessage());
+        assertEquals("error.club.not_found",ex.getMessage());
     }
 
     @Test

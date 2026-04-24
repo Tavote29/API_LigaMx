@@ -1,12 +1,10 @@
 package com.fdf.liga_mx.repository;
 
+import com.fdf.liga_mx.models.entitys.Estadio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fdf.liga_mx.models.entitys.Estadio;
 import org.springframework.data.repository.query.Param;
 
 public interface EstadioRepository extends JpaRepository<Estadio,Short> {

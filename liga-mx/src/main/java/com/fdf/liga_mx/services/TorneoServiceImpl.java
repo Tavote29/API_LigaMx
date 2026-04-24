@@ -36,7 +36,7 @@ public class TorneoServiceImpl implements ITorneoService{
     @Override
     @Transactional(readOnly = true)
     public TorneoResponseDto findActualTorneo() {
-        return torneoMapper.toDto(torneoRepo.findActualTorneo().orElseThrow(() -> new NoSuchElementException("No se encontro el torneo")));
+        return torneoMapper.toDto(torneoRepo.findActualTorneo().orElseThrow(() -> new NoSuchElementException("error.catalogo.torneo_not_found")));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TorneoServiceImpl implements ITorneoService{
         Estados.fromCode(id);
 
         Torneo torneo = torneoRepo.findById(torneoId)
-                .orElseThrow(() -> new NoSuchElementException("No se encontro el torneo"));
+                .orElseThrow(() -> new NoSuchElementException("error.catalogo.torneo_not_found"));
         
         torneo.setStatus(id);
         
@@ -56,6 +56,6 @@ public class TorneoServiceImpl implements ITorneoService{
     @Override
     @Transactional(readOnly = true)
     public TorneoResponseDto findDtoById(Long id) {
-        return torneoMapper.toDto(torneoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el torneo")));
+        return torneoMapper.toDto(torneoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.torneo_not_found")));
     }
 }

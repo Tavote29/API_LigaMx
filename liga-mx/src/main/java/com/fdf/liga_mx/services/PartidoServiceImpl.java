@@ -11,9 +11,6 @@ import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.dtos.response.ResumenCambiosDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
-import com.fdf.liga_mx.repository.ArbitroRepository;
-import com.fdf.liga_mx.repository.ClubRepository;
-import com.fdf.liga_mx.repository.EstadioRepository;
 import com.fdf.liga_mx.repository.PartidoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -44,11 +41,11 @@ public class PartidoServiceImpl implements IPartidoService {
     @Transactional
     public PartidoResponseDto save(PartidoRequest request) {
         if (request.getFecha().isBefore(Instant.now())) {
-            throw new DateTimeException("La fecha no es valida");
+            throw new DateTimeException("error.partido.fecha_invalida");
         }
 
         if (request.getIdLocal().equals(request.getIdVisitante())) {
-            throw new IllegalArgumentException("Los clubes no deben ser iguales");
+            throw new IllegalArgumentException("error.partido.clubes_iguales");
         }
 
         Club local = clubService.findById(request.getIdLocal());
@@ -90,20 +87,20 @@ public class PartidoServiceImpl implements IPartidoService {
     @Override
     @Transactional(readOnly = true)
     public Partido findById(UUID id) {
-        return partidoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el partido"));
+        return partidoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.partido.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PartidoResponseDto findDtoById(UUID id) {
-        Partido partido = partidoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el partido"));
+        Partido partido = partidoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.partido.not_found"));
         return partidoMapper.toDto(partido);
     }
 
     @Override
     @Transactional
     public PartidoResponseDto update(PartidoRequest request, UUID id) {
-        Partido partido = partidoRepo.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el partido"));
+        Partido partido = partidoRepo.findById(id).orElseThrow(()-> new NoSuchElementException("error.partido.not_found"));
         if (!partido.getIdEstadio().getId().equals(request.getIdEstadio())){
             Estadio estadio = estadioService.findById(request.getIdEstadio());
             partido.setIdEstadio(estadio);
@@ -141,7 +138,7 @@ public class PartidoServiceImpl implements IPartidoService {
     @Transactional
     @EventListener
     public void finalizarPartido(PartidoFinalizadoEvent event) {
-        Partido partido = partidoRepo.findById(event.getIdPartido()).orElseThrow(() -> new NoSuchElementException("No se encontro el partido"));
+        Partido partido = partidoRepo.findById(event.getIdPartido()).orElseThrow(() -> new NoSuchElementException("error.partido.not_found"));
 
         partido.setIdStatus(catalogosService.findStatusEntityById(Estados.FINALIZADO.getCodigo()));
 
@@ -166,7 +163,7 @@ public class PartidoServiceImpl implements IPartidoService {
     @Transactional(readOnly = true)
     public List<getMarcadorPartido> obtenerMarcadorPartido(UUID uuid) {
         List<getMarcadorPartido> marcadorPartido = partidoRepo.obtenerMarcador(uuid);
-        if (marcadorPartido == null) throw new NoSuchElementException("Partido no encontrado");
+        if (marcadorPartido == null) throw new NoSuchElementException("error.partido.not_found");
         return marcadorPartido;
     }
 
@@ -183,7 +180,7 @@ public class PartidoServiceImpl implements IPartidoService {
         try {
             return objectMapper.readValue(rawJson, new TypeReference<List<ResumenCambiosDto>>() {});
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error al procesar el JSON", e);
+            throw new RuntimeException("error.utils.json_invalido", e);
         }
     }
 

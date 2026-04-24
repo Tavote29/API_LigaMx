@@ -1,9 +1,9 @@
 package com.fdf.liga_mx.controller;
 
+import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.request.ArbitroRequest;
 import com.fdf.liga_mx.models.dtos.response.ArbitroResponseDto;
-import com.fdf.liga_mx.config.SwaggerTags;
-import com.fdf.liga_mx.config.SwaggerResponses;
 import com.fdf.liga_mx.services.IArbitroService;
 import com.fdf.liga_mx.util.Utils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +61,7 @@ public class ArbitroController {
             @RequestPart("arbitro") @Valid ArbitroRequest arbitroRequest) throws IOException {
 
         if (file!=null && !Utils.isValidImage(file))
-            throw new IllegalArgumentException(("El archivo no es una imagen válida"));
+            throw new IllegalArgumentException(("error.archivo.no_imagen"));
 
         ArbitroResponseDto arbitroResponseDto = arbitroService.save(arbitroRequest, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(arbitroResponseDto);

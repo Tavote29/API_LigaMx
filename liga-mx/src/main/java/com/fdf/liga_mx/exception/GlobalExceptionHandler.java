@@ -1,12 +1,8 @@
 package com.fdf.liga_mx.exception;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,19 +13,39 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-
+import java.io.IOException;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private final MessageSource messageSource;
+
+    public GlobalExceptionHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    private String getMessage(String key) {
+        try {
+            return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+        } catch (NoSuchMessageException e) {
+            return key;
+        }
+    }
+
     //1.- Elementos no encontrados E404
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorResponse> handleNoSuchElement(NoSuchElementException ex, WebRequest request) {
+        String message = getMessage(ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
+                message,
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -38,11 +54,12 @@ public class GlobalExceptionHandler {
     // 2. Manejo de Argumentos Inválidos / Reglas de Negocio (400)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        String message = getMessage(ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ex.getMessage(),
+                message,
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -51,11 +68,12 @@ public class GlobalExceptionHandler {
     // 3. Manejo de Conflictos de Estado (409)
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex, WebRequest request) {
+        String message = getMessage(ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
-                ex.getMessage(),
+                message,
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
@@ -113,11 +131,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex, WebRequest request) {
 
+        String message = getMessage("Ha ocurrido un error inesperado en el servidor");
+
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                "Ha ocurrido un error inesperado en el servidor",
+                message,
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,11 +147,12 @@ public class GlobalExceptionHandler {
     // 8. Manejo de Autenticación Fallida (401)
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+        String message = getMessage("Credenciales inválidas");
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
                 HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-                "Credenciales inválidas",
+                message,
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
@@ -150,7 +171,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-
-
+    // 10. Manejo de excepciones de fecha (400)
+    @ExceptionHandler(DateTimeException.class)
+    public ResponseEntity<ErrorResponse> handleDateTimeException(DateTimeException ex, WebRequest request) {
+        String message = getMessage(ex.getMessage());
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                message,
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }

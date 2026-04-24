@@ -2,12 +2,7 @@ package com.fdf.liga_mx.testdata;
 
 import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
-import com.fdf.liga_mx.models.entitys.Club;
-import com.fdf.liga_mx.models.entitys.Jugador;
-import com.fdf.liga_mx.models.entitys.Persona;
-import com.fdf.liga_mx.models.entitys.Posicion;
-import com.fdf.liga_mx.models.entitys.Nacionalidad;
-import com.fdf.liga_mx.models.entitys.Status;
+import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.github.javafaker.Faker;
 

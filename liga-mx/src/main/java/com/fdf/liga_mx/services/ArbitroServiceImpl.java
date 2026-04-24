@@ -58,20 +58,20 @@ public class ArbitroServiceImpl implements IArbitroService {
     @Override
     @Transactional(readOnly = true)
     public Arbitro findById(Long id) {
-        return arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el arbitro indicado"));
+        return arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.arbitro.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public ArbitroResponseDto findDtoById(Long id) {
-        Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el arbitro indicado"));
+        Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.arbitro.not_found"));
         return arbitroMapper.toDto(arbitro);
     }
 
     @Override
     @Transactional
     public ArbitroResponseDto update(ArbitroRequest request, Long id) {
-        Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el arbitro indicado"));
+        Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.arbitro.not_found"));
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(request.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(request.getPersona().getIdStatus());
 
@@ -90,7 +90,7 @@ public class ArbitroServiceImpl implements IArbitroService {
     public void delete(Long id) {
 
         Arbitro arbitro = arbitroRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("No se encontro el arbitro"));
+                () -> new NoSuchElementException("error.arbitro.not_found"));
 
         arbitro.setStatus(Estados.INACTIVO.getCodigo());
 

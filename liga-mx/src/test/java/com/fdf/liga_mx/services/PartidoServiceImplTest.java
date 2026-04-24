@@ -210,7 +210,7 @@ import static org.mockito.Mockito.*;
         );
 
         //Assert
-        assertEquals("La fecha no es valida", exception.getMessage());
+        assertEquals("error.partido.fecha_invalida", exception.getMessage());
 
         verifyNoInteractions(partidoRepository);
     }
@@ -232,7 +232,7 @@ import static org.mockito.Mockito.*;
         );
 
         //Assert
-        assertEquals("Los clubes no deben ser iguales", illegalArgumentException.getMessage());
+        assertEquals("error.partido.clubes_iguales", illegalArgumentException.getMessage());
         verifyNoInteractions(partidoRepository);
     }
 
@@ -284,7 +284,7 @@ import static org.mockito.Mockito.*;
         );
 
         //Assert
-        assertEquals("No se encontro el partido",noSuchElementException.getMessage());
+        assertEquals("error.partido.not_found",noSuchElementException.getMessage());
     }
 
     @Test
@@ -347,7 +347,7 @@ import static org.mockito.Mockito.*;
         );
 
         //Assert
-        assertEquals("No se encontro el partido",noSuchElementException.getMessage());
+        assertEquals("error.partido.not_found",noSuchElementException.getMessage());
         verifyNoInteractions(clubService);
         verifyNoInteractions(estadioService);
         verifyNoInteractions(arbitroService);
@@ -550,7 +550,7 @@ import static org.mockito.Mockito.*;
                 ()-> partidoService.findById(uuid));
 
         //Assert
-        assertEquals("No se encontro el partido", noSuchElementException.getMessage());
+        assertEquals("error.partido.not_found", noSuchElementException.getMessage());
         verify(partidoRepository).findById(uuid);
         verifyNoMoreInteractions(partidoRepository);
     }

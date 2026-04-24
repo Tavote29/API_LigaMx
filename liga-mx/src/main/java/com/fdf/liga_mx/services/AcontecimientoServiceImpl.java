@@ -48,7 +48,7 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
         Partido partido = partidoService.findById(request.getIdPartido());
 
         if (partido.getIdStatus().getId().equals(Estados.FINALIZADO.getCodigo()))
-            throw new IllegalStateException("Partido finalizado");
+            throw new IllegalStateException("error.acontecimiento.partido_finalizado");
 
 
 
@@ -90,14 +90,14 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
         Long idOut = request.getIdJugadorSecundario();
 
         if (!jugadorService.isMatchPlayer(partido.getId(),idIn) || !jugadorService.isMatchPlayer(partido.getId(),idOut))
-            throw  new IllegalStateException("Jugador no forma parte del partido");
+            throw  new IllegalStateException("error.acontecimiento.jugador_no_forma_parte");
 
 
         if (idIn == null || idOut == null) {
-            throw new IllegalArgumentException("Los jugadores no pueden ser nulos");
+            throw new IllegalArgumentException("error.acontecimiento.jugadores_null");
         }
         if (idIn.equals(idOut)) {
-            throw new IllegalArgumentException("Los jugadores no pueden ser iguales");
+            throw new IllegalArgumentException("error.acontecimiento.jugadores_iguales");
         }
 
         List<ResumenCambiosDto> resumenCambios = partidoService.obtenerResumenCambios(partido.getId());
@@ -113,7 +113,7 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
                 );
 
         if (jugadorYaParticipo) {
-            throw new IllegalStateException("Uno de los jugadores ya participo en un cambio previo");
+            throw new IllegalStateException("error.acontecimiento.jugador_cambio_previo");
         }
 
         Short idClubCambio = jugadorService.findById(idOut).getIdClub().getId();
@@ -123,7 +123,7 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
                 .anyMatch(resumen -> resumen.totalCambios() >= 5);
 
         if (limiteSuperado) {
-            throw new IllegalStateException("El equipo ya alcanzó el limite máximo de cambios");
+            throw new IllegalStateException("error.acontecimiento.limite_cambios");
         }
 
     }
@@ -143,13 +143,13 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
     @Override
     @Transactional(readOnly = true)
     public Acontecimiento findById(UUID id) {
-        return acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("No se encontro el acontecimiento"));
+        return acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("error.acontecimiento.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public AcontecimientoResponseDto findDtoById(UUID id) {
-        Acontecimiento acontecimiento = acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("No se encontro el acontecimiento"));
+        Acontecimiento acontecimiento = acontecimientoRepo.findById(id).orElseThrow(()->new NoSuchElementException("error.acontecimiento.not_found"));
         return acontecimientoMapper.toDto(acontecimiento);
     }
 

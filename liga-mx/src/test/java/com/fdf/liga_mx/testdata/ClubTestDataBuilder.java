@@ -1,11 +1,7 @@
 package com.fdf.liga_mx.testdata;
 
 import com.fdf.liga_mx.models.dtos.request.ClubRequest;
-import com.fdf.liga_mx.models.entitys.Ciudad;
-import com.fdf.liga_mx.models.entitys.Club;
-import com.fdf.liga_mx.models.entitys.DT;
-import com.fdf.liga_mx.models.entitys.Estadio;
-import com.fdf.liga_mx.models.entitys.Estado;
+import com.fdf.liga_mx.models.entitys.*;
 import com.github.javafaker.Faker;
 
 import java.time.ZoneId;

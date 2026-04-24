@@ -8,7 +8,7 @@ import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.response.JugadorResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
-import com.fdf.liga_mx.repository.*;
+import com.fdf.liga_mx.repository.JugadorRepository;
 import com.fdf.liga_mx.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,20 +69,20 @@ public class JugadorServiceImpl implements IJugadorService{
     @Override
     @Transactional(readOnly = true)
     public Jugador findById(Long id) {
-        return jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+        return jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public JugadorResponseDto findDtoById(Long id) {
-        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
         return jugadorMapper.toDto(jugador);
     }
 
     @Override
     @Transactional
     public JugadorResponseDto update(JugadorRequest jugadorRequest, Long id) {
-        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(jugadorRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(jugadorRequest.getPersona().getIdStatus());
 
@@ -109,7 +109,7 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional
     public void delete(Long id) {
 
-        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+        Jugador jugador = jugadorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
 
         jugador.setStatus(Estados.INACTIVO.getCodigo());
         jugador.setIdClub(null);
@@ -117,11 +117,6 @@ public class JugadorServiceImpl implements IJugadorService{
         personaService.delete(jugador.getIdPersona().getId());
 
         jugadorRepository.save(jugador);
-
-        long a = 1L;
-        Long ab = a;
-
-
 
     }
 
@@ -161,7 +156,7 @@ public class JugadorServiceImpl implements IJugadorService{
         List<getTarjetasPorPartido> tarjetasPorPartido = jugadorRepository.obtenerTarjetasPorPartidoId(id.toString());
 
         for (getTarjetasPorPartido tarjetas : tarjetasPorPartido) {
-            Jugador jugador = jugadorRepository.findById(tarjetas.getId_jugador()).orElseThrow(() ->  new NoSuchElementException("No se encontro el jugador"));
+            Jugador jugador = jugadorRepository.findById(tarjetas.getId_jugador()).orElseThrow(() ->  new NoSuchElementException("error.jugador.not_found"));
 
             jugador.setTarjetasAmarillas((short) (jugador.getTarjetasAmarillas()+tarjetas.getTarjetas_amarillas()));
             jugador.setTarjetasRojas((short) (jugador.getTarjetasRojas()+tarjetas.getTarjetas_rojas()));
@@ -204,10 +199,10 @@ public class JugadorServiceImpl implements IJugadorService{
     @Transactional
     public void liberarJugador(Long jugadorId) {
 
-        Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow(() -> new NoSuchElementException("No se encontro el jugador"));
+        Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
 
         if (jugador.getStatus().equals(Estados.RETIRADO.getCodigo()) || jugador.getStatus().equals(Estados.AGENTE_LIBRE.getCodigo())){
-            throw new IllegalStateException("Jugador ya se encuentra libre de competencia");
+            throw new IllegalStateException("error.jugador.libre_competencia");
         }
 
 

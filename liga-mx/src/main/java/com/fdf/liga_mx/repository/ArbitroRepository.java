@@ -1,11 +1,10 @@
 package com.fdf.liga_mx.repository;
 
+import com.fdf.liga_mx.models.entitys.Arbitro;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
-
-import com.fdf.liga_mx.models.entitys.Arbitro;
 import org.springframework.data.repository.query.Param;
 
 public interface ArbitroRepository extends JpaRepository<Arbitro,Long>{

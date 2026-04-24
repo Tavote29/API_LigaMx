@@ -3,8 +3,8 @@ package com.fdf.liga_mx.mappers;
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
 import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
-import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

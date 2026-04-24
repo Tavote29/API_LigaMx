@@ -8,12 +8,11 @@ import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.IClubRepository;
-import com.fdf.liga_mx.repository.IEstadoRepository;
 import com.fdf.liga_mx.repository.JugadorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.fdf.liga_mx.models.enums.Estados;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +46,7 @@ public class ClubServiceImpl implements IClubService{
     @Transactional
     public ClubResponseDto changeStadium(EstadioRequestDto estadioRequestDto,Short idClub) {
 
-        Club club = clubRepo.findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findByIdAndStatusIs(idClub, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
 
         if (estadioRequestDto.getId() != null) {
 
@@ -71,7 +70,7 @@ public class ClubServiceImpl implements IClubService{
     @Transactional
     public ClubResponseDto updateEscudo(MultipartFile file, Short idClub) throws IOException {
 
-        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
 
 
 
@@ -90,17 +89,17 @@ public class ClubServiceImpl implements IClubService{
     @Transactional
     public void assignDT(DTRequest dtRequest,Short idClub) {
 
-        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findById(idClub).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
 
         if (dtRequest.getNUI_DT() != null) {
 
             DT dt = dtService.findById(dtRequest.getNUI_DT());
 
             if (Estados.fromCode(dt.getStatus()) != Estados.ACTIVO){
-                throw new IllegalStateException("El status del DT no se encuentra en activo");
+                throw new IllegalStateException("error.club.dt_inactivo");
             }
 
-            if(dt.getClub()!=null) throw new IllegalArgumentException("El DT ya tiene un club asignado");
+            if(dt.getClub()!=null) throw new IllegalArgumentException("error.club.dt_asignado");
 
             club.setIdDt(dt);
 
@@ -149,7 +148,7 @@ public class ClubServiceImpl implements IClubService{
         if (clubRequest.getIdDt() != null){
             DT dt = dtService.findById(clubRequest.getIdDt());
 
-            if(dt.getClub()!=null) throw new IllegalArgumentException("El DT ya tiene un club asignado");
+            if(dt.getClub()!=null) throw new IllegalArgumentException("error.club.dt_asignado");
 
             club.setIdDt(dt);
         }
@@ -179,19 +178,19 @@ public class ClubServiceImpl implements IClubService{
 
     @Override
     public Club findById(Short id) {
-        return clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        return clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
     }
 
     @Override
     public ClubResponseDto findDtoById(Short id) {
-        return clubMapper.toDto(clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Club no encontrado")));
+        return clubMapper.toDto(clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.club.not_found")));
     }
 
     @Override
     @Transactional
     public ClubResponseDto update(ClubRequest request, Short id) {
 
-        Club club = clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
 
         club = clubMapper.updateEntity(request,club);
 
@@ -203,7 +202,7 @@ public class ClubServiceImpl implements IClubService{
     @Transactional
     public void delete(Short id) {
 
-        Club club = clubRepo.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("Club no encontrado"));
+        Club club = clubRepo.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
 
         Set<Jugador> jugadores = club.getJugadores();
 

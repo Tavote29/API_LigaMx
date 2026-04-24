@@ -25,6 +25,6 @@ public enum Estados {
                 return estados;
             }
         }
-        throw new IllegalArgumentException("Código de estado no válido: " + code);
+        throw new IllegalArgumentException("error.enum.estado_invalido");
     }
 }

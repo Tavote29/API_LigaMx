@@ -29,6 +29,6 @@ public enum TiposAcontecimientos {
                 return tipo;
             }
         }
-        throw new IllegalArgumentException("Código de tipo de acontecimiento no válido: " + code);
+        throw new IllegalArgumentException("error.enum.acontecimiento_invalido");
     }
 }

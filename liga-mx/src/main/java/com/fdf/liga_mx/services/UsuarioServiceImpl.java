@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -47,13 +46,13 @@ public class UsuarioServiceImpl implements  IUsuarioService{
 
     @Override
     public Usuario findById(Long id) {
-        return usuarioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        return usuarioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.usuario.not_found"));
     }
 
 
 
     @Override
     public Usuario findByUsername(String username) {
-        return usuarioRepo.findByUsername(username).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        return usuarioRepo.findByUsername(username).orElseThrow(() -> new NoSuchElementException("error.usuario.not_found"));
     }
 }

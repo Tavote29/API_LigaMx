@@ -1,10 +1,10 @@
 package com.fdf.liga_mx.controller;
 
+import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.request.EstadioRequestDto;
 import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.services.IEstadioService;
-import com.fdf.liga_mx.config.SwaggerTags;
-import com.fdf.liga_mx.config.SwaggerResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,6 +1,5 @@
 package com.fdf.liga_mx.models.dtos.response;
 
-import com.fdf.liga_mx.models.entitys.Jugador;
 import lombok.Builder;
 import lombok.Value;
 

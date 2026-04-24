@@ -29,9 +29,9 @@ public class TraspasoServiceImpl implements ITraspasoService{
 
     @Override
     public TraspasoResponseDto save(TraspasoRequestDTO traspasoRequestDTO) {
-        Jugador jugador = jugadorRepository.findById(traspasoRequestDTO.getNuiJugador()).orElseThrow();
-        Club clubOrigen = clubRepository.findById(traspasoRequestDTO.getClubOrigen()).orElseThrow();
-        Club clubDestino = clubRepository.findById(traspasoRequestDTO.getClubDestino()).orElseThrow();
+        Jugador jugador = jugadorRepository.findById(traspasoRequestDTO.getNuiJugador()).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
+        Club clubOrigen = clubRepository.findById(traspasoRequestDTO.getClubOrigen()).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
+        Club clubDestino = clubRepository.findById(traspasoRequestDTO.getClubDestino()).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
         TipoTraspaso tipoTraspaso = catalogosService.findTipoTraspasoEntityById(traspasoRequestDTO.getTipo());
 
         Traspaso traspaso = traspasoMapper.toEntity(traspasoRequestDTO);
@@ -56,20 +56,20 @@ public class TraspasoServiceImpl implements ITraspasoService{
     @Override
     @Transactional(readOnly = true)
     public Traspaso findById(UUID uuid) {
-        return traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("Elemento no encontrado"));
+        return traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("error.traspaso.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public TraspasoResponseDto findDtoById(UUID uuid) {
-        Traspaso traspaso = traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("Elemento no encontrado"));
+        Traspaso traspaso = traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("error.traspaso.not_found"));
         return traspasoMapper.toDto(traspaso);
     }
 
     @Override
     @Transactional
     public TraspasoResponseDto update(TraspasoRequestDTO traspasoRequestDTO, UUID uuid) {
-        Traspaso traspaso = traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("Elemento no encontrado"));
+        Traspaso traspaso = traspasoRepository.findById(uuid).orElseThrow(()-> new NoSuchElementException("error.traspaso.not_found"));
         if (!traspaso.getFechaTraspaso().equals(traspasoRequestDTO.getFechaTraspaso())){
             traspaso.setFechaTraspaso(traspasoRequestDTO.getFechaTraspaso());
         }
@@ -80,11 +80,11 @@ public class TraspasoServiceImpl implements ITraspasoService{
             traspaso.setFechaFin(traspaso.getFechaFin());
         }
         if (!traspaso.getJugador().getId().equals(traspasoRequestDTO.getNuiJugador())){
-            Jugador jugador = jugadorRepository.findById(traspasoRequestDTO.getNuiJugador()).orElseThrow();
+            Jugador jugador = jugadorRepository.findById(traspasoRequestDTO.getNuiJugador()).orElseThrow(() -> new NoSuchElementException("error.jugador.not_found"));
             traspaso.setJugador(jugador);
         }
         if (!traspaso.getClubDestino().getId().equals(traspasoRequestDTO.getClubDestino())){
-            Club clubDestino = clubRepository.findById(traspasoRequestDTO.getClubDestino()).orElseThrow();
+            Club clubDestino = clubRepository.findById(traspasoRequestDTO.getClubDestino()).orElseThrow(() -> new NoSuchElementException("error.club.not_found"));
             traspaso.setClubDestino(clubDestino);
         }
         if(!traspaso.getTipo().getId().equals(traspasoRequestDTO.getTipo())){

@@ -8,19 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
 public class JwtUtil {

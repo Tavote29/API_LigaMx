@@ -5,8 +5,6 @@ import com.fdf.liga_mx.models.dtos.response.ClubResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
 @Component
 @RequiredArgsConstructor

@@ -1,7 +1,5 @@
 package com.fdf.liga_mx.config;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 public class SwaggerTags {
 
     // Tags para agrupar endpoints

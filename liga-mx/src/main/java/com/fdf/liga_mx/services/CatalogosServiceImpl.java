@@ -4,7 +4,10 @@ import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.response.*;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.repositories.*;
-import com.fdf.liga_mx.repository.*;
+import com.fdf.liga_mx.repository.ICiudadRepository;
+import com.fdf.liga_mx.repository.IEstadoRepository;
+import com.fdf.liga_mx.repository.ITipoTraspasoRepository;
+import com.fdf.liga_mx.repository.ITorneoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +112,7 @@ public class CatalogosServiceImpl implements ICatalogosService{
     @Override
     public CategoriaArbitroResponseDto findCategoriaArbitroById(Short id) {
 
-        CategoriaArbitro categoriaArbitro = categoriaArbitroRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la categoria"));
+        CategoriaArbitro categoriaArbitro = categoriaArbitroRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.categoria_not_found"));
 
         return categoriaArbitroMapper.toDto(categoriaArbitro);
     }
@@ -117,7 +120,7 @@ public class CatalogosServiceImpl implements ICatalogosService{
     @Override
     public NacionalidadResponseDto findNacionalidadById(Short id) {
 
-        Nacionalidad nacionalidad = nacionalidadRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la nacionalidad"));
+        Nacionalidad nacionalidad = nacionalidadRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.nacionalidad_not_found"));
 
         return nacionalidadMapper.toDto(nacionalidad);
 
@@ -126,7 +129,7 @@ public class CatalogosServiceImpl implements ICatalogosService{
     @Override
     public PosicionResponseDto findPosicionById(Short id) {
 
-        Posicion posicion = posicionRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la posicion"));
+        Posicion posicion = posicionRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.posicion_not_found"));
 
         return posicionMapper.toDto(posicion);
     }
@@ -134,7 +137,7 @@ public class CatalogosServiceImpl implements ICatalogosService{
     @Override
     public StatusResponseDto findStatusById(Short id) {
 
-        Status status = statusRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el status"));
+        Status status = statusRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.status_not_found"));
 
         return statusMapper.toDto(status);
     }
@@ -143,53 +146,53 @@ public class CatalogosServiceImpl implements ICatalogosService{
     public TiposAcontecimientoResponseDto findTipoAcontecimientoById(Short id) {
 
         TiposAcontecimiento tiposAcontecimiento = tiposAcontecimientoRepo
-                .findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la tiposAcontecimiento"));
+                .findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.tipo_acontecimiento_not_found"));
 
         return tiposAcontecimientoMapper.toDto(tiposAcontecimiento);
     }
 
     @Override
     public Estado findEstadoById(Short id) {
-        return estadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estado"));
+        return estadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.estado_not_found"));
     }
 
     @Override
     public Ciudad findCiudadById(Short id) {
-        return ciudadRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la ciudad"));
+        return ciudadRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.ciudad_not_found"));
     }
 
     @Override
     public CategoriaArbitro findCategoriaArbitroEntityById(Short id) {
-        return categoriaArbitroRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la categoria"));
+        return categoriaArbitroRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.categoria_not_found"));
     }
 
     @Override
     public Nacionalidad findNacionalidadEntityById(Short id) {
-        return nacionalidadRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la nacionalidad"));
+        return nacionalidadRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.nacionalidad_not_found"));
     }
 
     @Override
     public Posicion findPosicionEntityById(Short id) {
-        return posicionRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la posicion"));
+        return posicionRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.posicion_not_found"));
     }
 
     @Override
     public Status findStatusEntityById(Short id) {
-        return statusRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el status"));
+        return statusRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.status_not_found"));
     }
 
     @Override
     public TiposAcontecimiento findTipoAcontecimientoEntityById(Short id) {
-        return tiposAcontecimientoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro tipo Acontecimiento"));
+        return tiposAcontecimientoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.catalogo.tipo_acontecimiento_not_found"));
     }
 
     @Override
     public Torneo findTorneoEntityById(Long id) {
-        return torneoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el torneo"));
+        return torneoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.catalogo.torneo_not_found"));
     }
 
     @Override
     public TipoTraspaso findTipoTraspasoEntityById(Short id) {
-        return tipoTraspasoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el elemento"));
+        return tipoTraspasoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.catalogo.elemento_not_found"));
     }
 }

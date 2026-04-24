@@ -5,9 +5,7 @@ import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.*;
-import com.fdf.liga_mx.models.entitys.Status;
 import com.fdf.liga_mx.models.enums.Estados;
-import com.fdf.liga_mx.repository.ClubRepository;
 import com.fdf.liga_mx.repository.DTRepository;
 import com.fdf.liga_mx.repository.IClubRepository;
 import com.fdf.liga_mx.util.Utils;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +38,7 @@ public class DTServiceImpl implements IDTService{
     @Override
     @Transactional
     public DTResponseDto save( DTRequest dtRequest) {
-        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro el club"));
+        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("error.dt.club_not_found"));
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -72,26 +69,26 @@ public class DTServiceImpl implements IDTService{
     @Override
     @Transactional(readOnly = true)
     public DT findById(Long id) {
-        return dtRepository.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
+        return dtRepository.findByIdAndStatusIs(id, Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("error.dt.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public DTResponseDto findDtoById(Long id) {
-        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro al director tecnico"));
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.dt.not_found"));
         return dtMapper.toDto(dt);
     }
 
     @Override
     @Transactional
     public DTResponseDto update(DTRequest dtRequest, Long id) {
-        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.dt.indicado_not_found"));
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
 
         /*
         if (!dt.getClub().getId().equals(dtRequest.getIdClub())){
-            Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
+            Club club = clubRepository.findById(dtRequest.getIdClub()).orElseThrow(()-> new NoSuchElementException("error.dt.indicado_not_found"));
             dt.setClub(club);
         }
         */
@@ -104,7 +101,7 @@ public class DTServiceImpl implements IDTService{
     @Transactional
     public void delete(Long id) {
 
-        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro el DT indicado"));
+        DT dt = dtRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.dt.indicado_not_found"));
         dt.setStatus(Estados.INACTIVO.getCodigo());
 
         personaService.delete(dt.getPersona().getId());
@@ -124,7 +121,7 @@ public class DTServiceImpl implements IDTService{
     @Transactional
     public DTResponseDto save(DTRequest dtRequest, MultipartFile file) throws IOException {
 
-        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("No se encontro el club"));
+        Club club = clubRepository.findByIdAndStatusIs(dtRequest.getIdClub(), Estados.ACTIVO.getCodigo()).orElseThrow(()-> new NoSuchElementException("error.dt.club_not_found"));
 
         Nacionalidad nacionalidad = catalogosService.findNacionalidadEntityById(dtRequest.getPersona().getIdNacionalidad());
         Status status = catalogosService.findStatusEntityById(dtRequest.getPersona().getIdStatus());
@@ -152,18 +149,18 @@ public class DTServiceImpl implements IDTService{
     @Transactional
     public void liberarDt(Long id) {
 
-        DT dt = dtRepository.findById(id).orElseThrow(() -> new NoSuchElementException("DT no encontrado"));
+        DT dt = dtRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.dt.not_found"));
 
         if (dt.getPersona().getIdStatus().getId().equals(Estados.INACTIVO.getCodigo())) {
-            throw new IllegalStateException("La persona ya se encuentra inactiva");
+            throw new IllegalStateException("error.dt.persona_inactiva");
         }
 
         if (dt.getStatus().equals(Estados.RETIRADO.getCodigo() )) {
-            throw new IllegalStateException("La persona ya se encuentra retirada");
+            throw new IllegalStateException("error.dt.persona_retirada");
         }
 
         if (dt.getStatus().equals(Estados.AGENTE_LIBRE.getCodigo() )) {
-            throw new IllegalStateException("Ya se encuentra libre de competencia");
+            throw new IllegalStateException("error.dt.libre_competencia");
         }
 
         dt.setStatus(Estados.AGENTE_LIBRE.getCodigo());

@@ -5,8 +5,8 @@ import com.fdf.liga_mx.models.dtos.response.EstadioResponseDto;
 import com.fdf.liga_mx.models.entitys.Ciudad;
 import com.fdf.liga_mx.models.entitys.Estadio;
 import com.fdf.liga_mx.models.entitys.Estado;
-import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

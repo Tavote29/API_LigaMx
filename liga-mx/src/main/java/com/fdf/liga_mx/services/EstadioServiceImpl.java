@@ -61,14 +61,14 @@ public class EstadioServiceImpl implements IEstadioService {
     @Override
     @Transactional(readOnly = true)
     public Estadio findById(Short id) {
-        return estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
+        return estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.estadio.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public EstadioResponseDto findDtoById(Short id) {
 
-        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
+        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.estadio.not_found"));
 
         return estadioMapper.toDto(estadio);
     }
@@ -77,7 +77,7 @@ public class EstadioServiceImpl implements IEstadioService {
     @Transactional
     public EstadioResponseDto update(EstadioRequestDto request, Short id) {
 
-        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
+        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.estadio.not_found"));
 
         if (!estadio.getNombreEstadio().equals(request.getNombreEstadio())){
             estadio.setNombreEstadio(request.getNombreEstadio());
@@ -112,7 +112,7 @@ public class EstadioServiceImpl implements IEstadioService {
     @Transactional
     public void delete(Short id) {
 
-        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el estadio"));
+        Estadio estadio = estadioRepo.findById(id).orElseThrow(() -> new NoSuchElementException("error.estadio.not_found"));
 
         //PENDIENTE IMPLEMENTACION SOFT DELETE
 

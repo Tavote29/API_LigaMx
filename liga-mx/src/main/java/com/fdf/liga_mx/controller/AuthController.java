@@ -1,12 +1,12 @@
 package com.fdf.liga_mx.controller;
 
+import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.request.AuthRequestDto;
 import com.fdf.liga_mx.models.dtos.request.UsuarioRequestDto;
 import com.fdf.liga_mx.models.dtos.response.UsuarioResponseDto;
 import com.fdf.liga_mx.services.IUsuarioService;
 import com.fdf.liga_mx.util.JwtUtil;
-import com.fdf.liga_mx.config.SwaggerTags;
-import com.fdf.liga_mx.config.SwaggerResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,8 +24,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.Map;

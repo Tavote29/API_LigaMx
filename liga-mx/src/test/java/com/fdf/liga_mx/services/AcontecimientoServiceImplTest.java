@@ -3,6 +3,8 @@ package com.fdf.liga_mx.services;
 import com.fdf.liga_mx.mappers.*;
 import com.fdf.liga_mx.models.dtos.request.AcontecimientoRequest;
 import com.fdf.liga_mx.models.dtos.response.AcontecimientoResponseDto;
+import com.fdf.liga_mx.models.dtos.response.DetalleCambioDto;
+import com.fdf.liga_mx.models.dtos.response.ResumenCambiosDto;
 import com.fdf.liga_mx.models.entitys.*;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.AcontecimientoRepository;
@@ -21,8 +23,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
  class AcontecimientoServiceImplTest {
@@ -159,7 +161,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 ()-> acontecimientoService.save(request));
 
         //Assert
-        assertEquals("Partido finalizado", exception.getMessage());
+        assertEquals("error.acontecimiento.partido_finalizado", exception.getMessage());
 
         verify(partidoService).findById(uuid);
         verifyNoInteractions(acontecimientoRepository);
@@ -197,7 +199,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 () -> acontecimientoService.findDtoById(uuid));
 
         //Assert
-        assertEquals("No se encontro el acontecimiento", exception.getMessage());
+        assertEquals("error.acontecimiento.not_found", exception.getMessage());
 
     }
 
@@ -235,7 +237,147 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals(3,acontecimientos.size());
     }
 
-    public void update_mustUpdateSuccesfully_whenAllDataIsDifferentAndValid(){
+    @Test
+    public void verificacionCambioValido_shouldThrowIllegalStateException_whenPlayerNotPartOfMatch() {
+        // Arrange
+        UUID partidoId = UUID.randomUUID();
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withPartido(partidoId)
+                .withJugadorPrimario(1L)
+                .withJugadorSecundario(2L)
+                .build();
 
+        Partido partido = Partido.builder().id(partidoId).build();
+
+        when(jugadorService.isMatchPlayer(partidoId, 1L)).thenReturn(false);
+
+        // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> acontecimientoService.verificacionCambioValido(request, partido));
+        assertEquals("error.acontecimiento.jugador_no_forma_parte", exception.getMessage());
     }
+
+    @Test
+    public void verificacionCambioValido_shouldThrowIllegalArgumentException_whenPlayersAreSame() {
+        // Arrange
+        UUID partidoId = UUID.randomUUID();
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withPartido(partidoId)
+                .withJugadorPrimario(1L)
+                .withJugadorSecundario(1L)
+                .build();
+
+        Partido partido = Partido.builder().id(partidoId).build();
+
+        when(jugadorService.isMatchPlayer(partidoId, 1L)).thenReturn(true);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> acontecimientoService.verificacionCambioValido(request, partido));
+        assertEquals("error.acontecimiento.jugadores_iguales", exception.getMessage());
+    }
+
+    @Test
+    public void verificacionCambioValido_shouldThrowIllegalStateException_whenPlayerAlreadyParticipated() {
+        // Arrange
+        UUID partidoId = UUID.randomUUID();
+        Long idIn = 1L;
+        Long idOut = 2L;
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withPartido(partidoId)
+                .withJugadorPrimario(idIn)
+                .withJugadorSecundario(idOut)
+                .build();
+
+        Partido partido = Partido.builder().id(partidoId).build();
+
+        when(jugadorService.isMatchPlayer(partidoId, idIn)).thenReturn(true);
+        when(jugadorService.isMatchPlayer(partidoId, idOut)).thenReturn(true);
+
+
+        DetalleCambioDto detalle = new DetalleCambioDto(idIn, 3L);
+        ResumenCambiosDto resumen = new ResumenCambiosDto((short)1, 1, List.of(detalle));
+
+        when(partidoService.obtenerResumenCambios(partidoId)).thenReturn(List.of(resumen));
+
+        // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> acontecimientoService.verificacionCambioValido(request, partido));
+
+        assertEquals("error.acontecimiento.jugador_cambio_previo", exception.getMessage());
+    }
+
+    @Test
+    public void verificacionCambioValido_shouldThrowIllegalStateException_whenLimitReached() {
+        // Arrange
+        UUID partidoId = UUID.randomUUID();
+        Long idIn = 1L;
+        Long idOut = 2L;
+        short idClub = 10;
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withPartido(partidoId)
+                .withJugadorPrimario(idIn)
+                .withJugadorSecundario(idOut)
+                .build();
+
+        Partido partido = Partido.builder().id(partidoId).build();
+
+        when(jugadorService.isMatchPlayer(partidoId, idIn)).thenReturn(true);
+        when(jugadorService.isMatchPlayer(partidoId, idOut)).thenReturn(true);
+        when(partidoService.obtenerResumenCambios(partidoId)).thenReturn(List.of()); // Lista vacía para primer check
+
+
+        Jugador jugadorOut = Jugador.builder().idClub(Club.builder().id(idClub).build()).build();
+        when(jugadorService.findById(idOut)).thenReturn(jugadorOut);
+
+
+        ResumenCambiosDto resumenLimite = new ResumenCambiosDto(idClub, 5, List.of());
+        when(partidoService.obtenerResumenCambios(partidoId)).thenReturn(List.of(resumenLimite));
+
+        // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> acontecimientoService.verificacionCambioValido(request, partido));
+        assertEquals("error.acontecimiento.limite_cambios", exception.getMessage());
+    }
+
+    @Test
+    public void verificacionCambioValido_shouldPass_whenValid() {
+        // Arrange
+        UUID partidoId = UUID.randomUUID();
+        Long idIn = 1L;
+        Long idOut = 2L;
+        short idClub = 10;
+        short idOtroClub = 20;
+
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withPartido(partidoId)
+                .withJugadorPrimario(idIn)
+                .withJugadorSecundario(idOut)
+                .build();
+
+        Partido partido = Partido.builder().id(partidoId).build();
+
+        when(jugadorService.isMatchPlayer(partidoId, idIn)).thenReturn(true);
+        when(jugadorService.isMatchPlayer(partidoId, idOut)).thenReturn(true);
+
+
+        ResumenCambiosDto otroCambio = new ResumenCambiosDto(idOtroClub, 1, List.of(new DetalleCambioDto(88L, 99L)));
+
+        // Configuramos para que devuelva la misma lista en ambas llamadas
+        when(partidoService.obtenerResumenCambios(partidoId)).thenReturn(List.of(otroCambio));
+
+        Jugador jugadorOut = Jugador.builder().idClub(Club.builder().id(idClub).build()).build();
+        when(jugadorService.findById(idOut)).thenReturn(jugadorOut);
+
+        // Act & Assert
+        assertDoesNotThrow(() -> acontecimientoService.verificacionCambioValido(request, partido));
+
+
+
+        verify(partidoService, times(1)).obtenerResumenCambios(partidoId);
+        verify(jugadorService).findById(idOut);
+    }
+
+
+
 }

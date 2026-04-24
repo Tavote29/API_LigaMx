@@ -2,9 +2,12 @@ package com.fdf.liga_mx.mappers;
 
 import com.fdf.liga_mx.models.dtos.request.AcontecimientoRequest;
 import com.fdf.liga_mx.models.dtos.response.AcontecimientoResponseDto;
-import com.fdf.liga_mx.models.entitys.*;
-import org.springframework.stereotype.Component;
+import com.fdf.liga_mx.models.entitys.Acontecimiento;
+import com.fdf.liga_mx.models.entitys.Jugador;
+import com.fdf.liga_mx.models.entitys.Partido;
+import com.fdf.liga_mx.models.entitys.TiposAcontecimiento;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

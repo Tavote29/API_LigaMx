@@ -3,7 +3,6 @@ package com.fdf.liga_mx.controller;
 import com.fdf.liga_mx.config.SwaggerResponses;
 import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
-import com.fdf.liga_mx.models.dtos.request.JugadorRequest;
 import com.fdf.liga_mx.models.dtos.request.PartidoRequest;
 import com.fdf.liga_mx.models.dtos.response.PartidoResponseDto;
 import com.fdf.liga_mx.services.IPartidoService;

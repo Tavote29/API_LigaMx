@@ -28,7 +28,7 @@ public class UsuarioDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Usuario usuario = usuarioRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Credenciales inválidas"));
+                .orElseThrow(() -> new UsernameNotFoundException("error.usuario.credenciales_invalidas"));
 
         boolean isEnabled = !Estados.INACTIVO.getCodigo().equals(usuario.getIdStatus());
 

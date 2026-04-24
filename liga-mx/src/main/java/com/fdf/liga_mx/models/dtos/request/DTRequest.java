@@ -1,6 +1,5 @@
 package com.fdf.liga_mx.models.dtos.request;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,10 +1,10 @@
 package com.fdf.liga_mx.controller;
 
+import com.fdf.liga_mx.config.SwaggerResponses;
+import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.services.IDTService;
-import com.fdf.liga_mx.config.SwaggerTags;
-import com.fdf.liga_mx.config.SwaggerResponses;
 import com.fdf.liga_mx.util.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -62,7 +62,7 @@ public class DTController {
             @RequestPart("dt") @Valid DTRequest dtRequest) throws IOException {
 
         if (file!=null && !Utils.isValidImage(file))
-            throw new IllegalArgumentException(("El archivo no es una imagen válida"));
+            throw new IllegalArgumentException(("error.archivo.no_imagen"));
 
         DTResponseDto dtResponseDto = idtService.save(dtRequest, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtResponseDto);

@@ -4,8 +4,8 @@ import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
 import com.fdf.liga_mx.models.entitys.DT;
 import com.fdf.liga_mx.models.entitys.Persona;
-import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

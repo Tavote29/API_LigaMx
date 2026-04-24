@@ -12,7 +12,6 @@ import com.fdf.liga_mx.repository.JugadorRepository;
 import com.fdf.liga_mx.testdata.*;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -24,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
@@ -275,7 +273,7 @@ import static org.mockito.Mockito.*;
 
         //Assert
 
-        assertEquals("No se encontro el jugador", exception.getMessage());
+        assertEquals("error.jugador.not_found", exception.getMessage());
     }
 
     @Test
@@ -315,7 +313,7 @@ import static org.mockito.Mockito.*;
 
         //Assert
 
-        assertEquals("No se encontro el jugador", exception.getMessage());
+        assertEquals("error.jugador.not_found", exception.getMessage());
     }
 
     @Test
@@ -360,7 +358,7 @@ import static org.mockito.Mockito.*;
 
         //Assert
 
-        assertEquals("No se encontro el jugador", exception.getMessage());
+        assertEquals("error.jugador.not_found", exception.getMessage());
 
         verifyNoInteractions(catalogosService);
 
@@ -377,7 +375,7 @@ import static org.mockito.Mockito.*;
 
         // Act & Assert
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.delete(id));
-        assertEquals("No se encontro el jugador", exception.getMessage());
+        assertEquals("error.jugador.not_found", exception.getMessage());
 
         verify(jugadorRepository).findById(id);
         verifyNoInteractions(personaService);
@@ -635,7 +633,7 @@ import static org.mockito.Mockito.*;
 
 
         //Assert
-        assertEquals("Formato invalido en parámetro de ordenamiento. Se espera 'campo,direccion;'",exception.getMessage());
+        assertEquals("error.utils.sort_invalido",exception.getMessage());
 
         verifyNoInteractions(jugadorRepository);
 
@@ -892,7 +890,7 @@ import static org.mockito.Mockito.*;
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jugadorService.liberarJugador(jugadorId));
 
         // Assert
-        assertEquals("No se encontro el jugador", exception.getMessage());
+        assertEquals("error.jugador.not_found", exception.getMessage());
         verify(jugadorRepository).findById(jugadorId);
         verify(jugadorRepository, never()).save(any(Jugador.class));
     }
@@ -911,7 +909,7 @@ import static org.mockito.Mockito.*;
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> jugadorService.liberarJugador(jugadorId));
 
         // Assert
-        assertEquals("Jugador ya se encuentra libre de competencia", exception.getMessage());
+        assertEquals("error.jugador.libre_competencia", exception.getMessage());
         verify(jugadorRepository).findById(jugadorId);
         verify(jugadorRepository, never()).save(any(Jugador.class));
     }
@@ -929,7 +927,7 @@ import static org.mockito.Mockito.*;
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> jugadorService.liberarJugador(jugadorId));
 
         // Assert
-        assertEquals("Jugador ya se encuentra libre de competencia", exception.getMessage());
+        assertEquals("error.jugador.libre_competencia", exception.getMessage());
         verify(jugadorRepository).findById(jugadorId);
         verify(jugadorRepository, never()).save(any(Jugador.class));
     }

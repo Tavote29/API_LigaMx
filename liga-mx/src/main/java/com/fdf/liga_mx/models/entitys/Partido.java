@@ -3,7 +3,6 @@ package com.fdf.liga_mx.models.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;

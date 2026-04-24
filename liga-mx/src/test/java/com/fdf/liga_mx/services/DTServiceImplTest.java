@@ -1,9 +1,15 @@
 package com.fdf.liga_mx.services;
 
-import com.fdf.liga_mx.mappers.*;
+import com.fdf.liga_mx.mappers.DTMapper;
+import com.fdf.liga_mx.mappers.NacionalidadMapper;
+import com.fdf.liga_mx.mappers.PersonaMapper;
+import com.fdf.liga_mx.mappers.StatusMapper;
 import com.fdf.liga_mx.models.dtos.request.DTRequest;
 import com.fdf.liga_mx.models.dtos.response.DTResponseDto;
-import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.entitys.Club;
+import com.fdf.liga_mx.models.entitys.DT;
+import com.fdf.liga_mx.models.entitys.Nacionalidad;
+import com.fdf.liga_mx.models.entitys.Status;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.DTRepository;
 import com.fdf.liga_mx.repository.IClubRepository;
@@ -670,7 +676,7 @@ class DTServiceImplTest {
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> dtService.liberarDt(idDT));
 
         //Assert
-        assertEquals("La persona ya se encuentra inactiva", ex.getMessage());
+        assertEquals("error.dt.persona_inactiva", ex.getMessage());
 
         verify(dtRepository,never()).save(any(DT.class));
 
@@ -700,7 +706,7 @@ class DTServiceImplTest {
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> dtService.liberarDt(idDT));
 
         //Assert
-        assertEquals("La persona ya se encuentra retirada", ex.getMessage());
+        assertEquals("error.dt.persona_retirada", ex.getMessage());
 
         verify(dtRepository,never()).save(any(DT.class));
 
@@ -729,7 +735,7 @@ class DTServiceImplTest {
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> dtService.liberarDt(idDT));
 
         //Assert
-        assertEquals("Ya se encuentra libre de competencia", ex.getMessage());
+        assertEquals("error.dt.libre_competencia", ex.getMessage());
 
         verify(dtRepository,never()).save(any(DT.class));
 

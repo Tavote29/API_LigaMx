@@ -4,7 +4,9 @@ package com.fdf.liga_mx.services;
 import com.fdf.liga_mx.mappers.PersonaMapper;
 import com.fdf.liga_mx.models.dtos.request.PersonaRequest;
 import com.fdf.liga_mx.models.dtos.response.PersonaResponseDto;
-import com.fdf.liga_mx.models.entitys.*;
+import com.fdf.liga_mx.models.entitys.Nacionalidad;
+import com.fdf.liga_mx.models.entitys.Persona;
+import com.fdf.liga_mx.models.entitys.Status;
 import com.fdf.liga_mx.models.enums.Estados;
 import com.fdf.liga_mx.repository.PersonaRepository;
 import lombok.AllArgsConstructor;
@@ -54,20 +56,20 @@ public class PersonaServiceImpl implements IPersonaService {
     @Override
     @Transactional(readOnly = true)
     public Persona findById(UUID id) {
-        return personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro la persona indicada"));
+        return personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.persona.not_found"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PersonaResponseDto findDtoById(UUID id) {
-        Persona persona = personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro la persona indicada"));
+        Persona persona = personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.persona.not_found"));
         return personaMapper.toDto(persona);
     }
 
     @Override
     @Transactional
     public PersonaResponseDto update(PersonaRequest request, UUID id) {
-        Persona persona = personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No se encontro la persona indicada"));
+        Persona persona = personaRepository.findById(id).orElseThrow(()-> new NoSuchElementException("error.persona.not_found"));
         if (!persona.getNombre().equals(request.getNombre())) persona.setNombre(request.getNombre());
         if (!persona.getFechaNacimiento().equals(request.getFechaNacimiento())) persona.setFechaNacimiento(request.getFechaNacimiento());
         if (!persona.getLugarNacimiento().equals(request.getLugarNacimiento())) persona.setLugarNacimiento(request.getLugarNacimiento());
@@ -87,7 +89,7 @@ public class PersonaServiceImpl implements IPersonaService {
     @Override
     @Transactional
     public void delete(UUID id) {
-        Persona persona = personaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro la persona indicada"));
+        Persona persona = personaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("error.persona.not_found"));
 
         persona.setIdStatus(Status.builder().id(Estados.INACTIVO.getCodigo()).build());
         personaRepository.save(persona);

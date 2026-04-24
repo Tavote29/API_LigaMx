@@ -32,7 +32,7 @@ public class Utils {
 
             if (parts.length != 2) {
 
-                throw new IllegalArgumentException( "Formato invalido en parámetro de ordenamiento. Se espera 'campo,direccion;'" );
+                throw new IllegalArgumentException( "error.utils.sort_invalido" );
 
             }
 

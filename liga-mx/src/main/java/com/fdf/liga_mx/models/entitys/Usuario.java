@@ -2,11 +2,11 @@ package com.fdf.liga_mx.models.entitys;
 
 
 import com.fdf.liga_mx.models.enums.Estados;
+import com.fdf.liga_mx.models.enums.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import com.fdf.liga_mx.models.enums.Roles;
 
 @Getter
 @Setter

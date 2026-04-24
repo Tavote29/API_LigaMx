@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;

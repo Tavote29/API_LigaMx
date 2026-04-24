@@ -1,18 +1,17 @@
 package com.fdf.liga_mx.repository;
 
+import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
+import com.fdf.liga_mx.models.entitys.Partido;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 import java.util.UUID;
 
-import com.fdf.liga_mx.models.dtos.projection.getMarcadorPartido;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.NativeQuery;
-
-import com.fdf.liga_mx.models.entitys.Partido;
-import org.springframework.data.repository.query.Param;
-
 public interface PartidoRepository extends JpaRepository<Partido,UUID> {
 
-    String marcador = """
+    String MARCADOR = """
                 SELECT
                     C.NOMBRE_CLUB AS club, 
                     SUM(
@@ -42,7 +41,7 @@ public interface PartidoRepository extends JpaRepository<Partido,UUID> {
                 GROUP BY C.NOMBRE_CLUB,C.ID_CLUB;
             """;
 
-    @NativeQuery(value = marcador)
+    @NativeQuery(value = MARCADOR)
     List<getMarcadorPartido> obtenerMarcador(@Param("uuid") UUID uuid);
 
 

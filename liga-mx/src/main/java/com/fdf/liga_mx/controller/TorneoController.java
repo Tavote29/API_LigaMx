@@ -1,7 +1,6 @@
 package com.fdf.liga_mx.controller;
 
 import com.fdf.liga_mx.config.SwaggerResponses;
-import com.fdf.liga_mx.config.SwaggerTags;
 import com.fdf.liga_mx.models.dtos.request.TorneoRequestDto;
 import com.fdf.liga_mx.models.dtos.response.TorneoResponseDto;
 import com.fdf.liga_mx.services.ITorneoService;

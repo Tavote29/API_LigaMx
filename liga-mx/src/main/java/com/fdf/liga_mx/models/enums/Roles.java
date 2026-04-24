@@ -21,7 +21,7 @@ BASICO((short) 2);
                 return role;
             }
         }
-        throw new IllegalArgumentException("Código de estado no válido: " + code);
+        throw new IllegalArgumentException("error.enum.estado_invalido");
     }
 
 }
