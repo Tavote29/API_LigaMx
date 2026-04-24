@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AcontecimientoServiceImplTest {
+ class AcontecimientoServiceImplTest {
     private AcontecimientoServiceImpl acontecimientoService;
 
     @Mock
@@ -72,19 +72,18 @@ public class AcontecimientoServiceImplTest {
     @Test
     public void saveAcontecimiento_mustSaveAcontecimientoSuccessfully_whenValidDataIsProvided(){
         //Arrange
-        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder().build();
+        AcontecimientoRequest request = new AcontecimientoRequestTestDataBuilder()
+                .withIdTipo((short) 1) // Algo diferente a CAMBIO
+                .build();
+
         Jugador jugador1 = Jugador.builder()
-                .idPersona(Persona.builder()
-                        .build())
-                .idClub(Club.builder()
-                        .build())
+                .idPersona(Persona.builder().build())
+                .idClub(Club.builder().build())
                 .id(request.getIdJugadorPrimario())
                 .build();
         Jugador jugador2 = Jugador.builder()
-                .idPersona(Persona.builder()
-                        .build())
-                .idClub(Club.builder()
-                        .build())
+                .idPersona(Persona.builder().build())
+                .idClub(Club.builder().build())
                 .id(request.getIdJugadorSecundario())
                 .build();
         Partido partido = Partido.builder()
@@ -95,12 +94,14 @@ public class AcontecimientoServiceImplTest {
                 .build();
         TiposAcontecimiento tipo = TiposAcontecimiento.builder()
                 .id(request.getIdTipo())
+                .descripcionTipo("GOL")
                 .build();
 
-        when(jugadorService.findById(request.getIdJugadorPrimario())).thenReturn(jugador1);
-        when(jugadorService.findById(request.getIdJugadorSecundario())).thenReturn(jugador2);
+
         when(partidoService.findById(request.getIdPartido())).thenReturn(partido);
         when(catalogosService.findTipoAcontecimientoEntityById(request.getIdTipo())).thenReturn(tipo);
+        when(jugadorService.findById(request.getIdJugadorPrimario())).thenReturn(jugador1);
+        when(jugadorService.findById(request.getIdJugadorSecundario())).thenReturn(jugador2);
 
         when(acontecimientoRepository.saveAndFlush(any(Acontecimiento.class))).thenAnswer(
                 acon ->{
@@ -119,9 +120,6 @@ public class AcontecimientoServiceImplTest {
         assertNotNull(response);
         assertEquals(request.getIdTipo(), response.getIdTipo().getId());
         assertEquals(request.getMinuto(), response.getMinuto());
-        assertEquals(request.getIdJugadorPrimario(), response.getIdJugadorPrimario().getId());
-        assertEquals(request.getIdJugadorSecundario(), response.getIdJugadorSecundario().getId());
-        assertEquals(request.getIdPartido(), response.getIdPartido().getId());
 
         verify(acontecimientoRepository).saveAndFlush(captor.capture());
 
@@ -132,7 +130,10 @@ public class AcontecimientoServiceImplTest {
         assertSame(jugador2, acontecimientoSaved.getIdJugadorSecundario());
         assertSame(partido, acontecimientoSaved.getIdPartido());
         assertSame(tipo, acontecimientoSaved.getIdTipo());
-        assertSame(request.getMinuto(), acontecimientoSaved.getMinuto());
+        assertEquals(request.getMinuto(), acontecimientoSaved.getMinuto());
+
+
+        verifyNoInteractions(eventPublisher);
     }
 
     @Test

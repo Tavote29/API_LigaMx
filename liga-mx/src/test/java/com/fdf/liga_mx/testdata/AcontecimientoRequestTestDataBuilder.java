@@ -63,4 +63,9 @@ public class AcontecimientoRequestTestDataBuilder {
     public AcontecimientoRequest build(){
         return builder.build();
     }
+
+    public AcontecimientoRequestTestDataBuilder withIdTipo(short tipo) {
+        builder.idTipo(tipo);
+        return this;
+    }
 }

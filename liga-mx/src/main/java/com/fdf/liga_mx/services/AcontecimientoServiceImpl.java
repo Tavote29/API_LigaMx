@@ -60,8 +60,6 @@ public class AcontecimientoServiceImpl implements IAcontecimientoService {
         if (acontecimiento.getIdJugadorSecundario()!=null)
             acontecimiento.setIdJugadorSecundario(jugadorService.findById(acontecimiento.getIdJugadorSecundario().getId()));
 
-        if (partido.getIdStatus().getDescripcionStatus().equals("FINALIZADO"))
-            throw new IllegalStateException("Partido finalizado");
 
 
 
