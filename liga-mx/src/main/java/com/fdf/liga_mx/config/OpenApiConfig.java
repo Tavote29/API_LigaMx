@@ -37,6 +37,8 @@ public class OpenApiConfig {
                             - Árbitros
                             - Estadios
                             - Catálogos del sistema
+                            - Partidos
+                            - Acontecimientos
 
                             ### Características principales:
                             - **CRUD completo** para todas las entidades principales
@@ -60,6 +62,9 @@ public class OpenApiConfig {
                             - `/arbitro` - Gestión de árbitros
                             - `/estadio` - Gestión de estadios
                             - `/catalogos` - Consulta de catálogos del sistema
+                            - `/partidos` - Gestión de partidos del sistema
+                            - `/estadisticas` - Consulta de estadisticas del sistema
+                            - `/acontecimientos` - Gestion de acontecimientos del sistema
 
                             ### Contacto y soporte:
                             Para reportar problemas o sugerencias, contactar al equipo de desarrollo.
