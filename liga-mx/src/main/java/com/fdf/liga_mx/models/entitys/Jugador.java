@@ -61,6 +61,10 @@ public class Jugador {
     @ToString.Exclude
     private Set<Traspaso> traspaso = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "jugador", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Set<Lesion> lesion = new LinkedHashSet<>();
+
     @PrePersist
     public void prePersist(){
         this.status = Estados.ACTIVO.getCodigo();
